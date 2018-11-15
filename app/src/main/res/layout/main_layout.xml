@@ -22,11 +22,10 @@
 
             <Button
                 android:id="@+id/addPoints"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="add Points"
-                app:layout_constraintBottom_toBottomOf="@+id/taskView"
+                android:text="add 10 Points"
                 app:layout_constraintEnd_toEndOf="@+id/taskView"
                 app:layout_constraintStart_toStartOf="@+id/taskView"
                 app:layout_constraintTop_toTopOf="@+id/taskView" />
@@ -40,11 +39,10 @@
 
             <Button
                 android:id="@+id/removePoints"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="remove Points"
-                app:layout_constraintBottom_toBottomOf="@+id/shopView"
+                android:text="remove 10 Points"
                 app:layout_constraintEnd_toEndOf="@id/shopView"
                 app:layout_constraintStart_toStartOf="@id/shopView"
                 app:layout_constraintTop_toTopOf="@id/shopView" />
@@ -57,11 +55,19 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/poeng"
+                android:id="@+id/pointTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Poeng"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="24sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/Points"
+                app:layout_constraintRight_toLeftOf="@id/Points" />
+
+            <TextView
+                android:id="@+id/Points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Points"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -75,10 +81,10 @@
 
             <TextView
                 android:id="@+id/Rules"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="rules"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
