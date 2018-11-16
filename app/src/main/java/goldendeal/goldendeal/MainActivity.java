@@ -5,11 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView pointsView;
     private TextView pointsTitleField;
     private TextView rules;
+    private Button faceButton;
+    private Button optionsButton;
+    private Button faceBack;
+    private Button optionsBack;
+    private ViewFlipper mainWindowFlipper;
 
     private int points = 0;
     private String pointsTitle = "Points";
@@ -39,13 +41,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
-        taskButton = (Button) findViewById(R.id.taskTaskButton);
-        shopButton = (Button) findViewById(R.id.taskShopButton);
-        bankButton = (Button) findViewById(R.id.taskBankButton);
-        rulesButton = (Button) findViewById(R.id.taskRulesButton);
+        faceButton = (Button) findViewById(R.id.FaceButton);
+        faceBack = (Button) findViewById(R.id.FaceBack);
+        optionsButton = (Button) findViewById(R.id.OptionsButton);
+        optionsBack = (Button) findViewById(R.id.Optionsback);
+        mainWindowFlipper = (ViewFlipper) findViewById(R.id.optionFlipper);
+
+        taskButton = (Button) findViewById(R.id.taskButton);
+        shopButton = (Button) findViewById(R.id.shopButton);
+        bankButton = (Button) findViewById(R.id.bankButton);
+        rulesButton = (Button) findViewById(R.id.rulesButton);
         addPointsButton = (Button) findViewById(R.id.addPoints);
         removePointsButton = (Button) findViewById(R.id.removePoints);
-        windowFlipper = (ViewFlipper) findViewById(R.id.myViewFlipper);
+        windowFlipper = (ViewFlipper) findViewById(R.id.pageFlipper);
         pointsView = (TextView) findViewById(R.id.Points);
         pointsTitleField = (TextView) findViewById(R.id.pointTitle);
         rules = (TextView) findViewById(R.id.Rules);
@@ -111,11 +119,42 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        View.OnClickListener optionFlipper = new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String buttonText = ((Button) view).getText().toString();
+
+                if(buttonText == faceButton.getText().toString())
+                {
+                    mainWindowFlipper.setDisplayedChild(mainWindowFlipper.indexOfChild(findViewById(R.id.faceView)));
+                }
+                else if(buttonText == faceBack.getText().toString())
+                {
+                    mainWindowFlipper.setDisplayedChild(mainWindowFlipper.indexOfChild(findViewById(R.id.mainView)));
+                }
+                else if(buttonText == optionsButton.getText().toString())
+                {
+                    mainWindowFlipper.setDisplayedChild(mainWindowFlipper.indexOfChild(findViewById(R.id.optionsView)));
+                }
+                else if(buttonText == optionsBack.getText().toString())
+                {
+                    mainWindowFlipper.setDisplayedChild(mainWindowFlipper.indexOfChild(findViewById(R.id.mainView)));
+                }
+            }
+        };
+
+        optionsButton.setOnClickListener(optionFlipper);
+        optionsBack.setOnClickListener(optionFlipper);
+        faceButton.setOnClickListener(optionFlipper);
+        faceBack.setOnClickListener(optionFlipper);
 
         taskButton.setOnClickListener(switchPage);
         shopButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
         rulesButton.setOnClickListener(switchPage);
+
         addPointsButton.setOnClickListener(addRemovePoints);
         removePointsButton.setOnClickListener(addRemovePoints);
     }
