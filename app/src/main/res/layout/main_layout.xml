@@ -41,42 +41,56 @@
                 android:id="@+id/pageFlipper"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/divider"
+                app:layout_constraintBottom_toTopOf="@id/ButtonGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FaceButton">
+                app:layout_constraintTop_toTopOf="@id/mainView">
 
                 <android.support.constraint.ConstraintLayout
-                    android:id="@+id/taskView"
+                    android:id="@+id/TaskView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/addPoints"
+                    <ImageView
+                        android:id="@+id/TaskImage"
                         android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/TaskGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/TaskView"
+                        app:layout_constraintRight_toRightOf="@id/TaskView"
+                        app:layout_constraintTop_toTopOf="@id/TaskView"
+                        app:srcCompat="@drawable/mayor_oppgavegiver" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/TaskGuideline"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="add 10 Points"
-                        app:layout_constraintEnd_toEndOf="@+id/taskView"
-                        app:layout_constraintStart_toStartOf="@+id/taskView"
-                        app:layout_constraintTop_toTopOf="@+id/taskView" />
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_begin="220dp" />
 
-                </android.support.constraint.ConstraintLayout>
+                    <ScrollView
+                        android:id="@+id/TaskScroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/TaskView"
+                        app:layout_constraintTop_toBottomOf="@id/TaskGuideline">
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/shopView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/TaskList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <Button
-                        android:id="@+id/removePoints"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="remove 10 Points"
-                        app:layout_constraintEnd_toEndOf="@id/shopView"
-                        app:layout_constraintStart_toStartOf="@id/shopView"
-                        app:layout_constraintTop_toTopOf="@id/shopView" />
+                            <Button
+                                android:id="@+id/addPoints"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="add 10 Points"
+                                app:layout_constraintLeft_toLeftOf="@id/TaskList"
+                                app:layout_constraintRight_toRightOf="@id/TaskList"
+                                app:layout_constraintTop_toTopOf="@id/TaskList" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -85,23 +99,107 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/pointTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        app:layout_constraintBaseline_toBaselineOf="@id/Points"
-                        app:layout_constraintRight_toLeftOf="@id/Points" />
+                    <ImageView
+                        android:id="@+id/BankImage"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/BankGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/bankView"
+                        app:layout_constraintRight_toRightOf="@id/bankView"
+                        app:layout_constraintTop_toTopOf="@id/bankView"
+                        app:srcCompat="@drawable/banker_bank" />
 
-                    <TextView
-                        android:id="@+id/Points"
+                    <android.support.constraint.Guideline
+                        android:id="@+id/BankGuideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Points"
-                        android:textSize="24sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_begin="220dp" />
+
+                    <ScrollView
+                        android:id="@+id/BankScroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/bankView"
+                        app:layout_constraintLeft_toLeftOf="@id/bankView"
+                        app:layout_constraintRight_toRightOf="@id/bankView"
+                        app:layout_constraintTop_toBottomOf="@id/BankGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/BankList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/Points"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Points"
+                                android:textSize="24sp"
+                                app:layout_constraintLeft_toLeftOf="@id/BankList"
+                                app:layout_constraintRight_toRightOf="@id/BankList"
+                                app:layout_constraintTop_toTopOf="@id/BankList" />
+
+                            <TextView
+                                android:id="@+id/pointTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="24sp"
+                                app:layout_constraintBaseline_toBaselineOf="@id/Points"
+                                app:layout_constraintRight_toLeftOf="@id/Points" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/shopView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/shopImage"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/ShopGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/shopView"
+                        app:layout_constraintRight_toRightOf="@id/shopView"
+                        app:layout_constraintTop_toTopOf="@id/shopView"
+                        app:srcCompat="@drawable/saloon_butikk" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/ShopGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_begin="220dp" />
+
+                    <ScrollView
+                        android:id="@+id/ShopScroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/shopView"
+                        app:layout_constraintLeft_toLeftOf="@id/shopView"
+                        app:layout_constraintRight_toRightOf="@id/shopView"
+                        app:layout_constraintTop_toBottomOf="@id/ShopGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/ShopList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <Button
+                                android:id="@+id/removePoints"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="remove 10 Points"
+                                app:layout_constraintLeft_toLeftOf="@id/ShopList"
+                                app:layout_constraintRight_toRightOf="@id/ShopList"
+                                app:layout_constraintTop_toTopOf="@id/ShopList" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -110,68 +208,103 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/Rules"
+                    <ImageView
+                        android:id="@+id/rulesImage"
                         android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/RulesGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/rulesView"
+                        app:layout_constraintRight_toRightOf="@id/rulesView"
+                        app:layout_constraintTop_toTopOf="@id/rulesView"
+                        app:srcCompat="@drawable/sheriff_regler" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/RulesGuideline"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="rules"
-                        android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_begin="220dp" />
+
+                    <ScrollView
+                        android:id="@+id/RulesScroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/rulesView"
+                        app:layout_constraintLeft_toLeftOf="@id/rulesView"
+                        app:layout_constraintRight_toRightOf="@id/rulesView"
+                        app:layout_constraintTop_toBottomOf="@id/RulesGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/RulesList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/Rules"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="rules"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
 
                 </android.support.constraint.ConstraintLayout>
-
             </ViewFlipper>
 
-            <Button
-                android:id="@+id/taskButton"
-                android:layout_width="0dp"
+            <android.support.constraint.Guideline
+                android:id="@+id/ButtonGuideline"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tasks"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/bankButton"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="?attr/actionBarSize" />
 
-            <Button
-                android:id="@+id/shopButton"
+            <ImageButton
+                android:id="@+id/TaskButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Shop"
-                app:layout_constraintBaseline_toBaselineOf="@+id/bankButton"
-                app:layout_constraintEnd_toStartOf="@+id/rulesButton"
-                app:layout_constraintStart_toEndOf="@+id/bankButton" />
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/mainView"
+                app:layout_constraintLeft_toLeftOf="@id/mainView"
+                app:layout_constraintRight_toLeftOf="@id/BankButton"
+                app:layout_constraintTop_toBottomOf="@id/ButtonGuideline"
+                app:srcCompat="@drawable/sheriff" />
 
-            <Button
-                android:id="@+id/bankButton"
+            <ImageButton
+                android:id="@+id/BankButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Bank"
-                app:layout_constraintBaseline_toBaselineOf="@+id/taskButton"
-                app:layout_constraintEnd_toStartOf="@+id/shopButton"
-                app:layout_constraintStart_toEndOf="@+id/taskButton" />
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/TaskButton"
+                app:layout_constraintLeft_toRightOf="@id/TaskButton"
+                app:layout_constraintRight_toLeftOf="@id/ShopButton"
+                app:layout_constraintTop_toTopOf="@id/TaskButton"
+                app:srcCompat="@drawable/bank" />
 
-            <Button
-                android:id="@+id/rulesButton"
+            <ImageButton
+                android:id="@+id/ShopButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Rules"
-                app:layout_constraintBaseline_toBaselineOf="@+id/shopButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/shopButton" />
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/BankButton"
+                app:layout_constraintLeft_toRightOf="@id/BankButton"
+                app:layout_constraintRight_toLeftOf="@id/RulesButton"
+                app:layout_constraintTop_toTopOf="@id/BankButton"
+                app:srcCompat="@drawable/saloon" />
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="368dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toTopOf="@+id/shopButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <ImageButton
+                android:id="@+id/RulesButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/ShopButton"
+                app:layout_constraintLeft_toRightOf="@id/ShopButton"
+                app:layout_constraintRight_toRightOf="@id/mainView"
+                app:layout_constraintTop_toTopOf="@id/ShopButton"
+                app:srcCompat="@drawable/wanted_poster" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -16,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
 
-    private Button taskButton;
-    private Button shopButton;
-    private Button bankButton;
-    private Button rulesButton;
+    private ImageButton taskButton;
+    private ImageButton shopButton;
+    private ImageButton bankButton;
+    private ImageButton rulesButton;
     private Button addPointsButton;
     private Button removePointsButton;
     private ViewFlipper windowFlipper;
@@ -47,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         optionsBack = (Button) findViewById(R.id.Optionsback);
         mainWindowFlipper = (ViewFlipper) findViewById(R.id.optionFlipper);
 
-        taskButton = (Button) findViewById(R.id.taskButton);
-        shopButton = (Button) findViewById(R.id.shopButton);
-        bankButton = (Button) findViewById(R.id.bankButton);
-        rulesButton = (Button) findViewById(R.id.rulesButton);
+        taskButton = (ImageButton) findViewById(R.id.TaskButton);
+        shopButton = (ImageButton) findViewById(R.id.ShopButton);
+        bankButton = (ImageButton) findViewById(R.id.BankButton);
+        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
         addPointsButton = (Button) findViewById(R.id.addPoints);
         removePointsButton = (Button) findViewById(R.id.removePoints);
         windowFlipper = (ViewFlipper) findViewById(R.id.pageFlipper);
@@ -66,23 +67,23 @@ public class MainActivity extends AppCompatActivity {
             {
                 pointsView.setText("");
                 pointsTitleField.setText("");
-                Button switchButton = (Button) view;
-                String buttonText = switchButton.getText().toString();
-                if(buttonText == taskButton.getText().toString())
+                ImageButton switchButton = (ImageButton) view;
+                int buttonText = switchButton.getId();
+                if(buttonText == taskButton.getId())
                 {
-                    windowFlipper.setDisplayedChild(windowFlipper.indexOfChild(findViewById(R.id.taskView)));
+                    windowFlipper.setDisplayedChild(windowFlipper.indexOfChild(findViewById(R.id.TaskView)));
                 }
-                else if(buttonText == shopButton.getText().toString())
+                else if(buttonText == shopButton.getId())
                 {
                     windowFlipper.setDisplayedChild(windowFlipper.indexOfChild(findViewById(R.id.shopView)));
                 }
-                else if(buttonText == bankButton.getText().toString())
+                else if(buttonText == bankButton.getId())
                 {
                     windowFlipper.setDisplayedChild(windowFlipper.indexOfChild(findViewById(R.id.bankView)));
                     pointsView.setText(Integer.toString(points));
                     pointsTitleField.setText(pointsTitle + ": ");
                 }
-                else if(buttonText == rulesButton.getText().toString())
+                else if(buttonText == rulesButton.getId())
                 {
                     rules.setText("1. we most follow the rules! \n\n 2. all tasks must be done by the description to get accepted");
                     windowFlipper.setDisplayedChild(windowFlipper.indexOfChild(findViewById(R.id.rulesView)));
