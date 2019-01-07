@@ -8,26 +8,16 @@ com_crashlytics_export_strings.xml
 local.properties
 
 # Gradle generated files
-.gradle/
+.gradle/*
 
 # Signing files
 .signing/
 
 # NativeBuild
-app/.externalNativeBuild/
+app/.externalNativeBuild/*
 
 # User-specific configurations
-.idea/libraries/
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/.name
-.idea/compiler.xml
-.idea/copyright/profiles_settings.xml
-.idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/scopes/scope_settings.xml
-.idea/vcs.xml
+.idea/*
 *.iml
 
 # OS-specific files
