@@ -17,9 +17,6 @@ local.properties
 app/.externalNativeBuild/
 
 # User-specific configurations
-<<<<<<< HEAD
-.idea/
-=======
 .idea/libraries/
 .idea/workspace.xml
 .idea/tasks.xml
@@ -31,7 +28,6 @@ app/.externalNativeBuild/
 .idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
->>>>>>> parent of b931706... Update .gitignore
 *.iml
 
 # OS-specific files
