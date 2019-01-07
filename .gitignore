@@ -14,7 +14,7 @@ local.properties
 .signing/
 
 # external NativeBuild
-app/.externalNativeBuild/
+app/.externalNativeBuild/*
 
 # User-specific configurations
 .idea
