@@ -32,3 +32,4 @@ Thumbs.db
 gradlew
 app/app.iml
 local.properties
+app/build.gradle
