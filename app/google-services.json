@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "420618075055",
+    "firebase_url": "https://golden-deal.firebaseio.com",
+    "project_id": "golden-deal",
+    "storage_bucket": "golden-deal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420618075055:android:8e981519eb922033",
+        "android_client_info": {
+          "package_name": "goldendeal.goldendeal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420618075055-jnfcmpqr2pvmi3v728fieljs261igjns.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "goldendeal.goldendeal",
+            "certificate_hash": "fbadfcc09f9044751c7f522b4c59f6b43688a14c"
+          }
+        },
+        {
+          "client_id": "420618075055-etaf6pkt3qfg7f7c4bp5j4p28hr7q6he.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo0H7wZdKVBUdJgPgNrbneX2LUAZXLNPo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420618075055-etaf6pkt3qfg7f7c4bp5j4p28hr7q6he.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
