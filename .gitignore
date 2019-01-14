@@ -33,3 +33,4 @@ gradlew
 app/app.iml
 local.properties
 app/build.gradle
+app/google-services.json
