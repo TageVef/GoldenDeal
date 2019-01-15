@@ -1,4 +1,4 @@
-package goldendeal.goldendeal;
+package goldendeal.goldendeal.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,8 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import goldendeal.goldendeal.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     static {
         System.loadLibrary("native-lib");
     }
+
 
     private ImageButton taskButton;
     private ImageButton shopButton;
@@ -33,14 +39,20 @@ public class MainActivity extends AppCompatActivity {
     private Button optionsBack;
     private ViewFlipper mainWindowFlipper;
 
+    private FirebaseAuth mAuth;
+
+
     private int points = 0;
     private String pointsTitle = "Points";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+
+        mAuth = FirebaseAuth.getInstance();
 
         faceButton = (Button) findViewById(R.id.FaceButton);
         faceBack = (Button) findViewById(R.id.FaceBack);
@@ -58,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         pointsView = (TextView) findViewById(R.id.Points);
         pointsTitleField = (TextView) findViewById(R.id.pointTitle);
         rules = (TextView) findViewById(R.id.Rules);
-
 
         View.OnClickListener switchPage = new View.OnClickListener()
         {
@@ -90,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
         View.OnClickListener addRemovePoints = new View.OnClickListener()
         {
             @Override
