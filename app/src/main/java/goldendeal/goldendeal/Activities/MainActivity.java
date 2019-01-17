@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import goldendeal.goldendeal.R;
 
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-
-        mAuth = FirebaseAuth.getInstance();
 
         faceButton = (Button) findViewById(R.id.FaceButton);
         faceBack = (Button) findViewById(R.id.FaceBack);
@@ -175,4 +174,13 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onPause();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
 }
+
+

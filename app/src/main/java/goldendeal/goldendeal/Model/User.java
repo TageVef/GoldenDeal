@@ -1,28 +1,26 @@
 package goldendeal.goldendeal.Model;
 
 public class User {
-    private int ID;
+
     private String phoneNum;
     private String email;
-    private Boolean access;
+    private Boolean role;
     private String theme;
+    private String password;
 
     public User() {
+
+        email = "none";
+        role = Boolean.FALSE;
+        theme = "none";
     }
 
-    public User(int ID, String phoneNum, String email, Boolean access) {
-        this.ID = ID;
+    public User(String phoneNum, String email, Boolean role, String theme, String password) {
         this.phoneNum = phoneNum;
         this.email = email;
-        this.access = access;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
+        this.role = role;
+        this.theme = theme;
+        this.password = password;
     }
 
     public String getPhoneNum() {
@@ -41,11 +39,27 @@ public class User {
         this.email = email;
     }
 
-    public Boolean getAccess() {
-        return access;
+    public Boolean getRole() {
+        return role;
     }
 
-    public void setAccess(Boolean access) {
-        this.access = access;
+    public void setRole(Boolean role) {
+        this.role = role;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
