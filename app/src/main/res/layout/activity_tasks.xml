@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.TasksActivity">
+    <ViewFlipper
+        android:id="@+id/optionFlipper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/OptionsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Options"
+                app:layout_constraintBaseline_toBaselineOf="@+id/FaceButton"
+                app:layout_constraintRight_toRightOf="@id/mainView" />
+
+            <Button
+                android:id="@+id/FaceButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Face"
+                app:layout_constraintLeft_toLeftOf="@id/mainView"
+                app:layout_constraintTop_toTopOf="@id/mainView" />
+
+            <ViewFlipper
+                android:id="@+id/pageFlipper"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/ButtonGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/mainView">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/TaskView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/TaskImage"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/TaskGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/TaskView"
+                        app:layout_constraintRight_toRightOf="@id/TaskView"
+                        app:layout_constraintTop_toTopOf="@id/TaskView"
+                        app:srcCompat="@drawable/mayor_oppgavegiver" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/TaskGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <ScrollView
+                        android:id="@+id/TaskScroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/TaskView"
+                        app:layout_constraintTop_toBottomOf="@id/TaskGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/TaskList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <Button
+                                android:id="@+id/addPoints"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="add 10 Points"
+                                app:layout_constraintLeft_toLeftOf="@id/TaskList"
+                                app:layout_constraintRight_toRightOf="@id/TaskList"
+                                app:layout_constraintTop_toTopOf="@id/TaskList" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/bankView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/BankImage"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/BankGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/bankView"
+                        app:layout_constraintRight_toRightOf="@id/bankView"
+                        app:layout_constraintTop_toTopOf="@id/bankView"
+                        app:srcCompat="@drawable/banker_bank" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/BankGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <ScrollView
+                        android:id="@+id/BankScroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/bankView"
+                        app:layout_constraintLeft_toLeftOf="@id/bankView"
+                        app:layout_constraintRight_toRightOf="@id/bankView"
+                        app:layout_constraintTop_toBottomOf="@id/BankGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/BankList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/Points"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Points"
+                                android:textSize="24sp"
+                                app:layout_constraintLeft_toLeftOf="@id/BankList"
+                                app:layout_constraintRight_toRightOf="@id/BankList"
+                                app:layout_constraintTop_toTopOf="@id/BankList" />
+
+                            <TextView
+                                android:id="@+id/pointTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="24sp"
+                                app:layout_constraintBaseline_toBaselineOf="@id/Points"
+                                app:layout_constraintRight_toLeftOf="@id/Points" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/shopView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/shopImage"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/ShopGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/shopView"
+                        app:layout_constraintRight_toRightOf="@id/shopView"
+                        app:layout_constraintTop_toTopOf="@id/shopView"
+                        app:srcCompat="@drawable/saloon_butikk" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/ShopGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <ScrollView
+                        android:id="@+id/ShopScroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/shopView"
+                        app:layout_constraintLeft_toLeftOf="@id/shopView"
+                        app:layout_constraintRight_toRightOf="@id/shopView"
+                        app:layout_constraintTop_toBottomOf="@id/ShopGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/ShopList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <Button
+                                android:id="@+id/removePoints"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="remove 10 Points"
+                                app:layout_constraintLeft_toLeftOf="@id/ShopList"
+                                app:layout_constraintRight_toRightOf="@id/ShopList"
+                                app:layout_constraintTop_toTopOf="@id/ShopList" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/rulesView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/rulesImage"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toTopOf="@id/RulesGuideline"
+                        app:layout_constraintLeft_toLeftOf="@id/rulesView"
+                        app:layout_constraintRight_toRightOf="@id/rulesView"
+                        app:layout_constraintTop_toTopOf="@id/rulesView"
+                        app:srcCompat="@drawable/sheriff_regler" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/RulesGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <ScrollView
+                        android:id="@+id/RulesScroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/rulesView"
+                        app:layout_constraintLeft_toLeftOf="@id/rulesView"
+                        app:layout_constraintRight_toRightOf="@id/rulesView"
+                        app:layout_constraintTop_toBottomOf="@id/RulesGuideline">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/RulesList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/Rules"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="rules"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </android.support.constraint.ConstraintLayout>
+                    </ScrollView>
+
+                </android.support.constraint.ConstraintLayout>
+            </ViewFlipper>
+
+            <android.support.constraint.Guideline
+                android:id="@+id/ButtonGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="60dp" />
+
+            <ImageButton
+                android:id="@+id/TaskButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/mainView"
+                app:layout_constraintLeft_toLeftOf="@id/mainView"
+                app:layout_constraintRight_toLeftOf="@id/BankButton"
+                app:layout_constraintTop_toBottomOf="@id/ButtonGuideline"
+                app:srcCompat="@drawable/sheriff" />
+
+            <ImageButton
+                android:id="@+id/BankButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/TaskButton"
+                app:layout_constraintLeft_toRightOf="@id/TaskButton"
+                app:layout_constraintRight_toLeftOf="@id/ShopButton"
+                app:layout_constraintTop_toTopOf="@id/TaskButton"
+                app:srcCompat="@drawable/bank" />
+
+            <ImageButton
+                android:id="@+id/ShopButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/BankButton"
+                app:layout_constraintLeft_toRightOf="@id/BankButton"
+                app:layout_constraintRight_toLeftOf="@id/RulesButton"
+                app:layout_constraintTop_toTopOf="@id/BankButton"
+                app:srcCompat="@drawable/saloon" />
+
+            <ImageButton
+                android:id="@+id/RulesButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/ShopButton"
+                app:layout_constraintLeft_toRightOf="@id/ShopButton"
+                app:layout_constraintRight_toRightOf="@id/mainView"
+                app:layout_constraintTop_toTopOf="@id/ShopButton"
+                app:srcCompat="@drawable/wanted_poster" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/optionsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:id="@+id/Optionsback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                app:layout_constraintRight_toRightOf="@id/optionsView"
+                app:layout_constraintTop_toTopOf="@id/optionsView" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/faceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:id="@+id/FaceBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                app:layout_constraintLeft_toLeftOf="@id/faceView"
+                app:layout_constraintTop_toTopOf="@id/faceView" />
+
+            <ImageView
+                android:id="@+id/faceImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/faceView"
+                app:layout_constraintRight_toRightOf="@id/faceView"
+                app:layout_constraintTop_toBottomOf="@id/FaceBack"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+            <Button
+                android:id="@+id/option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="option 1"
+                app:layout_constraintLeft_toLeftOf="@id/faceView"
+                app:layout_constraintRight_toLeftOf="@id/option2"
+                app:layout_constraintTop_toBottomOf="@id/faceImage" />
+
+            <Button
+                android:id="@+id/option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="option 2"
+                app:layout_constraintLeft_toRightOf="@id/option1"
+                app:layout_constraintRight_toRightOf="@id/faceView"
+                app:layout_constraintTop_toBottomOf="@id/faceImage" />
+
+            <Button
+                android:id="@+id/option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="option 3"
+                app:layout_constraintLeft_toLeftOf="@id/option1"
+                app:layout_constraintTop_toBottomOf="@+id/option1" />
+
+            <Button
+                android:id="@+id/option4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="option 4"
+                app:layout_constraintRight_toRightOf="@+id/option2"
+                app:layout_constraintTop_toBottomOf="@+id/option2" />
+        </android.support.constraint.ConstraintLayout>
+
+    </ViewFlipper>
+</android.support.constraint.ConstraintLayout>
