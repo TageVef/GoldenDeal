@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("messages");
 
-        databaseReference.setValue("Hello!");
+        databaseReference.setValue("Created Log in screen!");
 
         email = (EditText) findViewById(R.id.emailEt);
         password = (EditText) findViewById(R.id.passwordEt);
