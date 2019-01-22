@@ -54,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("messages");
-
-        databaseReference.setValue("Created Log in screen!");
+        databaseReference = database.getReference("Golden Deal");
 
         email = (EditText) findViewById(R.id.emailEt);
         password = (EditText) findViewById(R.id.passwordEt);
@@ -67,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if()
 
             }
         });

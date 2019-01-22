@@ -62,7 +62,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         final String em = email.getText().toString();
         final String phnum = phoneNum.getText().toString();
-        String pw = password.getText().toString();
+        final String pw = password.getText().toString();
         final Boolean role = permission.isChecked();
 
         if(!TextUtils.isEmpty(em) && !TextUtils.isEmpty(phnum) && !TextUtils.isEmpty(pw)){
@@ -81,6 +81,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         currentUserDb.child("phoneNum").setValue(phnum);
                         currentUserDb.child("role").setValue(role);
                         currentUserDb.child("theme").setValue("none");
+                        currentUserDb.child("password").setValue(pw);
 
                         mProgressDialog.dismiss();
 
