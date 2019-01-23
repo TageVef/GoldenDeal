@@ -86,7 +86,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         mProgressDialog.dismiss();
 
                         //sending user to main activity
-                        Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+                        Intent intent = new Intent(CreateAccountActivity.this, TasksActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
