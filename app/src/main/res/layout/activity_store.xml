@@ -4,57 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivities.BankActivity">
+    tools:context=".Activities.MainActivities.StoreActivity">
 
     <ImageView
-        android:id="@+id/BankImage"
+        android:id="@+id/shopImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@id/BankGuideline"
+        app:layout_constraintBottom_toTopOf="@id/ShopGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/banker_bank" />
+        app:srcCompat="@drawable/saloon_butikk" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/BankGuideline"
+        android:id="@+id/ShopGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <ScrollView
-        android:id="@+id/BankScroll"
+        android:id="@+id/ShopScroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/ButtonGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/BankGuideline">
+        app:layout_constraintTop_toBottomOf="@id/ShopGuideline">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/BankList"
+            android:id="@+id/ShopList"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/Points"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/removePoints"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Points"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="@id/BankList"
-                app:layout_constraintRight_toRightOf="@id/BankList"
-                app:layout_constraintTop_toTopOf="@id/BankList" />
-
-            <TextView
-                android:id="@+id/pointTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                app:layout_constraintBaseline_toBaselineOf="@id/Points"
-                app:layout_constraintRight_toLeftOf="@id/Points" />
+                android:text="remove 10 Points"
+                app:layout_constraintLeft_toLeftOf="@id/ShopList"
+                app:layout_constraintRight_toRightOf="@id/ShopList"
+                app:layout_constraintTop_toTopOf="@id/ShopList" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

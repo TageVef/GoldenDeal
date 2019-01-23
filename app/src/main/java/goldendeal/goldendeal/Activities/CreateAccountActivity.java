@@ -11,13 +11,12 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import goldendeal.goldendeal.Model.User;
+import goldendeal.goldendeal.Activities.MainActivities.TasksActivity;
 import goldendeal.goldendeal.R;
 
 public class CreateAccountActivity extends AppCompatActivity {
