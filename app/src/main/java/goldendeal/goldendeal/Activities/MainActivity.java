@@ -103,10 +103,12 @@ public class MainActivity extends AppCompatActivity {
 
                 if(user != null){
                     //user is signed in
-                    Log.d(TAG, "user signed in");
+                    Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(MainActivity.this, TasksActivity.class));
+                    finish();
                 } else {
                     //user is signed out
-                    Log.d(TAG, "user signed out");
+                    Toast.makeText(MainActivity.this, "Not Signed In", Toast.LENGTH_LONG).show();
                 }
             }
         };

@@ -6,6 +6,7 @@ public class Task {
     private String description;
     private String rewardValue;
     private String rewardTitle;
+    private String taskOwner;
 
     public Task() {
 
@@ -15,11 +16,12 @@ public class Task {
         rewardTitle = "title";
     }
 
-    public Task(String title, String description, String rewardValue, String rewardTitle) {
+    public Task(String title, String description, String rewardValue, String rewardTitle, String taskOwner) {
         this.title = title;
         this.description = description;
         this.rewardValue = rewardValue;
         this.rewardTitle = rewardTitle;
+        this.taskOwner = taskOwner;
     }
 
     public String getTitle() {
@@ -52,5 +54,13 @@ public class Task {
 
     public void setRewardTitle(String rewardTitle) {
         this.rewardTitle = rewardTitle;
+    }
+
+    public String getTaskOwner() {
+        return taskOwner;
+    }
+
+    public void setTaskOwner(String taskOwner) {
+        this.taskOwner = taskOwner;
     }
 }

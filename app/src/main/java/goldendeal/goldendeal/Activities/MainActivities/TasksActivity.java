@@ -4,17 +4,29 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import goldendeal.goldendeal.R;
 
 public class TasksActivity extends AppCompatActivity {
 
     private static final String TAG = "TasksActivity";
+
+    //Firebase Variables
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mDatabase;
+    private FirebaseUser mUser;
+    private FirebaseAuth mAuth;
 
     private ImageButton taskButton;
     private ImageButton shopButton;
@@ -25,6 +37,13 @@ public class TasksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference().child("Tasks");
+        mDatabaseReference.keepSynced(true);
 
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
         shopButton = (ImageButton) findViewById(R.id.ShopButton);
