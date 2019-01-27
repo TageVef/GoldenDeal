@@ -42,13 +42,16 @@ public class TasksActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference().child("Tasks");
+        mDatabaseReference = mDatabase.getReference();
         mDatabaseReference.keepSynced(true);
 
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
         shopButton = (ImageButton) findViewById(R.id.ShopButton);
         bankButton = (ImageButton) findViewById(R.id.BankButton);
         rulesButton = (ImageButton) findViewById(R.id.RulesButton);
+
+        mDatabaseReference.child("Users").child(mUser.toString());
+
 
         View.OnClickListener switchPage = new View.OnClickListener()
         {

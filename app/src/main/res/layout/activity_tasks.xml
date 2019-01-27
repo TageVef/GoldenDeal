@@ -25,28 +25,14 @@
                         android:orientation="horizontal"
                         app:layout_constraintGuide_percent="0.5" />
 
-                    <ScrollView
-                        android:id="@+id/TaskScroll"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/TaskGuideline">
 
-                        <android.support.constraint.ConstraintLayout
-                            android:id="@+id/TaskList"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <Button
-                                android:id="@+id/addPoints"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:text="add 10 Points"
-                                app:layout_constraintLeft_toLeftOf="@id/TaskList"
-                                app:layout_constraintRight_toRightOf="@id/TaskList"
-                                app:layout_constraintTop_toTopOf="@id/TaskList" />
-                        </android.support.constraint.ConstraintLayout>
-                    </ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TaskGuideline" />
 
 
             <android.support.constraint.Guideline
