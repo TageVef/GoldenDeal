@@ -16,10 +16,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import goldendeal.goldendeal.Activities.AdminMainActivity.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.MainActivities.TasksActivity;
+import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,14 +77,24 @@ public class MainActivity extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(emailString, pwd).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if(!task.isSuccessful()){
                                 Toast.makeText(MainActivity.this, "Failed sign in", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 Toast.makeText(MainActivity.this, "Signed in!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, TasksActivity.class));
-                                finish();
+
+                                databaseReference = databaseReference.child("Admin");
+
+
+                                if(databaseReference.child("Admin").child(mAuth.getCurrentUser().getUid()) != null){
+                                    startActivity(new Intent(MainActivity.this, AdminTasksActivity.class));
+                                    finish();
+                                }
+                                else if(databaseReference.child("User").child(mAuth.getCurrentUser().getUid()) != null){
+                                    startActivity(new Intent(MainActivity.this, TasksActivity.class));
+                                    finish();
+                                }
+
                             }
                         }
                     });
