@@ -4,66 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivities.BankActivity">
+    tools:context=".Activities.AdminMainActivity.AdminTasksActivity">
 
-    <ImageView
-        android:id="@+id/BankImage"
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@id/BankGuideline"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/banker_bank" />
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/BankGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <ScrollView
-        android:id="@+id/BankScroll"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/ButtonGuideline"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/BankGuideline">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/BankList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/Points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Points"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="@id/BankList"
-                app:layout_constraintRight_toRightOf="@id/BankList"
-                app:layout_constraintTop_toTopOf="@id/BankList" />
-
-            <TextView
-                android:id="@+id/pointTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                app:layout_constraintBaseline_toBaselineOf="@id/Points"
-                app:layout_constraintRight_toLeftOf="@id/Points" />
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
 
     <android.support.constraint.Guideline
         android:id="@+id/ButtonGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="60dp" />
+        app:layout_constraintGuide_end="120dp" />
 
     <ImageButton
         android:id="@+id/TaskButton"
@@ -71,9 +28,9 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/BankButton"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ButtonGuideline"
+        app:layout_constraintRight_toLeftOf="@id/BankButton"
+        app:layout_constraintTop_toBottomOf="@+id/AddTasksButton"
         app:srcCompat="@drawable/sheriff" />
 
     <ImageButton
@@ -108,5 +65,37 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/StoreButton"
         app:srcCompat="@drawable/wanted_poster" />
+
+    <Button
+        android:id="@+id/optionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/AddTasksButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add"
+        app:layout_constraintBottom_toTopOf="@+id/TaskButton"
+        app:layout_constraintEnd_toStartOf="@+id/EditTasksButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ButtonGuideline" />
+
+    <Button
+        android:id="@+id/EditTasksButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Edit"
+        app:layout_constraintBaseline_toBaselineOf="@+id/AddTasksButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/AddTasksButton" />
 
 </android.support.constraint.ConstraintLayout>

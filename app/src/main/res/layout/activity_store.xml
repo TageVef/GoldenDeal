@@ -74,12 +74,12 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@id/TaskButton"
         app:layout_constraintLeft_toRightOf="@id/TaskButton"
-        app:layout_constraintRight_toLeftOf="@id/ShopButton"
+        app:layout_constraintRight_toLeftOf="@id/StoreButton"
         app:layout_constraintTop_toTopOf="@id/TaskButton"
         app:srcCompat="@drawable/bank" />
 
     <ImageButton
-        android:id="@+id/ShopButton"
+        android:id="@+id/StoreButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
@@ -94,10 +94,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@id/ShopButton"
-        app:layout_constraintLeft_toRightOf="@id/ShopButton"
+        app:layout_constraintBottom_toBottomOf="@id/StoreButton"
+        app:layout_constraintLeft_toRightOf="@id/StoreButton"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ShopButton"
+        app:layout_constraintTop_toTopOf="@id/StoreButton"
         app:srcCompat="@drawable/wanted_poster" />
 
 </android.support.constraint.ConstraintLayout>
