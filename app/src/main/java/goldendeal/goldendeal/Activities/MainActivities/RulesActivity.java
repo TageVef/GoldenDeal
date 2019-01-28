@@ -21,7 +21,7 @@ public class RulesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rules);
 
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
-        shopButton = (ImageButton) findViewById(R.id.ShopButton);
+        shopButton = (ImageButton) findViewById(R.id.StoreButton);
         bankButton = (ImageButton) findViewById(R.id.BankButton);
         rulesButton = (ImageButton) findViewById(R.id.RulesButton);
 

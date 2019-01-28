@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import goldendeal.goldendeal.Activities.AdminMainActivity.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.MainActivities.TasksActivity;
 import goldendeal.goldendeal.R;
 
@@ -37,7 +38,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference().child("Users");
+        mDatabaseReference = mDatabase.getReference();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -73,21 +74,40 @@ public class CreateAccountActivity extends AppCompatActivity {
                 public void onSuccess(AuthResult authResult) {
                     if(authResult != null){
 
-                        String UserID = mAuth.getCurrentUser().getUid();
-                        DatabaseReference currentUserDb = mDatabaseReference.child(UserID);
+                        if(role){
+                            String UserID = mAuth.getCurrentUser().getUid();
+                            DatabaseReference currentUserDb = mDatabaseReference.child("Admin").child(UserID);
 
-                        currentUserDb.child("email").setValue(em);
-                        currentUserDb.child("phoneNum").setValue(phnum);
-                        currentUserDb.child("role").setValue(role);
-                        currentUserDb.child("theme").setValue("none");
-                        currentUserDb.child("password").setValue(pw);
+                            currentUserDb.child("email").setValue(em);
+                            currentUserDb.child("phoneNum").setValue(phnum);
+                            currentUserDb.child("role").setValue(role);
+                            currentUserDb.child("theme").setValue("none");
+                            currentUserDb.child("password").setValue(pw);
 
-                        mProgressDialog.dismiss();
+                            mProgressDialog.dismiss();
+                            //sending user to main activity
+                            Intent intent = new Intent(CreateAccountActivity.this, AdminTasksActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        else{
+                            String UserID = mAuth.getCurrentUser().getUid();
+                            DatabaseReference currentUserDb = mDatabaseReference.child("User").child(UserID);
 
-                        //sending user to main activity
-                        Intent intent = new Intent(CreateAccountActivity.this, TasksActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                            currentUserDb.child("email").setValue(em);
+                            currentUserDb.child("phoneNum").setValue(phnum);
+                            currentUserDb.child("role").setValue(role);
+                            currentUserDb.child("theme").setValue("none");
+                            currentUserDb.child("password").setValue(pw);
+
+                            mProgressDialog.dismiss();
+                            //sending user to main activity
+                            Intent intent = new Intent(CreateAccountActivity.this, TasksActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+
+
                     }
                 }
             });
