@@ -1,4 +1,4 @@
-package goldendeal.goldendeal.Activities.MainActivities;
+package goldendeal.goldendeal.Activities.UserActivities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 
 import goldendeal.goldendeal.R;
 
-public class RulesActivity extends AppCompatActivity {
+public class StoreActivity extends AppCompatActivity {
 
     private ImageButton taskButton;
     private ImageButton shopButton;
@@ -18,7 +18,7 @@ public class RulesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rules);
+        setContentView(R.layout.activity_store);
 
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
         shopButton = (ImageButton) findViewById(R.id.StoreButton);
@@ -34,22 +34,22 @@ public class RulesActivity extends AppCompatActivity {
                 int buttonText = switchButton.getId();
                 if(buttonText == taskButton.getId())
                 {
-                    startActivity(new Intent(RulesActivity.this, TasksActivity.class));
+                    startActivity(new Intent(StoreActivity.this, TasksActivity.class));
                     finish();
                 }
                 else if(buttonText == shopButton.getId())
                 {
-                    startActivity(new Intent(RulesActivity.this, StoreActivity.class));
+                    startActivity(new Intent(StoreActivity.this, StoreActivity.class));
                     finish();
                 }
                 else if(buttonText == bankButton.getId())
                 {
-                    startActivity(new Intent(RulesActivity.this, BankActivity.class));
+                    startActivity(new Intent(StoreActivity.this, BankActivity.class));
                     finish();
                 }
                 else if(buttonText == rulesButton.getId())
                 {
-                    startActivity(new Intent(RulesActivity.this, RulesActivity.class));
+                    startActivity(new Intent(StoreActivity.this, RulesActivity.class));
                     finish();
                 }
             }

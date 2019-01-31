@@ -1,15 +1,15 @@
-package goldendeal.goldendeal.Activities.AdminMainActivity;
+package goldendeal.goldendeal.Activities.AdminActivity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import goldendeal.goldendeal.R;
 
-public class AdminBankActivity extends AppCompatActivity {
+public class AdminRulesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_bank);
+        setContentView(R.layout.activity_admin_rules);
     }
 }

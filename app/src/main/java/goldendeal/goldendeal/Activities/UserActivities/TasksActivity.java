@@ -1,15 +1,13 @@
-package goldendeal.goldendeal.Activities.MainActivities;
+package goldendeal.goldendeal.Activities.UserActivities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.constraint.Guideline;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,42 +52,16 @@ public class TasksActivity extends AppCompatActivity {
         mDatabaseReference = mDatabase.getReference();
         mDatabaseReference.keepSynced(true);
 
+        GettingCurrentUser();
+
+        mDatabaseReference = mDatabase.getReference();
+
+
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
         storeButton = (ImageButton) findViewById(R.id.StoreButton);
         bankButton = (ImageButton) findViewById(R.id.BankButton);
         rulesButton = (ImageButton) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.optionsButton);
-
-
-        View.OnClickListener switchPage = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImageButton switchButton = (ImageButton) view;
-                int buttonText = view.getId();
-                switch (buttonText) {
-                    case R.id.TaskButton:
-                        startActivity(new Intent(TasksActivity.this, TasksActivity.class));
-                        finish();
-                        break;
-                    case R.id.StoreButton:
-                        startActivity(new Intent(TasksActivity.this, StoreActivity.class));
-                        finish();
-                        break;
-                    case R.id.BankButton:
-                        startActivity(new Intent(TasksActivity.this, BankActivity.class));
-                        finish();
-                        break;
-                    case R.id.RulesButton:
-                        startActivity(new Intent(TasksActivity.this, RulesActivity.class));
-                        finish();
-                        break;
-                    case R.id.optionsButton:
-                        startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
-                        finish();
-                        break;
-                }
-            }
-        };
 
         taskButton.setOnClickListener(switchPage);
         storeButton.setOnClickListener(switchPage);
@@ -97,4 +69,54 @@ public class TasksActivity extends AppCompatActivity {
         rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
     }
+
+    private void GettingCurrentUser() {
+        mDatabaseReference = mDatabase.getReference().child("User").child(mUser.getUid());
+
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "failed to retrieve user in TasksActivity");
+            }
+        });
+
+        if(currentUser != null){
+            currentUser.setUserID(mUser.getUid());
+        }
+    }
+
+    View.OnClickListener switchPage = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ImageButton switchButton = (ImageButton) view;
+            int buttonText = view.getId();
+            switch (buttonText) {
+                case R.id.TaskButton:
+                    startActivity(new Intent(TasksActivity.this, TasksActivity.class));
+                    finish();
+                    break;
+                case R.id.StoreButton:
+                    startActivity(new Intent(TasksActivity.this, StoreActivity.class));
+                    finish();
+                    break;
+                case R.id.BankButton:
+                    startActivity(new Intent(TasksActivity.this, BankActivity.class));
+                    finish();
+                    break;
+                case R.id.RulesButton:
+                    startActivity(new Intent(TasksActivity.this, RulesActivity.class));
+                    finish();
+                    break;
+                case R.id.optionsButton:
+                    startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
+                    finish();
+                    break;
+            }
+        }
+    };
 }

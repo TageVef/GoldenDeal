@@ -16,8 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import goldendeal.goldendeal.Activities.AdminMainActivity.AdminTasksActivity;
-import goldendeal.goldendeal.Activities.MainActivities.TasksActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.AdminTasksActivity;
+import goldendeal.goldendeal.Activities.UserActivities.TasksActivity;
 import goldendeal.goldendeal.R;
 
 public class CreateAccountActivity extends AppCompatActivity {

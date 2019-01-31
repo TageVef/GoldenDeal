@@ -9,15 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.AdminMainActivity.AdminRulesActivity"></activity>
-        <activity android:name=".Activities.AdminMainActivity.AdminStoreActivity" />
-        <activity android:name=".Activities.AdminMainActivity.AdminBankActivity" />
-        <activity android:name=".Activities.AdminMainActivity.AdminTasksActivity" />
+        <activity android:name=".Activities.AdminActivity.AdminRulesActivity"></activity>
+        <activity android:name=".Activities.AdminActivity.AdminStoreActivity" />
+        <activity android:name=".Activities.AdminActivity.AdminBankActivity" />
+        <activity android:name=".Activities.AdminActivity.AdminTasksActivity" />
         <activity android:name=".Activities.OptionsActivity" />
-        <activity android:name=".Activities.MainActivities.RulesActivity" />
-        <activity android:name=".Activities.MainActivities.StoreActivity" />
-        <activity android:name=".Activities.MainActivities.BankActivity" />
-        <activity android:name=".Activities.MainActivities.TasksActivity" />
+        <activity android:name=".Activities.UserActivities.RulesActivity" />
+        <activity android:name=".Activities.UserActivities.StoreActivity" />
+        <activity android:name=".Activities.UserActivities.BankActivity" />
+        <activity android:name=".Activities.UserActivities.TasksActivity" />
         <activity android:name=".Activities.CreateAccountActivity" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
