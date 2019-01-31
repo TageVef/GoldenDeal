@@ -49,17 +49,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private ValueEventListener loginListerner = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            User currentUser = dataSnapshot.getValue(User.class);
+            if (currentUser != null) {
+                if (currentUser.getRole()) {
+                    startActivity(new Intent(MainActivity.this, AdminTasksActivity.class));
+                    finish();
+                }
+            } else {
+                startActivity(new Intent(MainActivity.this, TasksActivity.class));
+                finish();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Log.d(TAG, "onCancelled: couldnt retrieve data");
+        }
+    };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
         mAuth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Golden Deal");
+        databaseReference = database.getReference();
 
         email = (EditText) findViewById(R.id.emailEt);
         password = (EditText) findViewById(R.id.passwordEt);
@@ -73,28 +92,17 @@ public class MainActivity extends AppCompatActivity {
                 String emailString = email.getText().toString();
                 String pwd = password.getText().toString();
 
-                if(!TextUtils.isEmpty(emailString) && !TextUtils.isEmpty(pwd)){
+                if (!TextUtils.isEmpty(emailString) && !TextUtils.isEmpty(pwd)) {
                     mAuth.signInWithEmailAndPassword(emailString, pwd).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
+                            if (!task.isSuccessful()) {
                                 Toast.makeText(MainActivity.this, "Failed sign in", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(MainActivity.this, "Signed in!", Toast.LENGTH_SHORT).show();
 
-                                databaseReference = databaseReference.child("Admin");
-
-
-                                if(databaseReference.child("Admin").child(mAuth.getCurrentUser().getUid()) != null){
-                                    startActivity(new Intent(MainActivity.this, AdminTasksActivity.class));
-                                    finish();
-                                }
-                                else if(databaseReference.child("User").child(mAuth.getCurrentUser().getUid()) != null){
-                                    startActivity(new Intent(MainActivity.this, TasksActivity.class));
-                                    finish();
-                                }
-
+                                //databaseReference = databaseReference.child("Admin").child(mAuth.getCurrentUser().getUid());
+                                databaseReference.addValueEventListener(loginListerner);
                             }
                         }
                     });
@@ -116,11 +124,12 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if(user != null){
+                if (user != null) {
                     //user is signed in
                     Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(MainActivity.this, TasksActivity.class));
-                    finish();
+                    databaseReference = databaseReference.child("Admin").child(user.getUid());
+                    databaseReference.addValueEventListener(loginListerner);
+
                 } else {
                     //user is signed out
                     Toast.makeText(MainActivity.this, "Not Signed In", Toast.LENGTH_LONG).show();
@@ -130,8 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
     }
 
@@ -147,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(mAuthListener != null){
+        if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
