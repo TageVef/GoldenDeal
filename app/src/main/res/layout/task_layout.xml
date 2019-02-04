@@ -77,16 +77,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/rewardTitle" />
 
-    <Button
-        android:id="@+id/trash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Trash"
-        app:layout_constraintBaseline_toBaselineOf="@+id/taskTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/taskTitle" />
-
 </android.support.constraint.ConstraintLayout>

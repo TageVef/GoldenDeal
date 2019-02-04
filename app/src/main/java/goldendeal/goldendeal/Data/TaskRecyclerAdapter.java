@@ -42,10 +42,10 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
 
         Task task = taskList.get(i);
 
-        viewHolder.rewardTitle.setText(task.getRewardTitle());
-        viewHolder.reward.setText(task.getRewardValue());
         viewHolder.title.setText(task.getTitle());
         viewHolder.desc.setText(task.getDescription());
+        viewHolder.rewardTitle.setText(task.getRewardTitle());
+        viewHolder.reward.setText(task.getRewardValue());
 
     }
 
@@ -59,7 +59,6 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
         public TextView desc;
         public TextView reward;
         public TextView rewardTitle;
-        public Button trash;
         public Button complete;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
@@ -70,8 +69,9 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             desc = (TextView) itemView.findViewById(R.id.taskDecription);
             reward = (TextView) itemView.findViewById(R.id.reward);
             rewardTitle = (TextView) itemView.findViewById(R.id.rewardTitle);
-            trash = (Button) itemView.findViewById(R.id.trash);
             complete = (Button) itemView.findViewById(R.id.complete);
+
+
 
 
         }

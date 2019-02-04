@@ -82,6 +82,8 @@ public class TasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        mDatabaseReference = mDatabase.getReference();
+
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

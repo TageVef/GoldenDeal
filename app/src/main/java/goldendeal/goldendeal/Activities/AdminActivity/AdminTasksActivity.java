@@ -31,6 +31,7 @@ public class AdminTasksActivity extends AppCompatActivity {
     private ImageButton bankButton;
     private ImageButton rulesButton;
     private Button optionsButton;
+    private Button adminButton;
 
     private User currentUser;
 
@@ -44,28 +45,17 @@ public class AdminTasksActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
-        mDatabaseReference.keepSynced(true);
 
+        SetupButtons();
+    }
+
+    private void SetupButtons() {
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
         storeButton = (ImageButton) findViewById(R.id.StoreButton);
         bankButton = (ImageButton) findViewById(R.id.BankButton);
         rulesButton = (ImageButton) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.optionsButton);
-
-/*        mDatabaseReference.child("Users").child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-                //Toast.makeText(AdminTasksActivity.this, currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                currentUser = null;
-                Log.w(TAG, "onCancelled: Failed to read value.", databaseError.toException());
-            }
-        });*/
-
+        adminButton = (Button) findViewById(R.id.AdminButton);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -89,9 +79,12 @@ public class AdminTasksActivity extends AppCompatActivity {
                         startActivity(new Intent(AdminTasksActivity.this, AdminRulesActivity.class));
                         finish();
                         break;
-                    case R.id.optionsButton:
+                    case R.id.OptionsButton:
                         startActivity(new Intent(AdminTasksActivity.this, OptionsActivity.class));
                         finish();
+                        break;
+                    case R.id.AdminButton:
+                        startActivity(new Intent(AdminTasksActivity.this, AdminActivity.class));
                         break;
                 }
             }
@@ -102,5 +95,6 @@ public class AdminTasksActivity extends AppCompatActivity {
         bankButton.setOnClickListener(switchPage);
         rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
+        adminButton.setOnClickListener(switchPage);
     }
 }

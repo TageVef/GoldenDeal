@@ -9,11 +9,6 @@ public class Task {
     private String taskOwner;
 
     public Task() {
-
-        title = "Title";
-        description = "This is the description of the task that needs to be done";
-        rewardValue = "value";
-        rewardTitle = "title";
     }
 
     public Task(String title, String description, String rewardValue, String rewardTitle, String taskOwner) {
