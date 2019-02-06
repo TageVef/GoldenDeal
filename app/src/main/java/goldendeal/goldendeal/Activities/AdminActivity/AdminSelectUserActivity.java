@@ -14,6 +14,7 @@ import goldendeal.goldendeal.R;
 
 public class AdminSelectUserActivity extends AppCompatActivity {
     private Button backButton;
+    private Button addUserButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class AdminSelectUserActivity extends AppCompatActivity {
 
     private void SetupViews() {
         backButton = (Button) findViewById(R.id.BackButton);
+        addUserButton = (Button) findViewById(R.id.AddUser);
 
         View.OnClickListener ButtonListener = new View.OnClickListener() {
             @Override
@@ -32,10 +34,14 @@ public class AdminSelectUserActivity extends AppCompatActivity {
                     case R.id.BackButton:
                         finish();
                         break;
+                    case R.id.AddUser:
+                        startActivity(new Intent(AdminSelectUserActivity.this, NewUserActivity.class));
+                        break;
                 }
             }
         };
 
         backButton.setOnClickListener(ButtonListener);
+        addUserButton.setOnClickListener(ButtonListener);
     }
 }

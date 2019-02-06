@@ -17,7 +17,7 @@ import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
 
 public class AdminTasksActivity extends AppCompatActivity {
-    private static final String TAG = "TasksActivity";
+    private static final String TAG = "AdminTasksActivity";
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -40,13 +40,17 @@ public class AdminTasksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_tasks);
 
+        setupDatabase();
+
+        SetupViews();
+    }
+
+    private void setupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
-
-        SetupViews();
     }
 
     private void SetupViews() {
