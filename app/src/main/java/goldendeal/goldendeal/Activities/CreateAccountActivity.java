@@ -76,7 +76,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                         if(role){
                             String UserID = mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = mDatabaseReference.child("Admin").child(UserID);
+                            DatabaseReference currentUserDb = mDatabaseReference.child("Admin").child(UserID).child("Info");
 
                             currentUserDb.child("email").setValue(em);
                             currentUserDb.child("phoneNum").setValue(phnum);
@@ -92,7 +92,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         }
                         else{
                             String UserID = mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = mDatabaseReference.child("User").child(UserID);
+                            DatabaseReference currentUserDb = mDatabaseReference.child("User").child(UserID).child("Info");
 
                             currentUserDb.child("email").setValue(em);
                             currentUserDb.child("phoneNum").setValue(phnum);

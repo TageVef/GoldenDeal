@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            Log.d(TAG, "onCancelled: couldnt retrieve data");
+            Log.d(TAG, "onCancelled: couldn't retrieve data");
         }
     };
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     //user is signed in
                     Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
-                    databaseReference = databaseReference.child("Admin").child(user.getUid());
+                    databaseReference = databaseReference.child("Admin").child(user.getUid()).child("Info");
                     databaseReference.addValueEventListener(loginListerner);
 
                 } else {
