@@ -46,15 +46,15 @@ public class AdminTasksActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
 
-        SetupButtons();
+        SetupViews();
     }
 
-    private void SetupButtons() {
+    private void SetupViews() {
         taskButton = (ImageButton) findViewById(R.id.TaskButton);
         storeButton = (ImageButton) findViewById(R.id.StoreButton);
         bankButton = (ImageButton) findViewById(R.id.BankButton);
         rulesButton = (ImageButton) findViewById(R.id.RulesButton);
-        optionsButton = (Button) findViewById(R.id.optionsButton);
+        optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class AdminTasksActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.AdminButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminActivity.class));
+                        startActivity(new Intent(AdminTasksActivity.this, AdminPlanActivity.class));
                         break;
                 }
             }
