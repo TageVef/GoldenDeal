@@ -1,5 +1,6 @@
 package goldendeal.goldendeal.Activities.AdminActivity;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
@@ -52,7 +56,7 @@ public class NewUserActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
     }
 
-    private void setupViews(){
+    private void setupViews() {
         addUserButton = (Button) findViewById(R.id.AddUser);
         backButton = (Button) findViewById(R.id.BackButton);
         emailView = (EditText) findViewById(R.id.EmailView);
@@ -65,14 +69,34 @@ public class NewUserActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.AddUser:
-                        if(!TextUtils.isEmpty(emailView.getText())){
+                        if (!TextUtils.isEmpty(emailView.getText())) {
                             mDatabaseReference = mDatabase.getReference().child("User");
-                            mDatabaseReference.orderByChild("email").equalTo(emailView.getText().toString());
                             mDatabaseReference.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    Toast.makeText(NewUserActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                                    // Looking through users to find correct user
+                                    int counter = 0;
+                                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                                        // Checking if the currenct user has the correct mail assigned to it
+                                        if(data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(emailView.getText().toString())){
+                                            // Setting up database reference for the admin's Access table
+                                            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Access");
+                                            // Adds the data to the table through using the userID of the found user, and saving their email address
+                                            mDatabaseReference.child(data.getKey()).child("email").setValue(emailView.getText().toString());
+                                            Toast.makeText(NewUserActivity.this, "User's ID has been added to Access", Toast.LENGTH_LONG).show();
+                                            finish();
+                                            break;
+                                        }
+                                        else{
+                                            counter++;
+                                        }
+                                    }
+                                    if(counter == dataSnapshot.getChildrenCount()){
+                                        Toast.makeText(NewUserActivity.this, "Could not find user ID", Toast.LENGTH_SHORT).show();
+                                    }
+
+
                                 }
 
                                 @Override
