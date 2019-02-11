@@ -4,13 +4,13 @@ public class Task {
 
     private String title;
     private String description;
-    private String rewardValue;
+    private long rewardValue;
     private String rewardTitle;
 
     public Task() {
     }
 
-    public Task(String title, String description, String rewardValue, String rewardTitle) {
+    public Task(String title, String description, long rewardValue, String rewardTitle) {
         this.title = title;
         this.description = description;
         this.rewardValue = rewardValue;
@@ -33,11 +33,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getRewardValue() {
+    public long getRewardValue() {
         return rewardValue;
     }
 
-    public void setRewardValue(String rewardValue) {
+    public void setRewardValue(long rewardValue) {
         this.rewardValue = rewardValue;
     }
 

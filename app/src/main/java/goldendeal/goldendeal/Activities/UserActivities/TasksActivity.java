@@ -1,6 +1,7 @@
 package goldendeal.goldendeal.Activities.UserActivities;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -71,7 +72,7 @@ public class TasksActivity extends AppCompatActivity {
 
         mDatabaseReference = mDatabase.getReference();
 
-        taskList = new ArrayList<>();
+        taskList = new ArrayList<Task>();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -82,32 +83,43 @@ public class TasksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTasks");
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTask");
 
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Task currentTask = dataSnapshot.getValue(Task.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Task currentTask = new Task();
+                for(DataSnapshot task : dataSnapshot.getChildren()){
+                    Log.d(TAG, "onDataChange: key " + task.getKey());
+                    Log.d(TAG, "onDataChange: data " + task.getValue());
+                    /*for(DataSnapshot data : dataSnapshot.getChildren()){
+                        switch(data.getKey()){
+                            case "title":
+                                currentTask.setTitle(data.getValue(String.class));
+                                Log.d(TAG, "onChildAdded: 1 " + data.getValue());
+                                break;
+                            case "description":
+                                currentTask.setDescription(data.getValue(String.class));
+                                Log.d(TAG, "onChildAdded: 2 " + data.getValue());
+                                break;
+                            case "rewardValue":
+                                currentTask.setRewardValue(data.getValue(long.class).toString());
+                                Log.d(TAG, "onChildAdded: 3 " + data.getValue());
+                                break;
+                            case "rewardTitle":
+                                currentTask.setRewardTitle(data.getValue(String.class));
+                                Log.d(TAG, "onChildAdded: 4 " + data.getValue());
+                                break;
+                        }
+                    }*/
+                    currentTask = task.getValue(Task.class);
+                }
                 taskList.add(currentTask);
+
 
                 taskRecyclerAdapter = new TaskRecyclerAdapter(TasksActivity.this, taskList);
                 recyclerView.setAdapter(taskRecyclerAdapter);
                 taskRecyclerAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
             }
 
             @Override
@@ -169,7 +181,7 @@ public class TasksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
-                if(currentUser != null){
+                if (currentUser != null) {
                     currentUser.setUserID(mUser.getUid());
                 }
             }

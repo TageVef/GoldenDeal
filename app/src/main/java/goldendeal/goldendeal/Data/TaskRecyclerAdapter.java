@@ -30,8 +30,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.task_layout, viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup,false);
 
 
         return new ViewHolder(view, context);
@@ -45,7 +44,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
         viewHolder.title.setText(task.getTitle());
         viewHolder.desc.setText(task.getDescription());
         viewHolder.rewardTitle.setText(task.getRewardTitle());
-        viewHolder.reward.setText(task.getRewardValue());
+        viewHolder.reward.setText(Long.toString(task.getRewardValue()));
 
     }
 
