@@ -29,6 +29,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/UserSelection"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

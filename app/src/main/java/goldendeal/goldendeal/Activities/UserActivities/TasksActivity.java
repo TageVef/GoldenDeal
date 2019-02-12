@@ -60,12 +60,7 @@ public class TasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tasks);
 
         setupViews();
-
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
-        mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference();
+        setupDatabase();
         mDatabaseReference.keepSynced(true);
 
         GettingCurrentUser();
@@ -113,8 +108,8 @@ public class TasksActivity extends AppCompatActivity {
                         }
                     }*/
                     currentTask = task.getValue(Task.class);
+                    taskList.add(currentTask);
                 }
-                taskList.add(currentTask);
 
 
                 taskRecyclerAdapter = new TaskRecyclerAdapter(TasksActivity.this, taskList);
@@ -127,6 +122,14 @@ public class TasksActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setupDatabase() {
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference();
     }
 
     private void setupViews() {

@@ -31,8 +31,6 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup,false);
-
-
         return new ViewHolder(view, context);
     }
 
@@ -69,10 +67,6 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             reward = (TextView) itemView.findViewById(R.id.reward);
             rewardTitle = (TextView) itemView.findViewById(R.id.rewardTitle);
             complete = (Button) itemView.findViewById(R.id.complete);
-
-
-
-
         }
     }
 }
