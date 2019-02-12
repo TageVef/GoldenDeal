@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.NewUserActivity;
 import goldendeal.goldendeal.R;
 
 public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRecyclerAdapter.ViewHolder> {
@@ -80,6 +82,30 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
             userButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Button buttonClicked = (Button) v;
+                    final String mail = buttonClicked.getText().toString();
+
+                    mDatabaseReference = mDatabase.getReference().child("User");
+                    mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // Looking through users to find correct user
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                                // Checking if the currenct user has the correct mail assigned to it
+                                if(data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(mail)){
+                                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+                                    mDatabaseReference.child("CurrentAccess").setValue(data.getKey());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
 
                 }
             });

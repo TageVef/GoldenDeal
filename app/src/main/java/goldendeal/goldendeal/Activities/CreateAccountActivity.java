@@ -84,6 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             currentUserDb.child("role").setValue(role);
                             currentUserDb.child("theme").setValue("none");
                             currentUserDb.child("password").setValue(pw);
+                            currentUserDb.child("CurrentAccess").setValue("none");
 
                             mProgressDialog.dismiss();
                             //sending user to main activity
