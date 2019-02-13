@@ -70,8 +70,6 @@ public class TasksActivity extends AppCompatActivity {
         taskList = new ArrayList<Task>();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
 
     @Override
