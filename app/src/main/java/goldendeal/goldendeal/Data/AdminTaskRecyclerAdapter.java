@@ -9,42 +9,52 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
 
-public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.ViewHolder> {
-
+public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecyclerAdapter.ViewHolder> {
     private Context context;
     private List<Task> taskList;
 
-    public TaskRecyclerAdapter(Context context, List<Task> taskList) {
+    public AdminTaskRecyclerAdapter(Context context, List<Task> taskList) {
         this.context = context;
         this.taskList = taskList;
     }
 
-
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup,false);
-        return new ViewHolder(view, context);
+    public AdminTaskRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup, false);
+        return new AdminTaskRecyclerAdapter.ViewHolder(view, context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull AdminTaskRecyclerAdapter.ViewHolder viewHolder, int i) {
         Task task = taskList.get(i);
-
         viewHolder.title.setText(task.getTitle());
         viewHolder.desc.setText(task.getDescription());
         viewHolder.rewardTitle.setText(task.getRewardTitle());
         viewHolder.reward.setText(Long.toString(task.getRewardValue()));
-        viewHolder.trashButton.setVisibility(View.INVISIBLE);
+        viewHolder.trashButton.setVisibility(View.VISIBLE);
+        viewHolder.trashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        if (task.isComplete()) {
+            viewHolder.complete.setVisibility(View.VISIBLE);
+            viewHolder.complete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        } else {
+            viewHolder.complete.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -62,7 +72,6 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
-
             context = ctx;
             title = (TextView) itemView.findViewById(R.id.taskTitle);
             desc = (TextView) itemView.findViewById(R.id.taskDecription);

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Activities.OptionsActivity;
+import goldendeal.goldendeal.Data.AdminTaskRecyclerAdapter;
 import goldendeal.goldendeal.Data.TaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.Model.User;
@@ -46,7 +47,7 @@ public class AdminTasksActivity extends AppCompatActivity {
     private Button optionsButton;
     private Button adminButton;
     private RecyclerView taskRecyclerView;
-    private TaskRecyclerAdapter taskRecyclerAdapter;
+    private AdminTaskRecyclerAdapter taskRecyclerAdapter;
 
     private String currentAccess;
     private List<Task> taskList;
@@ -94,10 +95,12 @@ public class AdminTasksActivity extends AppCompatActivity {
                         Task currentTask = new Task();
                         for (DataSnapshot tasks : dataSnapshot.getChildren()) {
                             currentTask = tasks.getValue(Task.class);
+                            currentTask.setId(Long.parseLong(tasks.getKey()));
                             taskList.add(currentTask);
+
                         }
                         Log.d(TAG, "onDataChange: " + taskList.size());
-                        taskRecyclerAdapter = new TaskRecyclerAdapter(AdminTasksActivity.this, taskList);
+                        taskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminTasksActivity.this, taskList);
                         taskRecyclerView.setAdapter(taskRecyclerAdapter);
                         taskRecyclerAdapter.notifyDataSetChanged();
                     }

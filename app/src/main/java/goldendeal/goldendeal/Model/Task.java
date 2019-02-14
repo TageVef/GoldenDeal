@@ -2,19 +2,35 @@ package goldendeal.goldendeal.Model;
 
 public class Task {
 
+    private long id;
     private String title;
     private String description;
     private long rewardValue;
     private String rewardTitle;
+    private boolean complete;
 
     public Task() {
     }
 
-    public Task(String title, String description, long rewardValue, String rewardTitle) {
+    public Task(String title, String description, long rewardValue, String rewardTitle, String complete) {
         this.title = title;
         this.description = description;
         this.rewardValue = rewardValue;
         this.rewardTitle = rewardTitle;
+        if(complete == "true"){
+            this.complete = true;
+        }
+        else{
+            this.complete = false;
+        }
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -47,5 +63,13 @@ public class Task {
 
     public void setRewardTitle(String rewardTitle) {
         this.rewardTitle = rewardTitle;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 }
