@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.AdminActivity.NewUserActivity"></activity>
+        <activity android:name=".Activities.AdminActivity.AdminAddTasksActivity"></activity>
+        <activity android:name=".Activities.AdminActivity.NewUserActivity" />
         <activity android:name=".Activities.AdminActivity.AdminSelectUserActivity" />
         <activity android:name=".Activities.AdminActivity.AdminPlanActivity" />
         <activity android:name=".Activities.AdminActivity.AdminRulesActivity" />

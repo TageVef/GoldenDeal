@@ -1,6 +1,5 @@
 package goldendeal.goldendeal.Activities.AdminActivity;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,14 +21,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import goldendeal.goldendeal.Activities.OptionsActivity;
 import goldendeal.goldendeal.Data.AdminTaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
-import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
 
-public class AdminTasksActivity extends AppCompatActivity {
-    private static final String TAG = "AdminTasksActivity";
+public class AdminAddTasksActivity extends AppCompatActivity {
+    private static final String TAG = "AdminAddTasksActivity";
+
+    private Button backButton;
+    private RecyclerView addTaskRecyclerView;
+    private AdminTaskRecyclerAdapter adminTaskRecyclerAdapter;
+    private String currentAccess;
+    private List<Task> taskList;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -38,31 +41,16 @@ public class AdminTasksActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
-    private ImageButton taskButton;
-    private ImageButton storeButton;
-    private ImageButton bankButton;
-    private ImageButton rulesButton;
-    private Button optionsButton;
-    private Button adminButton;
-    private Button addTaskButton;
-    private Button editTasksButton;
-    private RecyclerView taskRecyclerView;
-    private AdminTaskRecyclerAdapter taskRecyclerAdapter;
-
-    private String currentAccess;
-    private List<Task> taskList;
-    private User currentUser;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_tasks);
+        setContentView(R.layout.activity_admin_add_tasks);
         SetupViews();
         SetupDatabase();
 
         taskList = new ArrayList<Task>();
-        taskRecyclerView.setHasFixedSize(true);
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        addTaskRecyclerView.setHasFixedSize(true);
+        addTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -87,9 +75,9 @@ public class AdminTasksActivity extends AppCompatActivity {
 
                         }
                         Log.d(TAG, "onDataChange: " + taskList.size());
-                        taskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminTasksActivity.this, taskList);
-                        taskRecyclerView.setAdapter(taskRecyclerAdapter);
-                        taskRecyclerAdapter.notifyDataSetChanged();
+                        adminTaskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminAddTasksActivity.this, taskList);
+                        addTaskRecyclerView.setAdapter(adminTaskRecyclerAdapter);
+                        adminTaskRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -116,15 +104,8 @@ public class AdminTasksActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        taskButton = (ImageButton) findViewById(R.id.TaskButton);
-        storeButton = (ImageButton) findViewById(R.id.StoreButton);
-        bankButton = (ImageButton) findViewById(R.id.BankButton);
-        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
-        optionsButton = (Button) findViewById(R.id.OptionsButton);
-        adminButton = (Button) findViewById(R.id.AdminButton);
-        addTaskButton = (Button) findViewById(R.id.AddTasksButton);
-        editTasksButton = (Button) findViewById(R.id.EditTasksButton);
-        taskRecyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
+        backButton = (Button) findViewById(R.id.BackButton);
+        addTaskRecyclerView = (RecyclerView) findViewById(R.id.AddTasksRecyclerView);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -132,45 +113,13 @@ public class AdminTasksActivity extends AppCompatActivity {
                 ImageButton switchButton = (ImageButton) view;
                 int buttonText = view.getId();
                 switch (buttonText) {
-                    case R.id.TaskButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminTasksActivity.class));
+                    case R.id.BackButton:
                         finish();
-                        break;
-                    case R.id.StoreButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminStoreActivity.class));
-                        finish();
-                        break;
-                    case R.id.BankButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminBankActivity.class));
-                        finish();
-                        break;
-                    case R.id.RulesButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminRulesActivity.class));
-                        finish();
-                        break;
-                    case R.id.OptionsButton:
-                        startActivity(new Intent(AdminTasksActivity.this, OptionsActivity.class));
-                        finish();
-                        break;
-                    case R.id.AdminButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminPlanActivity.class));
-                        break;
-                    case R.id.AddTasksButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminAddTasksActivity.class));
-                        break;
-                    case R.id.EditTasksButton:
                         break;
                 }
             }
         };
 
-        taskButton.setOnClickListener(switchPage);
-        storeButton.setOnClickListener(switchPage);
-        bankButton.setOnClickListener(switchPage);
-        rulesButton.setOnClickListener(switchPage);
-        optionsButton.setOnClickListener(switchPage);
-        adminButton.setOnClickListener(switchPage);
-        addTaskButton.setOnClickListener(switchPage);
-        editTasksButton.setOnClickListener(switchPage);
+        backButton.setOnClickListener(switchPage);
     }
 }
