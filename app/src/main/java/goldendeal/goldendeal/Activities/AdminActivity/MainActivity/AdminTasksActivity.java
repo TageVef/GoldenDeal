@@ -54,14 +54,14 @@ public class AdminTasksActivity extends AppCompatActivity {
 
     private String currentAccess;
     private List<Task> taskList;
-    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_tasks);
-        SetupViews();
         SetupDatabase();
+        SetupViews();
+
 
         taskList = new ArrayList<Task>();
         taskRecyclerView.setHasFixedSize(true);
@@ -77,7 +77,6 @@ public class AdminTasksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentAccess = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "onDataChange: accessing user " + currentAccess);
                 mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTask");
                 mDatabaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -89,7 +88,6 @@ public class AdminTasksActivity extends AppCompatActivity {
                             taskList.add(currentTask);
 
                         }
-                        Log.d(TAG, "onDataChange: " + taskList.size());
                         taskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminTasksActivity.this, taskList);
                         taskRecyclerView.setAdapter(taskRecyclerAdapter);
                         taskRecyclerAdapter.notifyDataSetChanged();
@@ -132,9 +130,8 @@ public class AdminTasksActivity extends AppCompatActivity {
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageButton switchButton = (ImageButton) view;
-                int buttonText = view.getId();
-                switch (buttonText) {
+
+                switch (view.getId()) {
                     case R.id.TaskButton:
                         startActivity(new Intent(AdminTasksActivity.this, AdminTasksActivity.class));
                         finish();
@@ -157,6 +154,7 @@ public class AdminTasksActivity extends AppCompatActivity {
                         break;
                     case R.id.AdminButton:
                         startActivity(new Intent(AdminTasksActivity.this, AdminPlanActivity.class));
+                        finish();
                         break;
                     case R.id.AddTasksButton:
                         startActivity(new Intent(AdminTasksActivity.this, AdminAddTasksActivity.class));

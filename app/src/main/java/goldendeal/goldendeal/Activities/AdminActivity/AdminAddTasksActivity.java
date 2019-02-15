@@ -39,7 +39,6 @@ public class AdminAddTasksActivity extends AppCompatActivity {
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
-    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
@@ -47,8 +46,8 @@ public class AdminAddTasksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_tasks);
-        SetupViews();
         SetupDatabase();
+        SetupViews();
 
         taskList = new ArrayList<Task>();
         addTaskRecyclerView.setHasFixedSize(true);
@@ -64,7 +63,6 @@ public class AdminAddTasksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentAccess = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "onDataChange: accessing user " + currentAccess);
                 mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTask");
                 mDatabaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -76,7 +74,6 @@ public class AdminAddTasksActivity extends AppCompatActivity {
                             taskList.add(currentTask);
 
                         }
-                        Log.d(TAG, "onDataChange: " + taskList.size());
                         adminTaskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminAddTasksActivity.this, taskList);
                         addTaskRecyclerView.setAdapter(adminTaskRecyclerAdapter);
                         adminTaskRecyclerAdapter.notifyDataSetChanged();
@@ -99,8 +96,6 @@ public class AdminAddTasksActivity extends AppCompatActivity {
 
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
     }
@@ -109,12 +104,10 @@ public class AdminAddTasksActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.BackButton);
         addTaskRecyclerView = (RecyclerView) findViewById(R.id.AddTasksRecyclerView);
 
-        View.OnClickListener switchPage = new View.OnClickListener() {
+        View.OnClickListener buttonSwitch = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageButton switchButton = (ImageButton) view;
-                int buttonText = view.getId();
-                switch (buttonText) {
+                switch (view.getId()) {
                     case R.id.BackButton:
                         startActivity(new Intent(AdminAddTasksActivity.this, AdminTasksActivity.class));
                         finish();
@@ -123,6 +116,6 @@ public class AdminAddTasksActivity extends AppCompatActivity {
             }
         };
 
-        backButton.setOnClickListener(switchPage);
+        backButton.setOnClickListener(buttonSwitch);
     }
 }

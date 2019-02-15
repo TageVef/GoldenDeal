@@ -24,11 +24,11 @@ public class AdminPlanActivity extends AppCompatActivity {
 
     private TextView currentUserMail;
     private Button editUserButton;
+    private Button backButton;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
-    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
@@ -40,6 +40,42 @@ public class AdminPlanActivity extends AppCompatActivity {
         SetupViews();
         setupDatabase();
 
+        FindingUsersEmailAddress();
+
+    }
+
+    private void SetupViews() {
+        currentUserMail = (TextView) findViewById(R.id.UserEmail);
+        editUserButton = (Button) findViewById(R.id.EditUserButton);
+        backButton = (Button) findViewById(R.id.BackButton);
+
+        View.OnClickListener buttonSwitch = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.EditUserButton:
+                        startActivity(new Intent(AdminPlanActivity.this, AdminSelectUserActivity.class));
+                        finish();
+                        break;
+                    case R.id.BackButton:
+                        startActivity(new Intent(AdminPlanActivity.this, AdminTasksActivity.class));
+                        finish();
+                        break;
+                }
+            }
+        };
+
+        editUserButton.setOnClickListener(buttonSwitch);
+        backButton.setOnClickListener(buttonSwitch);
+    }
+
+    private void setupDatabase() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference();
+    }
+
+    private void FindingUsersEmailAddress() {
         mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,34 +102,7 @@ public class AdminPlanActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
-    private void SetupViews() {
-        currentUserMail = (TextView) findViewById(R.id.UserEmail);
-        editUserButton = (Button) findViewById(R.id.EditUserButton);
 
-        View.OnClickListener ButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.EditUserButton:
-                        startActivity(new Intent(AdminPlanActivity.this, AdminSelectUserActivity.class));
-                        break;
-                }
-            }
-        };
-
-        editUserButton.setOnClickListener(ButtonListener);
-    }
-
-    private void setupDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
-        mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference();
-    }
 }

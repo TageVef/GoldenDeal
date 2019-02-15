@@ -17,10 +17,9 @@ public class Task {
         this.description = description;
         this.rewardValue = rewardValue;
         this.rewardTitle = rewardTitle;
-        if(complete == "true"){
+        if (complete == "true") {
             this.complete = true;
-        }
-        else{
+        } else {
             this.complete = false;
         }
     }

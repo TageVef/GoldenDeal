@@ -1,5 +1,6 @@
 package goldendeal.goldendeal.Activities.AdminActivity;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminPlanActivity;
 import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
 
@@ -38,7 +40,6 @@ public class NewUserActivity extends AppCompatActivity {
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
-    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
@@ -52,8 +53,8 @@ public class NewUserActivity extends AppCompatActivity {
 
     private void setupDatabase() {
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference();
     }
 
     private void setupViews() {
@@ -61,11 +62,12 @@ public class NewUserActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.BackButton);
         emailView = (EditText) findViewById(R.id.EmailView);
 
-        View.OnClickListener ButtonListener = new View.OnClickListener() {
+        View.OnClickListener buttonSwitch = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.BackButton:
+                        startActivity(new Intent(NewUserActivity.this, AdminSelectUserActivity.class));
                         finish();
                         break;
                     case R.id.AddUser:
@@ -79,7 +81,7 @@ public class NewUserActivity extends AppCompatActivity {
                                     for (DataSnapshot data : dataSnapshot.getChildren()) {
 
                                         // Checking if the currenct user has the correct mail assigned to it
-                                        if(data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(emailView.getText().toString())){
+                                        if (data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(emailView.getText().toString())) {
                                             // Setting up database reference for the admin's Access table
                                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Access");
                                             // Adds the data to the table through using the userID of the found user, and saving their email address
@@ -87,12 +89,11 @@ public class NewUserActivity extends AppCompatActivity {
                                             Toast.makeText(NewUserActivity.this, "User's ID has been added to Access", Toast.LENGTH_LONG).show();
                                             finish();
                                             break;
-                                        }
-                                        else{
+                                        } else {
                                             counter++;
                                         }
                                     }
-                                    if(counter == dataSnapshot.getChildrenCount()){
+                                    if (counter == dataSnapshot.getChildrenCount()) {
                                         Toast.makeText(NewUserActivity.this, "Could not find user ID", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -111,7 +112,7 @@ public class NewUserActivity extends AppCompatActivity {
             }
         };
 
-        addUserButton.setOnClickListener(ButtonListener);
-        backButton.setOnClickListener(ButtonListener);
+        addUserButton.setOnClickListener(buttonSwitch);
+        backButton.setOnClickListener(buttonSwitch);
     }
 }

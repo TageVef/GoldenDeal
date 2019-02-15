@@ -1,13 +1,13 @@
-package goldendeal.goldendeal.Data;
+package goldendeal.goldendeal.Data.AdminData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-import goldendeal.goldendeal.Activities.AdminActivity.NewUserActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminPlanActivity;
 import goldendeal.goldendeal.R;
 
 public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRecyclerAdapter.ViewHolder> {
@@ -29,7 +29,6 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
-    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
@@ -64,11 +63,12 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
         });
 
 
-
     }
 
     @Override
-    public int getItemCount() { return userList.size(); }
+    public int getItemCount() {
+        return userList.size();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public Button userButton;
@@ -93,9 +93,10 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
                             for (DataSnapshot data : dataSnapshot.getChildren()) {
 
                                 // Checking if the currenct user has the correct mail assigned to it
-                                if(data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(mail)){
+                                if (data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(mail)) {
                                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
                                     mDatabaseReference.child("CurrentAccess").setValue(data.getKey());
+                                    context.startActivity(new Intent(context, AdminPlanActivity.class));
                                 }
                             }
                         }
@@ -115,8 +116,6 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
 
     private void setupDatabase() {
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
     }

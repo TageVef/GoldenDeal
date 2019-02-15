@@ -38,7 +38,6 @@ public class AddNewTaskActivity extends AppCompatActivity {
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
-    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
@@ -46,10 +45,9 @@ public class AddNewTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_task);
-        SetupDatabase();
         taskID = getIntent().getStringExtra("TaskID");
+        SetupDatabase();
         SetupViews();
-
 
 
     }
@@ -62,7 +60,70 @@ public class AddNewTaskActivity extends AppCompatActivity {
         rewardValue = (EditText) findViewById(R.id.RewardValueET);
         rewardType = (EditText) findViewById(R.id.RewardTitleET);
 
-        if(!TextUtils.isEmpty(taskID)){
+        CheckingIfTaskIsSelected();
+
+        View.OnClickListener buttonSwitch = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.BackButton:
+                        startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
+                        finish();
+                        break;
+                    case R.id.AddTaskButton:
+                        if (!TextUtils.isEmpty(taskTitle.getText()) && !TextUtils.isEmpty(taskDescription.getText())
+                                && !TextUtils.isEmpty(rewardValue.getText()) && !TextUtils.isEmpty(rewardType.getText())) {
+
+                            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    String currentAccess = dataSnapshot.getValue(String.class);
+
+                                    if (!TextUtils.isEmpty(taskID)) {
+                                        mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks").child(taskID);
+                                        WritingTaskToDatabase();
+                                        Toast.makeText(AddNewTaskActivity.this, "Task Updated", Toast.LENGTH_SHORT).show();
+
+                                    } else {
+                                        mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks");
+                                        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                long numberOfTasks = dataSnapshot.getChildrenCount();
+                                                mDatabaseReference = mDatabaseReference.child(Long.toString(numberOfTasks + 1));
+                                                WritingTaskToDatabase();
+                                                Toast.makeText(AddNewTaskActivity.this, "Task Created", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        break;
+                }
+            }
+        };
+
+        backButton.setOnClickListener(buttonSwitch);
+        addTask.setOnClickListener(buttonSwitch);
+
+    }
+
+    private void CheckingIfTaskIsSelected() {
+        if (!TextUtils.isEmpty(taskID)) {
             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
             mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -92,84 +153,19 @@ public class AddNewTaskActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
-        View.OnClickListener buttonSwitch = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                int buttonID = view.getId();
-                switch (buttonID) {
-                    case R.id.BackButton:
-                        startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
-                        finish();
-                        break;
-                    case R.id.AddTaskButton:
-                        if(!TextUtils.isEmpty(taskTitle.getText()) && !TextUtils.isEmpty(taskDescription.getText())
-                                && !TextUtils.isEmpty(rewardValue.getText()) && !TextUtils.isEmpty(rewardType.getText())){
-
-                            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
-                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    String currentAccess = dataSnapshot.getValue(String.class);
-
-                                    if(!TextUtils.isEmpty(taskID)){
-                                        mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks").child(taskID);
-                                        mDatabaseReference.child("title").setValue(taskTitle.getText().toString());
-                                        mDatabaseReference.child("description").setValue(taskDescription.getText().toString());
-                                        mDatabaseReference.child("rewardValue").setValue(Long.parseLong(rewardValue.getText().toString()));
-                                        mDatabaseReference.child("rewardTitle").setValue(rewardType.getText().toString());
-
-                                        Toast.makeText(AddNewTaskActivity.this, "Task Updated", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
-                                    }else{
-                                        mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks");
-                                        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                long numberOfTasks = dataSnapshot.getChildrenCount();
-                                                mDatabaseReference = mDatabaseReference.child(Long.toString(numberOfTasks + 1));
-                                                Log.d(TAG, "onDataChange: path " + mDatabaseReference.toString());
-
-                                                mDatabaseReference.child("title").setValue(taskTitle.getText().toString());
-                                                mDatabaseReference.child("description").setValue(taskDescription.getText().toString());
-                                                mDatabaseReference.child("rewardValue").setValue(Long.parseLong(rewardValue.getText().toString()));
-                                                mDatabaseReference.child("rewardTitle").setValue(rewardType.getText().toString());
-
-                                                Toast.makeText(AddNewTaskActivity.this, "Task Created", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            }
-                                        });
-                                    }
-
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                        break;
-                }
-            }
-        };
-
-        backButton.setOnClickListener(buttonSwitch);
-        addTask.setOnClickListener(buttonSwitch);
-
+    private void WritingTaskToDatabase() {
+        mDatabaseReference.child("title").setValue(taskTitle.getText().toString());
+        mDatabaseReference.child("description").setValue(taskDescription.getText().toString());
+        mDatabaseReference.child("rewardValue").setValue(Long.parseLong(rewardValue.getText().toString()));
+        mDatabaseReference.child("rewardTitle").setValue(rewardType.getText().toString());
+        startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
+        finish();
     }
 
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
     }
