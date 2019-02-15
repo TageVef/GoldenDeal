@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import goldendeal.goldendeal.Activities.AdminActivity.AdminTasksActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.UserActivities.TasksActivity;
 import goldendeal.goldendeal.R;
 

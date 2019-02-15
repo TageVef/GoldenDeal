@@ -22,16 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Data.AdminData.AdminTaskRecyclerAdapter;
+import goldendeal.goldendeal.Data.TaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
 
-public class AdminAddTasksActivity extends AppCompatActivity {
-    private static final String TAG = "AdminAddTasksActivity";
+public class EditTasksActivity extends AppCompatActivity {
+    private static final String TAG = "EditTasksActivity";
 
     private Button backButton;
-    private RecyclerView addTaskRecyclerView;
-    private AdminTaskRecyclerAdapter adminTaskRecyclerAdapter;
-    private String currentAccess;
+    private Button addNewTaskButton;
+    private RecyclerView taskRecyclerView;
+    private TaskRecyclerAdapter taskRecyclerAdapter;
     private List<Task> taskList;
 
     //Firebase Variables
@@ -44,13 +45,13 @@ public class AdminAddTasksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_add_tasks);
+        setContentView(R.layout.activity_edit_tasks);
         SetupViews();
         SetupDatabase();
 
         taskList = new ArrayList<Task>();
-        addTaskRecyclerView.setHasFixedSize(true);
-        addTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        taskRecyclerView.setHasFixedSize(true);
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -61,9 +62,9 @@ public class AdminAddTasksActivity extends AppCompatActivity {
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentAccess = dataSnapshot.getValue(String.class);
+                String currentAccess = dataSnapshot.getValue(String.class);
                 Log.d(TAG, "onDataChange: accessing user " + currentAccess);
-                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTask");
+                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks");
                 mDatabaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,9 +76,9 @@ public class AdminAddTasksActivity extends AppCompatActivity {
 
                         }
                         Log.d(TAG, "onDataChange: " + taskList.size());
-                        adminTaskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminAddTasksActivity.this, taskList);
-                        addTaskRecyclerView.setAdapter(adminTaskRecyclerAdapter);
-                        adminTaskRecyclerAdapter.notifyDataSetChanged();
+                        taskRecyclerAdapter = new TaskRecyclerAdapter(EditTasksActivity.this, taskList);
+                        taskRecyclerView.setAdapter(taskRecyclerAdapter);
+                        taskRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -95,17 +96,10 @@ public class AdminAddTasksActivity extends AppCompatActivity {
         });
     }
 
-    private void SetupDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
-        mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference();
-    }
-
     private void SetupViews() {
         backButton = (Button) findViewById(R.id.BackButton);
-        addTaskRecyclerView = (RecyclerView) findViewById(R.id.AddTasksRecyclerView);
+        addNewTaskButton = (Button) findViewById(R.id.AddNewTask);
+        taskRecyclerView = (RecyclerView) findViewById(R.id.TaskRecyclerView);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -116,10 +110,21 @@ public class AdminAddTasksActivity extends AppCompatActivity {
                     case R.id.BackButton:
                         finish();
                         break;
+                    case R.id.AddNewTask:
+                        break;
                 }
             }
         };
 
         backButton.setOnClickListener(switchPage);
+        addNewTaskButton.setOnClickListener(switchPage);
+    }
+
+    private void SetupDatabase() {
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference();
     }
 }

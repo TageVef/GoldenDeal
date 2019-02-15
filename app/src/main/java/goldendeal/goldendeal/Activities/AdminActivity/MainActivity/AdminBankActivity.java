@@ -1,4 +1,4 @@
-package goldendeal.goldendeal.Activities.AdminActivity;
+package goldendeal.goldendeal.Activities.AdminActivity.MainActivity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

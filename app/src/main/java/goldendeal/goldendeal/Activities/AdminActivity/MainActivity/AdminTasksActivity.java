@@ -1,4 +1,4 @@
-package goldendeal.goldendeal.Activities.AdminActivity;
+package goldendeal.goldendeal.Activities.AdminActivity.MainActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -22,8 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.AdminAddTasksActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
-import goldendeal.goldendeal.Data.AdminTaskRecyclerAdapter;
+import goldendeal.goldendeal.Data.AdminData.AdminTaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;

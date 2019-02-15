@@ -1,4 +1,4 @@
-package goldendeal.goldendeal.Data;
+package goldendeal.goldendeal.Data.AdminData;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
