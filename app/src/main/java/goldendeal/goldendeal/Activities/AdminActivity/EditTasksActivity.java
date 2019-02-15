@@ -1,5 +1,6 @@
 package goldendeal.goldendeal.Activities.AdminActivity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminTasksActivity;
 import goldendeal.goldendeal.Data.AdminData.AdminTaskRecyclerAdapter;
+import goldendeal.goldendeal.Data.AdminData.EditTaskRecyclerAdapter;
 import goldendeal.goldendeal.Data.TaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
@@ -32,7 +35,7 @@ public class EditTasksActivity extends AppCompatActivity {
     private Button backButton;
     private Button addNewTaskButton;
     private RecyclerView taskRecyclerView;
-    private TaskRecyclerAdapter taskRecyclerAdapter;
+    private EditTaskRecyclerAdapter editTaskRecyclerAdapter;
     private List<Task> taskList;
 
     //Firebase Variables
@@ -52,6 +55,7 @@ public class EditTasksActivity extends AppCompatActivity {
         taskList = new ArrayList<Task>();
         taskRecyclerView.setHasFixedSize(true);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     @Override
@@ -76,9 +80,9 @@ public class EditTasksActivity extends AppCompatActivity {
 
                         }
                         Log.d(TAG, "onDataChange: " + taskList.size());
-                        taskRecyclerAdapter = new TaskRecyclerAdapter(EditTasksActivity.this, taskList);
-                        taskRecyclerView.setAdapter(taskRecyclerAdapter);
-                        taskRecyclerAdapter.notifyDataSetChanged();
+                        editTaskRecyclerAdapter = new EditTaskRecyclerAdapter(EditTasksActivity.this, taskList);
+                        taskRecyclerView.setAdapter(editTaskRecyclerAdapter);
+                        editTaskRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -108,9 +112,12 @@ public class EditTasksActivity extends AppCompatActivity {
                 int buttonText = view.getId();
                 switch (buttonText) {
                     case R.id.BackButton:
+                        startActivity(new Intent(EditTasksActivity.this, AdminTasksActivity.class));
                         finish();
                         break;
                     case R.id.AddNewTask:
+                        startActivity(new Intent(EditTasksActivity.this, AddNewTaskActivity.class));
+                        finish();
                         break;
                 }
             }

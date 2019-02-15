@@ -22,7 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.AddNewTaskActivity;
 import goldendeal.goldendeal.Activities.AdminActivity.AdminAddTasksActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.EditTasksActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
 import goldendeal.goldendeal.Data.AdminData.AdminTaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
@@ -158,8 +160,11 @@ public class AdminTasksActivity extends AppCompatActivity {
                         break;
                     case R.id.AddTasksButton:
                         startActivity(new Intent(AdminTasksActivity.this, AdminAddTasksActivity.class));
+                        finish();
                         break;
                     case R.id.EditTasksButton:
+                        startActivity(new Intent(AdminTasksActivity.this, EditTasksActivity.class));
+                        finish();
                         break;
                 }
             }
