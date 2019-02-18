@@ -1,9 +1,7 @@
 package goldendeal.goldendeal.Activities.UserActivities;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,11 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -133,7 +128,7 @@ public class TasksActivity extends AppCompatActivity {
         storeButton = (Button) findViewById(R.id.StoreButton);
         bankButton = (Button) findViewById(R.id.BankButton);
         rulesButton = (Button) findViewById(R.id.RulesButton);
-        optionsButton = (Button) findViewById(R.id.optionsButton);
+        optionsButton = (Button) findViewById(R.id.OptionsButton);
         recyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
@@ -157,6 +152,10 @@ public class TasksActivity extends AppCompatActivity {
                         startActivity(new Intent(TasksActivity.this, RulesActivity.class));
                         finish();
                         break;
+                    case R.id.OptionsButton:
+                        startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
+                        finish();
+                        break;
                 }
             }
         };
@@ -165,5 +164,6 @@ public class TasksActivity extends AppCompatActivity {
         storeButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
         rulesButton.setOnClickListener(switchPage);
+        optionsButton.setOnClickListener(switchPage);
     }
 }
