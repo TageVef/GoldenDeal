@@ -2,12 +2,19 @@ package goldendeal.goldendeal.Data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.common.util.NumberUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -30,21 +37,19 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup, false);
         return new ViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-        Task task = taskList.get(i);
+        viewHolder.currentTask = taskList.get(i);
 
-        viewHolder.title.setText(task.getTitle());
-        viewHolder.desc.setText(task.getDescription());
-        viewHolder.rewardTitle.setText(task.getRewardTitle());
-        viewHolder.reward.setText(Long.toString(task.getRewardValue()));
-        viewHolder.trashButton.setVisibility(View.INVISIBLE);
-
+        viewHolder.title.setText(viewHolder.currentTask.getTitle());
+        viewHolder.desc.setText(viewHolder.currentTask.getDescription());
+        viewHolder.rewardTitle.setText(viewHolder.currentTask.getRewardTitle());
+        viewHolder.reward.setText(Long.toString(viewHolder.currentTask.getRewardValue()));
     }
 
     @Override
@@ -53,6 +58,8 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public Task currentTask;
+        public ConstraintLayout taskLayout;
         public TextView title;
         public TextView desc;
         public TextView reward;
@@ -60,16 +67,75 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
         public Button complete;
         public Button trashButton;
 
+        //Firebase Variables
+        private DatabaseReference mDatabaseReference;
+        private FirebaseDatabase mDatabase;
+        private FirebaseAuth mAuth;
+        //------------------------------------------------------
+
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
 
             context = ctx;
+            taskLayout = (ConstraintLayout) itemView.findViewById(R.id.TaskLayout);
             title = (TextView) itemView.findViewById(R.id.taskTitle);
             desc = (TextView) itemView.findViewById(R.id.taskDecription);
             reward = (TextView) itemView.findViewById(R.id.reward);
             rewardTitle = (TextView) itemView.findViewById(R.id.rewardTitle);
             complete = (Button) itemView.findViewById(R.id.complete);
             trashButton = (Button) itemView.findViewById(R.id.TrashButton);
+            trashButton.setVisibility(View.INVISIBLE);
+
+            desc.setVisibility(View.INVISIBLE);
+            reward.setVisibility(View.INVISIBLE);
+            rewardTitle.setVisibility(View.INVISIBLE);
+            complete.setVisibility(View.INVISIBLE);
+
+
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (desc.getVisibility() == View.INVISIBLE) {
+                        desc.setVisibility(View.VISIBLE);
+                        reward.setVisibility(View.VISIBLE);
+                        rewardTitle.setVisibility(View.VISIBLE);
+                        if (!currentTask.isComplete()) {
+                            complete.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        desc.setVisibility(View.INVISIBLE);
+                        reward.setVisibility(View.INVISIBLE);
+                        rewardTitle.setVisibility(View.INVISIBLE);
+                        if (!currentTask.isComplete()) {
+                            complete.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                }
+            });
+
+            complete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentTask != null) {
+                        SetupDatabase();
+                        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid())
+                                .child("DailyTask").child(Long.toString(currentTask.getId()));
+                        mDatabaseReference.child("complete").setValue(Boolean.TRUE);
+                        complete.setVisibility(View.INVISIBLE);
+                        currentTask.setComplete(Boolean.TRUE);
+                    }
+
+
+                }
+            });
+        }
+
+        private void SetupDatabase() {
+            mAuth = FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance();
+            mDatabaseReference = mDatabase.getReference();
         }
     }
 }

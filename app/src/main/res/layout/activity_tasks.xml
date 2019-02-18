@@ -7,25 +7,6 @@
     tools:context=".Activities.UserActivities.TasksActivity">
 
 
-    <ImageView
-        android:id="@+id/TaskImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@id/TaskGuideline"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mayor_oppgavegiver" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/TaskGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/TaskRecycler"
         android:layout_width="0dp"
@@ -33,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/TaskGuideline" />
+        app:layout_constraintTop_toBottomOf="@+id/optionsButton" />
 
 
     <android.support.constraint.Guideline
@@ -43,49 +24,44 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="60dp" />
 
-    <ImageButton
+    <Button
         android:id="@+id/TaskButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Task"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/BankButton"
-        app:layout_constraintTop_toBottomOf="@id/ButtonGuideline"
-        app:srcCompat="@drawable/sheriff" />
+        app:layout_constraintEnd_toStartOf="@+id/BankButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ButtonGuideline" />
 
-    <ImageButton
+    <Button
         android:id="@+id/BankButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@id/TaskButton"
-        app:layout_constraintLeft_toRightOf="@id/TaskButton"
-        app:layout_constraintRight_toLeftOf="@id/StoreButton"
-        app:layout_constraintTop_toTopOf="@id/TaskButton"
-        app:srcCompat="@drawable/bank" />
+        android:layout_height="wrap_content"
+        android:text="Bank"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TaskButton"
+        app:layout_constraintEnd_toStartOf="@+id/StoreButton"
+        app:layout_constraintStart_toEndOf="@+id/TaskButton" />
 
-    <ImageButton
+    <Button
         android:id="@+id/StoreButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@id/BankButton"
-        app:layout_constraintLeft_toRightOf="@id/BankButton"
-        app:layout_constraintRight_toLeftOf="@id/RulesButton"
-        app:layout_constraintTop_toTopOf="@id/BankButton"
-        app:srcCompat="@drawable/saloon" />
+        android:layout_height="wrap_content"
+        android:text="Store"
+        app:layout_constraintBaseline_toBaselineOf="@+id/BankButton"
+        app:layout_constraintEnd_toStartOf="@+id/RulesButton"
+        app:layout_constraintStart_toEndOf="@+id/BankButton" />
 
-    <ImageButton
+    <Button
         android:id="@+id/RulesButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@id/StoreButton"
-        app:layout_constraintLeft_toRightOf="@id/StoreButton"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/StoreButton"
-        app:srcCompat="@drawable/wanted_poster" />
+        android:layout_height="wrap_content"
+        android:text="Rules"
+        app:layout_constraintBaseline_toBaselineOf="@+id/StoreButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/StoreButton" />
 
     <Button
         android:id="@+id/optionsButton"

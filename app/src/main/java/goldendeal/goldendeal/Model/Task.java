@@ -12,16 +12,19 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, long rewardValue, String rewardTitle, String complete) {
+    public Task(String title, String description, long rewardValue, String rewardTitle) {
         this.title = title;
         this.description = description;
         this.rewardValue = rewardValue;
         this.rewardTitle = rewardTitle;
-        if (complete == "true") {
-            this.complete = true;
-        } else {
-            this.complete = false;
-        }
+    }
+
+    public Task(String title, String description, long rewardValue, String rewardTitle, Boolean complete) {
+        this.title = title;
+        this.description = description;
+        this.rewardValue = rewardValue;
+        this.rewardTitle = rewardTitle;
+        this.complete = complete;
     }
 
     public long getId() {

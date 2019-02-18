@@ -38,14 +38,13 @@ public class TasksActivity extends AppCompatActivity {
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
-    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
-    private ImageButton taskButton;
-    private ImageButton storeButton;
-    private ImageButton bankButton;
-    private ImageButton rulesButton;
+    private Button taskButton;
+    private Button storeButton;
+    private Button bankButton;
+    private Button rulesButton;
     private Button optionsButton;
     private RecyclerView recyclerView;
 
@@ -59,29 +58,22 @@ public class TasksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
 
-        setupViews();
+        SetupViews();
         setupDatabase();
         mDatabaseReference.keepSynced(true);
-
-        GettingCurrentUser();
 
         mDatabaseReference = mDatabase.getReference();
 
         taskList = new ArrayList<Task>();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTask");
 
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Task currentTask = new Task();
                 for(DataSnapshot task : dataSnapshot.getChildren()){
                     Log.d(TAG, "onDataChange: key " + task.getKey());
                     Log.d(TAG, "onDataChange: data " + task.getValue());
@@ -105,7 +97,8 @@ public class TasksActivity extends AppCompatActivity {
                                 break;
                         }
                     }*/
-                    currentTask = task.getValue(Task.class);
+                    Task currentTask = task.getValue(Task.class);
+                    currentTask.setId(Long.parseLong(task.getKey()));
                     taskList.add(currentTask);
                 }
 
@@ -122,28 +115,32 @@ public class TasksActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
+
     private void setupDatabase() {
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
     }
 
-    private void setupViews() {
-        taskButton = (ImageButton) findViewById(R.id.TaskButton);
-        storeButton = (ImageButton) findViewById(R.id.StoreButton);
-        bankButton = (ImageButton) findViewById(R.id.BankButton);
-        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
+    private void SetupViews() {
+        taskButton = (Button) findViewById(R.id.TaskButton);
+        storeButton = (Button) findViewById(R.id.StoreButton);
+        bankButton = (Button) findViewById(R.id.BankButton);
+        rulesButton = (Button) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.optionsButton);
         recyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageButton switchButton = (ImageButton) view;
-                int buttonText = view.getId();
-                switch (buttonText) {
+
+                switch (view.getId()) {
                     case R.id.TaskButton:
                         startActivity(new Intent(TasksActivity.this, TasksActivity.class));
                         finish();
@@ -160,10 +157,6 @@ public class TasksActivity extends AppCompatActivity {
                         startActivity(new Intent(TasksActivity.this, RulesActivity.class));
                         finish();
                         break;
-                    case R.id.optionsButton:
-                        startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
-                        finish();
-                        break;
                 }
             }
         };
@@ -172,27 +165,5 @@ public class TasksActivity extends AppCompatActivity {
         storeButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
         rulesButton.setOnClickListener(switchPage);
-        optionsButton.setOnClickListener(switchPage);
-    }
-
-    private void GettingCurrentUser() {
-        mDatabaseReference = mDatabase.getReference().child("User").child(mUser.getUid()).child("Info");
-
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-                if (currentUser != null) {
-                    currentUser.setUserID(mUser.getUid());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "failed to retrieve user in TasksActivity");
-            }
-        });
-
-
     }
 }
