@@ -41,10 +41,10 @@ public class AdminTasksActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
-    private ImageButton taskButton;
-    private ImageButton storeButton;
-    private ImageButton bankButton;
-    private ImageButton rulesButton;
+    private Button taskButton;
+    private Button storeButton;
+    private Button bankButton;
+    private Button rulesButton;
     private Button optionsButton;
     private Button adminButton;
     private Button addTaskButton;
@@ -117,10 +117,10 @@ public class AdminTasksActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        taskButton = (ImageButton) findViewById(R.id.TaskButton);
-        storeButton = (ImageButton) findViewById(R.id.StoreButton);
-        bankButton = (ImageButton) findViewById(R.id.BankButton);
-        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
+        taskButton = (Button) findViewById(R.id.TaskButton);
+        storeButton = (Button) findViewById(R.id.StoreButton);
+        bankButton = (Button) findViewById(R.id.BankButton);
+        rulesButton = (Button) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         addTaskButton = (Button) findViewById(R.id.AddTasksButton);
