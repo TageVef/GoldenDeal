@@ -62,12 +62,11 @@
         android:id="@+id/complete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="Complete"
-        app:layout_constraintBaseline_toBaselineOf="@+id/rewardTitle"
+        app:layout_constraintBaseline_toBaselineOf="@+id/RefreshButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rewardTitle" />
+        app:layout_constraintStart_toEndOf="@+id/RefreshButton" />
 
     <Button
         android:id="@+id/TrashButton"
@@ -80,5 +79,15 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/taskTitle"
         app:layout_constraintTop_toTopOf="@+id/taskTitle" />
+
+    <Button
+        android:id="@+id/RefreshButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Refresh"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rewardTitle"
+        app:layout_constraintEnd_toStartOf="@+id/complete"
+        app:layout_constraintStart_toEndOf="@+id/rewardTitle" />
 
 </android.support.constraint.ConstraintLayout>

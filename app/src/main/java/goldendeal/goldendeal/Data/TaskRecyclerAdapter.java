@@ -65,6 +65,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
         public TextView reward;
         public TextView rewardTitle;
         public Button complete;
+        public Button refresh;
         public Button trashButton;
 
         //Firebase Variables
@@ -83,8 +84,11 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             reward = (TextView) itemView.findViewById(R.id.reward);
             rewardTitle = (TextView) itemView.findViewById(R.id.rewardTitle);
             complete = (Button) itemView.findViewById(R.id.complete);
+            refresh = (Button) itemView.findViewById(R.id.RefreshButton);
             trashButton = (Button) itemView.findViewById(R.id.TrashButton);
+
             trashButton.setVisibility(View.INVISIBLE);
+            refresh.setVisibility(View.INVISIBLE);
 
             desc.setVisibility(View.INVISIBLE);
             reward.setVisibility(View.INVISIBLE);
@@ -121,7 +125,7 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
                     if (currentTask != null) {
                         SetupDatabase();
                         mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid())
-                                .child("DailyTask").child(Long.toString(currentTask.getId()));
+                                .child("DailyTasks").child(Long.toString(currentTask.getId()));
                         mDatabaseReference.child("complete").setValue(Boolean.TRUE);
                         complete.setVisibility(View.INVISIBLE);
                         currentTask.setComplete(Boolean.TRUE);

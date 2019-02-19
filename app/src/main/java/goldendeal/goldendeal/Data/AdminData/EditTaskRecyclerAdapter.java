@@ -34,35 +34,12 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.task = taskList.get(i);
         viewHolder.title.setText(viewHolder.task.getTitle());
         viewHolder.desc.setText(viewHolder.task.getDescription());
         viewHolder.rewardTitle.setText(viewHolder.task.getRewardTitle());
         viewHolder.reward.setText(Long.toString(viewHolder.task.getRewardValue()));
-        viewHolder.trashButton.setVisibility(View.VISIBLE);
-
-        viewHolder.trashButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        viewHolder.complete.setVisibility(View.INVISIBLE);
-
-        View.OnClickListener viewClick = new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AddNewTaskActivity.class);
-                intent.putExtra("TaskID", Long.toString(viewHolder.task.getId()));
-                context.startActivity(intent);
-            }
-        };
-
-        viewHolder.title.setOnClickListener(viewClick);
-        viewHolder.desc.setOnClickListener(viewClick);
-        viewHolder.reward.setOnClickListener(viewClick);
-        viewHolder.rewardTitle.setOnClickListener(viewClick);
     }
 
     @Override
@@ -77,6 +54,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
         public TextView reward;
         public TextView rewardTitle;
         public Button complete;
+        public Button refresh;
         public Button trashButton;
 
 
@@ -88,7 +66,33 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
             reward = (TextView) itemView.findViewById(R.id.reward);
             rewardTitle = (TextView) itemView.findViewById(R.id.rewardTitle);
             complete = (Button) itemView.findViewById(R.id.complete);
+            refresh = (Button) itemView.findViewById(R.id.RefreshButton);
             trashButton = (Button) itemView.findViewById(R.id.TrashButton);
+
+            refresh.setVisibility(View.INVISIBLE);
+            trashButton.setVisibility(View.VISIBLE);
+
+            trashButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            complete.setVisibility(View.INVISIBLE);
+
+            View.OnClickListener viewClick = new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddNewTaskActivity.class);
+                    intent.putExtra("TaskID", Long.toString(task.getId()));
+                    context.startActivity(intent);
+                }
+            };
+
+            title.setOnClickListener(viewClick);
+            desc.setOnClickListener(viewClick);
+            reward.setOnClickListener(viewClick);
+            rewardTitle.setOnClickListener(viewClick);
         }
     }
 }

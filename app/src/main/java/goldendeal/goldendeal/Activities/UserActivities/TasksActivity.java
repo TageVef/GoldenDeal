@@ -2,6 +2,7 @@ package goldendeal.goldendeal.Activities.UserActivities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,43 +66,48 @@ public class TasksActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTask");
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTasks");
 
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot task : dataSnapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: key " + task.getKey());
-                    Log.d(TAG, "onDataChange: data " + task.getValue());
-                    /*for(DataSnapshot data : dataSnapshot.getChildren()){
-                        switch(data.getKey()){
-                            case "title":
-                                currentTask.setTitle(data.getValue(String.class));
-                                Log.d(TAG, "onChildAdded: 1 " + data.getValue());
-                                break;
-                            case "description":
-                                currentTask.setDescription(data.getValue(String.class));
-                                Log.d(TAG, "onChildAdded: 2 " + data.getValue());
-                                break;
-                            case "rewardValue":
-                                currentTask.setRewardValue(data.getValue(long.class).toString());
-                                Log.d(TAG, "onChildAdded: 3 " + data.getValue());
-                                break;
-                            case "rewardTitle":
-                                currentTask.setRewardTitle(data.getValue(String.class));
-                                Log.d(TAG, "onChildAdded: 4 " + data.getValue());
-                                break;
-                        }
-                    }*/
-                    Task currentTask = task.getValue(Task.class);
-                    currentTask.setId(Long.parseLong(task.getKey()));
-                    taskList.add(currentTask);
-                }
-
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Task currentTask = dataSnapshot.getValue(Task.class);
+                currentTask.setId(Long.parseLong(dataSnapshot.getKey()));
+                taskList.add(currentTask);
 
                 taskRecyclerAdapter = new TaskRecyclerAdapter(TasksActivity.this, taskList);
                 recyclerView.setAdapter(taskRecyclerAdapter);
                 taskRecyclerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Intent intent = getIntent();
+                overridePendingTransition(0,0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0,0);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Intent intent = getIntent();
+                overridePendingTransition(0,0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0,0);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Intent intent = getIntent();
+                overridePendingTransition(0,0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0,0);
+                startActivity(intent);
             }
 
             @Override

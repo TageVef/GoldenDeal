@@ -19,39 +19,33 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminTasksActivity;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
 
-public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecyclerAdapter.ViewHolder> {
+public class SelectNewTaskRecyclerAdapter extends RecyclerView.Adapter<SelectNewTaskRecyclerAdapter.ViewHolder> {
     private Context context;
     private List<Task> taskList;
 
-    public AdminTaskRecyclerAdapter(Context context, List<Task> taskList) {
+    public SelectNewTaskRecyclerAdapter(Context context, List<Task> taskList) {
         this.context = context;
         this.taskList = taskList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SelectNewTaskRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup, false);
-        return new AdminTaskRecyclerAdapter.ViewHolder(view, context);
+        return new SelectNewTaskRecyclerAdapter.ViewHolder(view, context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdminTaskRecyclerAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull SelectNewTaskRecyclerAdapter.ViewHolder viewHolder, int i) {
         viewHolder.currentTask = taskList.get(i);
         viewHolder.title.setText(viewHolder.currentTask.getTitle());
         viewHolder.desc.setText(viewHolder.currentTask.getDescription());
         viewHolder.rewardTitle.setText(viewHolder.currentTask.getRewardTitle());
         viewHolder.reward.setText(Long.toString(viewHolder.currentTask.getRewardValue()));
-        if (viewHolder.currentTask.isComplete()) {
-            viewHolder.complete.setVisibility(View.VISIBLE);
-            viewHolder.refresh.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.complete.setVisibility(View.INVISIBLE);
-            viewHolder.complete.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override
@@ -86,52 +80,30 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
             refresh = (Button) itemView.findViewById(R.id.RefreshButton);
             trashButton = (Button) itemView.findViewById(R.id.TrashButton);
 
+            complete.setVisibility(View.INVISIBLE);
             refresh.setVisibility(View.INVISIBLE);
-            trashButton.setVisibility(View.VISIBLE);
-            trashButton.setOnClickListener(new View.OnClickListener() {
+            trashButton.setVisibility(View.INVISIBLE);
+
+            View.OnClickListener selectTask = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     SetupDatabase();
-
                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks").child(Long.toString(currentTask.getId()));
-                            mDatabaseReference.removeValue();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-            });
-            complete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SetupDatabase();
-
-                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
-                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String currentAccess = dataSnapshot.getValue(String.class);
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Bank").child(currentTask.getRewardTitle());
+                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks");
                             mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    long oldReward = 0;
-                                    if (dataSnapshot.getValue() != null) {
-                                        oldReward = dataSnapshot.getValue(Long.class);
-                                    }
-                                    oldReward += currentTask.getRewardValue();
-                                    mDatabaseReference.setValue(oldReward);
-                                    mDatabaseReference = mDatabaseReference.getParent().getParent().child("DailyTasks").child(Long.toString(currentTask.getId()));
-                                    mDatabaseReference.removeValue();
+                                    long countTask = dataSnapshot.getChildrenCount();
+                                    mDatabaseReference = mDatabaseReference.child(Long.toString(countTask));
+                                    mDatabaseReference.setValue(currentTask);
+                                    Intent intent = new Intent(context, AdminTasksActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    context.startActivity(intent);
+
                                 }
 
                                 @Override
@@ -139,29 +111,6 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
 
                                 }
                             });
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-            });
-            refresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SetupDatabase();
-
-                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
-                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String currentAccess = dataSnapshot.getValue(String.class);
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks").child(Long.toString(currentTask.getId()));
-                            mDatabaseReference.child("complete").setValue(Boolean.FALSE);
                         }
 
                         @Override
@@ -170,7 +119,12 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                         }
                     });
                 }
-            });
+            };
+
+            title.setOnClickListener(selectTask);
+            desc.setOnClickListener(selectTask);
+            reward.setOnClickListener(selectTask);
+            rewardTitle.setOnClickListener(selectTask);
         }
 
         private void SetupDatabase() {

@@ -2,6 +2,7 @@ package goldendeal.goldendeal.Activities.AdminActivity.MainActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,20 +79,47 @@ public class AdminTasksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentAccess = dataSnapshot.getValue(String.class);
-                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTask");
-                mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks");
+                mDatabaseReference.addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Task currentTask = new Task();
-                        for (DataSnapshot tasks : dataSnapshot.getChildren()) {
-                            currentTask = tasks.getValue(Task.class);
-                            currentTask.setId(Long.parseLong(tasks.getKey()));
-                            taskList.add(currentTask);
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Task currentTask = dataSnapshot.getValue(Task.class);
+                        currentTask.setId(Long.parseLong(dataSnapshot.getKey()));
+                        taskList.add(currentTask);
 
-                        }
                         taskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminTasksActivity.this, taskList);
                         taskRecyclerView.setAdapter(taskRecyclerAdapter);
                         taskRecyclerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Intent intent = getIntent();
+                        overridePendingTransition(0,0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0,0);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        Intent intent = getIntent();
+                        overridePendingTransition(0,0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0,0);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Intent intent = getIntent();
+                        overridePendingTransition(0,0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0,0);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -98,7 +127,6 @@ public class AdminTasksActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
 
             @Override

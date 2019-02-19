@@ -2,6 +2,7 @@ package goldendeal.goldendeal.Activities.AdminActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminTasksActivity;
-import goldendeal.goldendeal.Data.AdminData.AdminTaskRecyclerAdapter;
+import goldendeal.goldendeal.Data.AdminData.SelectNewTaskRecyclerAdapter;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
 
@@ -32,7 +34,7 @@ public class AdminAddTasksActivity extends AppCompatActivity {
 
     private Button backButton;
     private RecyclerView addTaskRecyclerView;
-    private AdminTaskRecyclerAdapter adminTaskRecyclerAdapter;
+    private SelectNewTaskRecyclerAdapter selectNewTaskRecyclerAdapter;
     private String currentAccess;
     private List<Task> taskList;
 
@@ -63,20 +65,33 @@ public class AdminAddTasksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentAccess = dataSnapshot.getValue(String.class);
-                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTask");
-                mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks");
+                mDatabaseReference.addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Task currentTask = new Task();
-                        for (DataSnapshot tasks : dataSnapshot.getChildren()) {
-                            currentTask = tasks.getValue(Task.class);
-                            currentTask.setId(Long.parseLong(tasks.getKey()));
-                            taskList.add(currentTask);
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Task currentTask = dataSnapshot.getValue(Task.class);
+                        currentTask.setId(Long.parseLong(dataSnapshot.getKey()));
+                        taskList.add(currentTask);
 
-                        }
-                        adminTaskRecyclerAdapter = new AdminTaskRecyclerAdapter(AdminAddTasksActivity.this, taskList);
-                        addTaskRecyclerView.setAdapter(adminTaskRecyclerAdapter);
-                        adminTaskRecyclerAdapter.notifyDataSetChanged();
+                        Log.d(TAG, "onDataChange: task count " + taskList.size());
+                        selectNewTaskRecyclerAdapter = new SelectNewTaskRecyclerAdapter(AdminAddTasksActivity.this, taskList);
+                        addTaskRecyclerView.setAdapter(selectNewTaskRecyclerAdapter);
+                        selectNewTaskRecyclerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                     }
 
                     @Override
