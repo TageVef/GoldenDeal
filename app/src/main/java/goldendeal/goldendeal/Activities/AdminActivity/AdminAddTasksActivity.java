@@ -81,17 +81,32 @@ public class AdminAddTasksActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                        Intent intent = getIntent();
+                        overridePendingTransition(0,0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0,0);
+                        startActivity(intent);
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                        Intent intent = getIntent();
+                        overridePendingTransition(0,0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0,0);
+                        startActivity(intent);
                     }
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                        Intent intent = getIntent();
+                        overridePendingTransition(0,0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0,0);
+                        startActivity(intent);
                     }
 
                     @Override

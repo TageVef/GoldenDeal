@@ -2,14 +2,18 @@ package goldendeal.goldendeal.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +25,7 @@ import goldendeal.goldendeal.Activities.UserActivities.TasksActivity;
 import goldendeal.goldendeal.R;
 
 public class CreateAccountActivity extends AppCompatActivity {
-
+    private static final String TAG = "CreateAccountActivity";
     private EditText email;
     private EditText phoneNum;
     private EditText password;
@@ -110,6 +114,13 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
                     }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    mProgressDialog.dismiss();
+
+                    Toast.makeText(CreateAccountActivity.this, "Couldn't create account: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }

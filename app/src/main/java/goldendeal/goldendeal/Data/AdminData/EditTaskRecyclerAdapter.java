@@ -11,6 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 import goldendeal.goldendeal.Activities.AdminActivity.AddNewTaskActivity;
@@ -35,11 +42,11 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.task = taskList.get(i);
-        viewHolder.title.setText(viewHolder.task.getTitle());
-        viewHolder.desc.setText(viewHolder.task.getDescription());
-        viewHolder.rewardTitle.setText(viewHolder.task.getRewardTitle());
-        viewHolder.reward.setText(Long.toString(viewHolder.task.getRewardValue()));
+        viewHolder.currentTask = taskList.get(i);
+        viewHolder.title.setText(viewHolder.currentTask.getTitle());
+        viewHolder.desc.setText(viewHolder.currentTask.getDescription());
+        viewHolder.rewardTitle.setText(viewHolder.currentTask.getRewardTitle());
+        viewHolder.reward.setText(Long.toString(viewHolder.currentTask.getRewardValue()));
     }
 
     @Override
@@ -48,7 +55,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public Task task;
+        public Task currentTask;
         public TextView title;
         public TextView desc;
         public TextView reward;
@@ -56,6 +63,12 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
         public Button complete;
         public Button refresh;
         public Button trashButton;
+
+        //Firebase Variables
+        private DatabaseReference mDatabaseReference;
+        private FirebaseDatabase mDatabase;
+        private FirebaseAuth mAuth;
+        //------------------------------------------------------
 
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
@@ -75,7 +88,22 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
             trashButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SetupDatabase();
 
+                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String currentAccess = dataSnapshot.getValue(String.class);
+                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks").child(Long.toString(currentTask.getId()));
+                            mDatabaseReference.removeValue();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             });
             complete.setVisibility(View.INVISIBLE);
@@ -84,7 +112,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, AddNewTaskActivity.class);
-                    intent.putExtra("TaskID", Long.toString(task.getId()));
+                    intent.putExtra("TaskID", Long.toString(currentTask.getId()));
                     context.startActivity(intent);
                 }
             };
@@ -93,6 +121,12 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
             desc.setOnClickListener(viewClick);
             reward.setOnClickListener(viewClick);
             rewardTitle.setOnClickListener(viewClick);
+        }
+
+        private void SetupDatabase() {
+            mAuth = FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance();
+            mDatabaseReference = mDatabase.getReference();
         }
     }
 }

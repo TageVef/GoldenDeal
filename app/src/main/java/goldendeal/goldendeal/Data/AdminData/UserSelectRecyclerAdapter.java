@@ -50,7 +50,7 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
         setupDatabase();
 
         mDatabaseReference = mDatabase.getReference().child("User").child(userID).child("Info").child("email");
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 viewHolder.userButton.setText(dataSnapshot.getValue(String.class));
@@ -86,7 +86,7 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
                     final String mail = buttonClicked.getText().toString();
 
                     mDatabaseReference = mDatabase.getReference().child("User");
-                    mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             // Looking through users to find correct user
@@ -96,7 +96,10 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
                                 if (data.child("Info").child("email").getValue(String.class).equalsIgnoreCase(mail)) {
                                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
                                     mDatabaseReference.child("CurrentAccess").setValue(data.getKey());
-                                    context.startActivity(new Intent(context, AdminPlanActivity.class));
+                                    Intent intent = new Intent(context, AdminPlanActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    context.startActivity(intent);
+                                    break;
                                 }
                             }
                         }

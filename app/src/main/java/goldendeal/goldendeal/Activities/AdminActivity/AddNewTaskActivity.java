@@ -91,7 +91,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 long numberOfTasks = dataSnapshot.getChildrenCount();
-                                                mDatabaseReference = mDatabaseReference.child(Long.toString(numberOfTasks + 1));
+                                                mDatabaseReference = mDatabaseReference.child(Long.toString(numberOfTasks));
                                                 WritingTaskToDatabase();
                                                 Toast.makeText(AddNewTaskActivity.this, "Task Created", Toast.LENGTH_SHORT).show();
                                             }

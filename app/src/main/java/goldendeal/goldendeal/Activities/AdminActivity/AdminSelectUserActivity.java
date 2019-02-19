@@ -2,6 +2,7 @@ package goldendeal.goldendeal.Activities.AdminActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,25 +53,29 @@ public class AdminSelectUserActivity extends AppCompatActivity {
         selectUsers.setHasFixedSize(true);
         selectUsers.setLayoutManager(new LinearLayoutManager(this));
 
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Access");
-
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //get email addresses
-                for (DataSnapshot userID : dataSnapshot.getChildren()) {
-                    userIDList.add(userID.getKey());
-                }
-
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                userIDList.add(dataSnapshot.getKey());
                 userSelectRecyclerAdapter = new UserSelectRecyclerAdapter(AdminSelectUserActivity.this, userIDList);
                 selectUsers.setAdapter(userSelectRecyclerAdapter);
                 userSelectRecyclerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
@@ -77,7 +83,11 @@ public class AdminSelectUserActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
     }
 
