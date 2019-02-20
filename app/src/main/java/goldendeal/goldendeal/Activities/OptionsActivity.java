@@ -16,6 +16,7 @@ import goldendeal.goldendeal.R;
 
 public class OptionsActivity extends AppCompatActivity {
 
+    private Button backButton;
     private Button signout;
 
     //Firebase Variables
@@ -36,22 +37,30 @@ public class OptionsActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
 
+        backButton = (Button) findViewById(R.id.BackButton);
         signout = (Button) findViewById(R.id.signoutButton);
 
-        signout.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mAuth != null && mUser != null){
-                    mAuth.signOut();
-                    Toast.makeText(OptionsActivity.this, "signed out!", Toast.LENGTH_SHORT).show();
+                switch(v.getId()){
+                    case R.id.signoutButton:
+                        if(mAuth != null && mUser != null){
+                            mAuth.signOut();
+                            Toast.makeText(OptionsActivity.this, "signed out!", Toast.LENGTH_SHORT).show();
 
-                    startActivity(new Intent(OptionsActivity.this, MainActivity.class));
-                    finish();
+                            startActivity(new Intent(OptionsActivity.this, MainActivity.class));
+                            finish();
+                        }
+                        break;
+                    case R.id.BackButton:
+                        finish();
+                        break;
                 }
-
             }
-        });
+        };
 
-
+        backButton.setOnClickListener(switchPage);
+        signout.setOnClickListener(switchPage);
     }
 }

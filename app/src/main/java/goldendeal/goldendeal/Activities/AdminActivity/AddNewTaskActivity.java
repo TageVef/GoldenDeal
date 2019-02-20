@@ -67,7 +67,6 @@ public class AddNewTaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.BackButton:
-                        startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
                         finish();
                         break;
                     case R.id.AddTaskButton:
@@ -160,7 +159,6 @@ public class AddNewTaskActivity extends AppCompatActivity {
         mDatabaseReference.child("description").setValue(taskDescription.getText().toString());
         mDatabaseReference.child("rewardValue").setValue(Long.parseLong(rewardValue.getText().toString()));
         mDatabaseReference.child("rewardTitle").setValue(rewardType.getText().toString());
-        startActivity(new Intent(AddNewTaskActivity.this, EditTasksActivity.class));
         finish();
     }
 

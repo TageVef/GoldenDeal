@@ -8,6 +8,7 @@ public class Task {
     private long rewardValue;
     private String rewardTitle;
     private boolean complete;
+    private boolean showText = false;
 
     public Task() {
     }
@@ -73,5 +74,13 @@ public class Task {
 
     public void setComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    public boolean isShowText() {
+        return showText;
+    }
+
+    public void setShowText(boolean showText) {
+        this.showText = showText;
     }
 }

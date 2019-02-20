@@ -25,7 +25,7 @@ import goldendeal.goldendeal.R;
 
 public class SelectNewTaskRecyclerAdapter extends RecyclerView.Adapter<SelectNewTaskRecyclerAdapter.ViewHolder> {
     private Context context;
-    private List<Task> taskList;
+    public List<Task> taskList;
 
     public SelectNewTaskRecyclerAdapter(Context context, List<Task> taskList) {
         this.context = context;
@@ -121,10 +121,7 @@ public class SelectNewTaskRecyclerAdapter extends RecyclerView.Adapter<SelectNew
                 }
             };
 
-            title.setOnClickListener(selectTask);
-            desc.setOnClickListener(selectTask);
-            reward.setOnClickListener(selectTask);
-            rewardTitle.setOnClickListener(selectTask);
+            itemView.setOnClickListener(selectTask);
         }
 
         private void SetupDatabase() {

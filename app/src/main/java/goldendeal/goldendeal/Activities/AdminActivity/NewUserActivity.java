@@ -67,7 +67,6 @@ public class NewUserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.BackButton:
-                        startActivity(new Intent(NewUserActivity.this, AdminSelectUserActivity.class));
                         finish();
                         break;
                     case R.id.AddUser:

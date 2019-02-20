@@ -81,32 +81,22 @@ public class AdminAddTasksActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0,0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0,0);
-                        startActivity(intent);
+                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        taskList.set(position, dataSnapshot.getValue(Task.class));
+                        selectNewTaskRecyclerAdapter.notifyItemChanged(position);
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0,0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0,0);
-                        startActivity(intent);
+                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        taskList.remove(position);
+                        selectNewTaskRecyclerAdapter.notifyItemRemoved(position);
+                        selectNewTaskRecyclerAdapter.notifyItemRangeChanged(position, selectNewTaskRecyclerAdapter.taskList.size());
                     }
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0,0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0,0);
-                        startActivity(intent);
+
                     }
 
                     @Override

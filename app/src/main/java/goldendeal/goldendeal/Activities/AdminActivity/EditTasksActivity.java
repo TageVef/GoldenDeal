@@ -57,11 +57,6 @@ public class EditTasksActivity extends AppCompatActivity {
         taskRecyclerView.setHasFixedSize(true);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -83,32 +78,22 @@ public class EditTasksActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0,0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0,0);
-                        startActivity(intent);
+                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        taskList.set(position, dataSnapshot.getValue(Task.class));
+                        editTaskRecyclerAdapter.notifyItemChanged(position);
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0,0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0,0);
-                        startActivity(intent);
+                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        taskList.remove(position);
+                        editTaskRecyclerAdapter.notifyItemRemoved(position);
+                        editTaskRecyclerAdapter.notifyItemRangeChanged(position, editTaskRecyclerAdapter.taskList.size());
                     }
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0,0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0,0);
-                        startActivity(intent);
+
                     }
 
                     @Override
@@ -135,12 +120,10 @@ public class EditTasksActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.BackButton:
-                        startActivity(new Intent(EditTasksActivity.this, AdminTasksActivity.class));
                         finish();
                         break;
                     case R.id.AddNewTask:
                         startActivity(new Intent(EditTasksActivity.this, AddNewTaskActivity.class));
-                        finish();
                         break;
                 }
             }

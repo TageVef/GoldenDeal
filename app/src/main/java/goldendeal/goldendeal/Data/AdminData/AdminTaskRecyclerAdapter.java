@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
 
 public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecyclerAdapter.ViewHolder> {
+    private static final String TAG = "AdminTaskRecyclerAdapter";
     private Context context;
-    private List<Task> taskList;
+    public List<Task> taskList;
+
 
     public AdminTaskRecyclerAdapter(Context context, List<Task> taskList) {
         this.context = context;
@@ -50,7 +54,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
             viewHolder.refresh.setVisibility(View.VISIBLE);
         } else {
             viewHolder.complete.setVisibility(View.INVISIBLE);
-            viewHolder.complete.setVisibility(View.INVISIBLE);
+            viewHolder.refresh.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -60,6 +64,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private static final String TAG = "AdminTaskRecyclerAdapter.ViewHolder";
         public Task currentTask;
         public TextView title;
         public TextView desc;
@@ -98,8 +103,36 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
+                            //removing task from database
                             mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks").child(Long.toString(currentTask.getId()));
                             mDatabaseReference.removeValue();
+
+                            //sorting tasks in database.
+                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks");
+                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.getKey() != null){
+                                        int i = 0;
+                                        for(DataSnapshot tasks: dataSnapshot.getChildren()){
+                                            Task currentTask = tasks.getValue(Task.class);
+                                            currentTask.setId(i);
+                                            mDatabaseReference.child(Integer.toString(i)).setValue(currentTask);
+                                            i++;
+                                            if(i == dataSnapshot.getChildrenCount()){
+                                                mDatabaseReference.child(Integer.toString(i)).removeValue();
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
 
                         @Override

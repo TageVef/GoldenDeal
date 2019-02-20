@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Set;
 
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
@@ -26,7 +27,7 @@ import goldendeal.goldendeal.R;
 public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapter.ViewHolder> {
 
     private Context context;
-    private List<Task> taskList;
+    public List<Task> taskList;
 
     public TaskRecyclerAdapter(Context context, List<Task> taskList) {
         this.context = context;
@@ -50,6 +51,27 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
         viewHolder.desc.setText(viewHolder.currentTask.getDescription());
         viewHolder.rewardTitle.setText(viewHolder.currentTask.getRewardTitle());
         viewHolder.reward.setText(Long.toString(viewHolder.currentTask.getRewardValue()));
+
+        showTextCheck(viewHolder);
+    }
+
+    private void showTextCheck(@NonNull ViewHolder viewHolder) {
+        if (viewHolder.currentTask.isShowText()) {
+            viewHolder.desc.setVisibility(View.VISIBLE);
+            viewHolder.reward.setVisibility(View.VISIBLE);
+            viewHolder.rewardTitle.setVisibility(View.VISIBLE);
+            if (viewHolder.currentTask.isComplete()) {
+                viewHolder.complete.setVisibility(View.INVISIBLE);
+            } else {
+                viewHolder.complete.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            viewHolder.desc.setVisibility(View.INVISIBLE);
+            viewHolder.reward.setVisibility(View.INVISIBLE);
+            viewHolder.rewardTitle.setVisibility(View.INVISIBLE);
+            viewHolder.complete.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -90,32 +112,14 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             trashButton.setVisibility(View.INVISIBLE);
             refresh.setVisibility(View.INVISIBLE);
 
-            desc.setVisibility(View.INVISIBLE);
-            reward.setVisibility(View.INVISIBLE);
-            rewardTitle.setVisibility(View.INVISIBLE);
-            complete.setVisibility(View.INVISIBLE);
-
-
             title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (desc.getVisibility() == View.INVISIBLE) {
-                        desc.setVisibility(View.VISIBLE);
-                        reward.setVisibility(View.VISIBLE);
-                        rewardTitle.setVisibility(View.VISIBLE);
-                        if (!currentTask.isComplete()) {
-                            complete.setVisibility(View.VISIBLE);
-                        }
+                    SetupDatabase();
 
-                    } else {
-                        desc.setVisibility(View.INVISIBLE);
-                        reward.setVisibility(View.INVISIBLE);
-                        rewardTitle.setVisibility(View.INVISIBLE);
-                        if (!currentTask.isComplete()) {
-                            complete.setVisibility(View.INVISIBLE);
-                        }
-
-                    }
+                    currentTask.setShowText(!currentTask.isShowText());
+                    mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTasks").child(Long.toString(currentTask.getId()));
+                    mDatabaseReference.child("showText").setValue(currentTask.isShowText());
                 }
             });
 
@@ -124,11 +128,8 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
                 public void onClick(View v) {
                     if (currentTask != null) {
                         SetupDatabase();
-                        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid())
-                                .child("DailyTasks").child(Long.toString(currentTask.getId()));
+                        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("DailyTasks").child(Long.toString(currentTask.getId()));
                         mDatabaseReference.child("complete").setValue(Boolean.TRUE);
-                        complete.setVisibility(View.INVISIBLE);
-                        currentTask.setComplete(Boolean.TRUE);
                     }
 
 

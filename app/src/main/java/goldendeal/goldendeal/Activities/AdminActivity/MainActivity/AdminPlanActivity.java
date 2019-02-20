@@ -55,10 +55,8 @@ public class AdminPlanActivity extends AppCompatActivity {
                 switch (v.getId()) {
                     case R.id.EditUserButton:
                         startActivity(new Intent(AdminPlanActivity.this, AdminSelectUserActivity.class));
-                        finish();
                         break;
                     case R.id.BackButton:
-                        startActivity(new Intent(AdminPlanActivity.this, AdminTasksActivity.class));
                         finish();
                         break;
                 }

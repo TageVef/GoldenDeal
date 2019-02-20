@@ -99,7 +99,6 @@ public class UserSelectRecyclerAdapter extends RecyclerView.Adapter<UserSelectRe
                                     Intent intent = new Intent(context, AdminPlanActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     context.startActivity(intent);
-                                    break;
                                 }
                             }
                         }

@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Activities.AdminActivity.AddNewTaskActivity;
@@ -26,7 +27,7 @@ import goldendeal.goldendeal.R;
 
 public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecyclerAdapter.ViewHolder> {
     private Context context;
-    private List<Task> taskList;
+    public List<Task> taskList;
 
     public EditTaskRecyclerAdapter(Context context, List<Task> taskList) {
         this.context = context;
@@ -95,8 +96,36 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
+                            //removing task from database
                             mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks").child(Long.toString(currentTask.getId()));
                             mDatabaseReference.removeValue();
+
+                            //sorting tasks in database.
+                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks");
+                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.getKey() != null){
+                                        int i = 0;
+                                        for(DataSnapshot tasks: dataSnapshot.getChildren()){
+                                            Task currentTask = tasks.getValue(Task.class);
+                                            currentTask.setId(i);
+                                            mDatabaseReference.child(Integer.toString(i)).setValue(currentTask);
+                                            i++;
+                                            if(i == dataSnapshot.getChildrenCount()){
+                                                mDatabaseReference.child(Integer.toString(i)).removeValue();
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
 
                         @Override
@@ -104,6 +133,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
 
                         }
                     });
+
                 }
             });
             complete.setVisibility(View.INVISIBLE);
@@ -116,11 +146,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
                     context.startActivity(intent);
                 }
             };
-
-            title.setOnClickListener(viewClick);
-            desc.setOnClickListener(viewClick);
-            reward.setOnClickListener(viewClick);
-            rewardTitle.setOnClickListener(viewClick);
+            itemView.setOnClickListener(viewClick);
         }
 
         private void SetupDatabase() {

@@ -85,12 +85,6 @@ public class AdminSelectUserActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
     private void setupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -107,7 +101,6 @@ public class AdminSelectUserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.BackButton:
-                        startActivity(new Intent(AdminSelectUserActivity.this, AdminPlanActivity.class));
                         finish();
                         break;
                     case R.id.AddUser:

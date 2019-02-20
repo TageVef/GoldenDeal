@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,9 +46,9 @@ public class TasksActivity extends AppCompatActivity {
     private Button optionsButton;
     private RecyclerView recyclerView;
 
-    private User currentUser;
     private TaskRecyclerAdapter taskRecyclerAdapter;
     private List<Task> taskList;
+    private List<Task> sortingTasks;
 
 
     @Override
@@ -82,32 +83,25 @@ public class TasksActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Intent intent = getIntent();
-                overridePendingTransition(0,0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                overridePendingTransition(0,0);
-                startActivity(intent);
+
+                int position = Integer.parseInt(dataSnapshot.getKey());
+                taskList.set(position, dataSnapshot.getValue(Task.class));
+                taskRecyclerAdapter.notifyItemChanged(position);
+
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Intent intent = getIntent();
-                overridePendingTransition(0,0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                overridePendingTransition(0,0);
-                startActivity(intent);
+
+                    int position = Integer.parseInt(dataSnapshot.getKey());
+                    taskList.remove(position);
+                    taskRecyclerAdapter.notifyItemRemoved(position);
+                    taskRecyclerAdapter.notifyItemRangeChanged(position, taskRecyclerAdapter.taskList.size());
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Intent intent = getIntent();
-                overridePendingTransition(0,0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                overridePendingTransition(0,0);
-                startActivity(intent);
+
             }
 
             @Override
@@ -115,13 +109,6 @@ public class TasksActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
     }
 
     private void setupDatabase() {
@@ -161,7 +148,6 @@ public class TasksActivity extends AppCompatActivity {
                         break;
                     case R.id.OptionsButton:
                         startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
-                        finish();
                         break;
                 }
             }
