@@ -90,14 +90,14 @@ public class AdminTasksActivity extends AppCompatActivity {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         int position = Integer.parseInt(dataSnapshot.getKey());
-                        taskList.set(position, dataSnapshot.getValue(Task.class));
+                        taskRecyclerAdapter.taskList.set(position, dataSnapshot.getValue(Task.class));
                         taskRecyclerAdapter.notifyItemChanged(position);
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                         int position = Integer.parseInt(dataSnapshot.getKey());
-                        taskList.remove(position);
+                        taskRecyclerAdapter.taskList.remove(position);
                         taskRecyclerAdapter.notifyItemRemoved(position);
                         taskRecyclerAdapter.notifyItemRangeChanged(position, taskRecyclerAdapter.taskList.size());
                     }

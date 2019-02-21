@@ -48,7 +48,6 @@ public class TasksActivity extends AppCompatActivity {
 
     private TaskRecyclerAdapter taskRecyclerAdapter;
     private List<Task> taskList;
-    private List<Task> sortingTasks;
 
 
     @Override
@@ -85,7 +84,7 @@ public class TasksActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 int position = Integer.parseInt(dataSnapshot.getKey());
-                taskList.set(position, dataSnapshot.getValue(Task.class));
+                taskRecyclerAdapter.taskList.set(position, dataSnapshot.getValue(Task.class));
                 taskRecyclerAdapter.notifyItemChanged(position);
 
             }
@@ -93,10 +92,10 @@ public class TasksActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                    int position = Integer.parseInt(dataSnapshot.getKey());
-                    taskList.remove(position);
-                    taskRecyclerAdapter.notifyItemRemoved(position);
-                    taskRecyclerAdapter.notifyItemRangeChanged(position, taskRecyclerAdapter.taskList.size());
+                int position = Integer.parseInt(dataSnapshot.getKey());
+                taskRecyclerAdapter.taskList.remove(position);
+                taskRecyclerAdapter.notifyItemRemoved(position);
+                taskRecyclerAdapter.notifyItemRangeChanged(position, taskRecyclerAdapter.taskList.size());
             }
 
             @Override
