@@ -96,29 +96,26 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
-                            //removing task from database
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks").child(Long.toString(currentTask.getId()));
-                            mDatabaseReference.removeValue();
-
                             //sorting tasks in database.
                             mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Tasks");
                             mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.getKey() != null){
-                                        int i = 0;
-                                        for(DataSnapshot tasks: dataSnapshot.getChildren()){
-                                            Task currentTask = tasks.getValue(Task.class);
-                                            currentTask.setId(i);
-                                            mDatabaseReference.child(Integer.toString(i)).setValue(currentTask);
-                                            i++;
-                                            if(i == dataSnapshot.getChildrenCount()){
-                                                mDatabaseReference.child(Integer.toString(i)).removeValue();
-                                            }
+                                    for (DataSnapshot task : dataSnapshot.getChildren()) {
+                                        Task sortTasks = task.getValue(Task.class);
+                                        sortTasks.setId(Long.parseLong(task.getKey()));
+                                        if (currentTask.getId() < sortTasks.getId()) {
+                                            sortTasks.setId(sortTasks.getId() - 1);
+                                            mDatabaseReference.child(Long.toString(sortTasks.getId())).child("title").setValue(sortTasks.getTitle());
+                                            mDatabaseReference.child(Long.toString(sortTasks.getId())).child("description").setValue(sortTasks.getDescription());
+                                            mDatabaseReference.child(Long.toString(sortTasks.getId())).child("rewardTitle").setValue(sortTasks.getRewardTitle());
+                                            mDatabaseReference.child(Long.toString(sortTasks.getId())).child("rewardValue").setValue(sortTasks.getRewardValue());
                                         }
 
+                                        if (Long.parseLong(task.getKey()) == dataSnapshot.getChildrenCount() - 1) {
+                                            mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount() - 1)).removeValue();
+                                        }
                                     }
-
                                 }
 
                                 @Override
@@ -126,6 +123,29 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
 
                                 }
                             });
+
+                            /*mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot tasks : dataSnapshot.getChildren()) {
+                                        Task sortTasks = tasks.getValue(Task.class);
+                                        if (currentTask.getId() < sortTasks.getId()) {
+                                            sortTasks.setId(sortTasks.getId() - 1);
+                                            mDatabaseReference.child(Long.toString(sortTasks.getId())).setValue(sortTasks);
+                                        }
+                                        if (Long.parseLong(tasks.getKey()) == dataSnapshot.getChildrenCount() - 1) {
+                                            mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount() - 1)).removeValue();
+                                        }
+                                    }
+
+                                }
+
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });*/
                         }
 
                         @Override
@@ -138,7 +158,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
             });
             complete.setVisibility(View.INVISIBLE);
 
-            View.OnClickListener viewClick = new View.OnClickListener(){
+            View.OnClickListener viewClick = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, AddNewTaskActivity.class);

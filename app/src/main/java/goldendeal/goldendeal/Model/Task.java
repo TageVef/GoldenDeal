@@ -28,6 +28,10 @@ public class Task {
         this.complete = complete;
     }
 
+    public String printTask(){
+      return "id: " +  Long.toString(id) + ", title: " + title + ", desc: " + description + ", complete: " + complete;
+    };
+
     public long getId() {
         return id;
     }

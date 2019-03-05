@@ -3,6 +3,7 @@ package goldendeal.goldendeal.Data.AdminData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -64,7 +66,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "AdminTaskRecyclerAdapter.ViewHolder";
+        private static final String TAG = "recycleradapter";
         public Task currentTask;
         public TextView title;
         public TextView desc;
@@ -76,6 +78,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
 
         //Firebase Variables
         private DatabaseReference mDatabaseReference;
+        private DatabaseReference removeTask;
         private FirebaseDatabase mDatabase;
         private FirebaseAuth mAuth;
         //------------------------------------------------------
@@ -102,30 +105,23 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String currentAccess = dataSnapshot.getValue(String.class);
+                            final String currentAccess = dataSnapshot.getValue(String.class);
                             //removing task from database
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks").child(Long.toString(currentTask.getId()));
-                            mDatabaseReference.removeValue();
-
-                            //sorting tasks in database.
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks");
-                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            removeTask = mDatabase.getReference().child("User").child(currentAccess).child("DailyTasks");
+                            removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.getKey() != null){
-                                        int i = 0;
-                                        for(DataSnapshot tasks: dataSnapshot.getChildren()){
-                                            Task currentTask = tasks.getValue(Task.class);
-                                            currentTask.setId(i);
-                                            mDatabaseReference.child(Integer.toString(i)).setValue(currentTask);
-                                            i++;
-                                            if(i == dataSnapshot.getChildrenCount()){
-                                                mDatabaseReference.child(Integer.toString(i)).removeValue();
-                                            }
+                                    for (DataSnapshot task : dataSnapshot.getChildren()) {
+                                        Task sortTasks = task.getValue(Task.class);
+                                        if (currentTask.getId() < sortTasks.getId()) {
+                                            sortTasks.setId(sortTasks.getId() - 1);
+                                            removeTask.child(Long.toString(sortTasks.getId())).setValue(sortTasks);
                                         }
 
+                                        if (Long.parseLong(task.getKey()) == dataSnapshot.getChildrenCount() - 1) {
+                                            removeTask.child(Long.toString(dataSnapshot.getChildrenCount() - 1)).removeValue();
+                                        }
                                     }
-
                                 }
 
                                 @Override
@@ -153,8 +149,8 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
-                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Bank").child(currentTask.getRewardTitle());
-                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            removeTask = mDatabase.getReference().child("User").child(currentAccess).child("Bank").child(currentTask.getRewardTitle());
+                            removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     long oldReward = 0;
@@ -162,9 +158,61 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                                         oldReward = dataSnapshot.getValue(Long.class);
                                     }
                                     oldReward += currentTask.getRewardValue();
-                                    mDatabaseReference.setValue(oldReward);
-                                    mDatabaseReference = mDatabaseReference.getParent().getParent().child("DailyTasks").child(Long.toString(currentTask.getId()));
-                                    mDatabaseReference.removeValue();
+                                    removeTask.setValue(oldReward);
+                                    removeTask = removeTask.getParent().getParent().child("DailyTasks");
+                                    removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot task : dataSnapshot.getChildren()) {
+                                                Task sortTasks = task.getValue(Task.class);
+                                                if (currentTask.getId() < sortTasks.getId()) {
+                                                    sortTasks.setId(sortTasks.getId() - 1);
+                                                    removeTask.child(Long.toString(sortTasks.getId())).setValue(sortTasks);
+                                                }
+
+                                                if (Long.parseLong(task.getKey()) == dataSnapshot.getChildrenCount() - 1) {
+                                                    removeTask.child(Long.toString(dataSnapshot.getChildrenCount() - 1)).removeValue();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                    /*removeTask.removeValue(new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                            //sorting tasks in database.
+                                            removeTask = removeTask.getParent();
+                                            removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if(dataSnapshot.getKey() != null){
+                                                        int i = 0;
+                                                        for(DataSnapshot tasks: dataSnapshot.getChildren()){
+                                                            Task currentTask = tasks.getValue(Task.class);
+                                                            currentTask.setId(i);
+                                                            removeTask.child(Integer.toString(i)).setValue(currentTask);
+                                                            i++;
+                                                            if(i == dataSnapshot.getChildrenCount()){
+                                                                removeTask.child(Integer.toString(i)).removeValue();
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }
+                                    });*/
                                 }
 
                                 @Override

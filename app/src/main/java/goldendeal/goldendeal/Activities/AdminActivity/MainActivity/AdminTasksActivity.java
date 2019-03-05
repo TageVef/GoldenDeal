@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -92,14 +93,21 @@ public class AdminTasksActivity extends AppCompatActivity {
                         int position = Integer.parseInt(dataSnapshot.getKey());
                         taskRecyclerAdapter.taskList.set(position, dataSnapshot.getValue(Task.class));
                         taskRecyclerAdapter.notifyItemChanged(position);
+                        taskRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        /*Intent intent = getIntent();
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        startActivity(intent);*/
+
                         int position = Integer.parseInt(dataSnapshot.getKey());
-                        taskRecyclerAdapter.taskList.remove(position);
+                        taskList.remove(position);
                         taskRecyclerAdapter.notifyItemRemoved(position);
-                        taskRecyclerAdapter.notifyItemRangeChanged(position, taskRecyclerAdapter.taskList.size());
+                        taskRecyclerAdapter.notifyItemRangeChanged(position, taskList.size());
+
                     }
 
                     @Override
