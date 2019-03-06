@@ -99,6 +99,7 @@ public class SelectNewTaskRecyclerAdapter extends RecyclerView.Adapter<SelectNew
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     long countTask = dataSnapshot.getChildrenCount();
                                     mDatabaseReference = mDatabaseReference.child(Long.toString(countTask));
+                                    currentTask.setId(countTask);
                                     mDatabaseReference.setValue(currentTask);
                                     Intent intent = new Intent(context, AdminTasksActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
