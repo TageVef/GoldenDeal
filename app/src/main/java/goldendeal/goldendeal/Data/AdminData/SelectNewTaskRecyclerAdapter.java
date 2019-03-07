@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminTasksActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminTasksActivity;
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
 

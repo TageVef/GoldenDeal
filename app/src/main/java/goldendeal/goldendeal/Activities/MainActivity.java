@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminTasksActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.UserActivities.TasksActivity;
 import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;

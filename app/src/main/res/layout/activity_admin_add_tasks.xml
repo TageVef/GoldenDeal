@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AdminActivity.AdminAddTasksActivity">
+    tools:context=".Activities.AdminActivity.TaskActivitys.AdminAddTasksActivity">
 
     <Button
         android:id="@+id/BackButton"
