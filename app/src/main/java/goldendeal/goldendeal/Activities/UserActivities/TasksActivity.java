@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -39,10 +40,10 @@ public class TasksActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
-    private Button taskButton;
-    private Button storeButton;
-    private Button bankButton;
-    private Button rulesButton;
+    private ImageButton taskButton;
+    private ImageButton storeButton;
+    private ImageButton bankButton;
+    private ImageButton rulesButton;
     private Button optionsButton;
     private RecyclerView recyclerView;
 
@@ -157,10 +158,10 @@ public class TasksActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        taskButton = (Button) findViewById(R.id.TaskButton);
-        storeButton = (Button) findViewById(R.id.StoreButton);
-        bankButton = (Button) findViewById(R.id.BankButton);
-        rulesButton = (Button) findViewById(R.id.RulesButton);
+        taskButton = (ImageButton) findViewById(R.id.TaskButton);
+        bankButton = (ImageButton) findViewById(R.id.BankButton);
+        storeButton = (ImageButton) findViewById(R.id.StoreButton);
+        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         recyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
 
@@ -173,12 +174,12 @@ public class TasksActivity extends AppCompatActivity {
                         startActivity(new Intent(TasksActivity.this, TasksActivity.class));
                         finish();
                         break;
-                    case R.id.StoreButton:
-                        startActivity(new Intent(TasksActivity.this, StoreActivity.class));
-                        finish();
-                        break;
                     case R.id.BankButton:
                         startActivity(new Intent(TasksActivity.this, BankActivity.class));
+                        finish();
+                        break;
+                    case R.id.StoreButton:
+                        startActivity(new Intent(TasksActivity.this, StoreActivity.class));
                         finish();
                         break;
                     case R.id.RulesButton:

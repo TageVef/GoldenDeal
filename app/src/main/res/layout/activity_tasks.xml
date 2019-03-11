@@ -4,23 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.UserActivities.TasksActivity">
+    tools:context=".Activities.UserActivities.TasksActivity"
+    android:background="@drawable/linjeark">
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/linjeark" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/TaskRecycler"
@@ -37,46 +23,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="60dp" />
+        app:layout_constraintGuide_end="120dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/TaskButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Task"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BankButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ButtonGuideline" />
+        app:layout_constraintTop_toTopOf="@+id/ButtonGuideline"
+        app:srcCompat="@drawable/task_list" />
 
-    <Button
+    <ImageButton
         android:id="@+id/BankButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Bank"
-        app:layout_constraintBaseline_toBaselineOf="@+id/TaskButton"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/TaskButton"
         app:layout_constraintEnd_toStartOf="@+id/StoreButton"
-        app:layout_constraintStart_toEndOf="@+id/TaskButton" />
+        app:layout_constraintStart_toEndOf="@+id/TaskButton"
+        app:layout_constraintTop_toTopOf="@+id/TaskButton"
+        app:srcCompat="@drawable/piggy_bank" />
 
-    <Button
+    <ImageButton
         android:id="@+id/StoreButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Store"
-        app:layout_constraintBaseline_toBaselineOf="@+id/BankButton"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/BankButton"
         app:layout_constraintEnd_toStartOf="@+id/RulesButton"
-        app:layout_constraintStart_toEndOf="@+id/BankButton" />
+        app:layout_constraintStart_toEndOf="@+id/BankButton"
+        app:layout_constraintTop_toTopOf="@+id/BankButton"
+        app:srcCompat="@drawable/store" />
 
-    <Button
+    <ImageButton
         android:id="@+id/RulesButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Rules"
-        app:layout_constraintBaseline_toBaselineOf="@+id/StoreButton"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/StoreButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/StoreButton" />
+        app:layout_constraintStart_toEndOf="@+id/StoreButton"
+        app:layout_constraintTop_toTopOf="@+id/StoreButton"
+        app:srcCompat="@drawable/book" />
 
     <Button
         android:id="@+id/OptionsButton"

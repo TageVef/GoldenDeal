@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import goldendeal.goldendeal.Model.Task;
@@ -159,21 +160,41 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                                     }
                                     oldReward += currentTask.getRewardValue();
                                     removeTask.setValue(oldReward);
-                                    removeTask = removeTask.getParent().getParent().child("DailyTasks");
+                                    removeTask = removeTask.getParent().getParent().child("History");
                                     removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot task : dataSnapshot.getChildren()) {
-                                                Task sortTasks = task.getValue(Task.class);
-                                                if (currentTask.getId() < sortTasks.getId()) {
-                                                    sortTasks.setId(sortTasks.getId() - 1);
-                                                    removeTask.child(Long.toString(sortTasks.getId())).setValue(sortTasks);
+                                            Long historyCount = dataSnapshot.getChildrenCount();
+                                            removeTask.child(historyCount.toString()).child("title").setValue(currentTask.getTitle());
+                                            removeTask.child(historyCount.toString()).child("description").setValue(currentTask.getDescription());
+                                            removeTask.child(historyCount.toString()).child("rewardValue").setValue(currentTask.getRewardValue());
+                                            removeTask.child(historyCount.toString()).child("rewardTitle").setValue(currentTask.getRewardTitle());
+                                            java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
+                                            String date = dateFormat.format(new Date(Long.valueOf(java.lang.System.currentTimeMillis())).getTime());
+                                            removeTask.child(historyCount.toString()).child("completionTime").setValue(date);
+
+                                            removeTask = removeTask.getParent().child("DailyTasks");
+                                            removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    for (DataSnapshot task : dataSnapshot.getChildren()) {
+                                                        Task sortTasks = task.getValue(Task.class);
+                                                        if (currentTask.getId() < sortTasks.getId()) {
+                                                            sortTasks.setId(sortTasks.getId() - 1);
+                                                            removeTask.child(Long.toString(sortTasks.getId())).setValue(sortTasks);
+                                                        }
+
+                                                        if (Long.parseLong(task.getKey()) == dataSnapshot.getChildrenCount() - 1) {
+                                                            removeTask.child(Long.toString(dataSnapshot.getChildrenCount() - 1)).removeValue();
+                                                        }
+                                                    }
                                                 }
 
-                                                if (Long.parseLong(task.getKey()) == dataSnapshot.getChildrenCount() - 1) {
-                                                    removeTask.child(Long.toString(dataSnapshot.getChildrenCount() - 1)).removeValue();
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                                                 }
-                                            }
+                                            });
                                         }
 
                                         @Override
@@ -181,6 +202,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
 
                                         }
                                     });
+
 
                                     /*removeTask.removeValue(new DatabaseReference.CompletionListener() {
                                         @Override
