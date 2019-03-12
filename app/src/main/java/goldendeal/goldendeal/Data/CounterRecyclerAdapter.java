@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import goldendeal.goldendeal.Model.Reward;
+import goldendeal.goldendeal.Model.Currency;
 import goldendeal.goldendeal.R;
 
 public class CounterRecyclerAdapter extends RecyclerView.Adapter<CounterRecyclerAdapter.ViewHolder> {
     private Context context;
-    public List<Reward> counterList;
+    public List<Currency> counterList;
 
-    public CounterRecyclerAdapter(Context context, List<Reward> counterList) {
+    public CounterRecyclerAdapter(Context context, List<Currency> counterList) {
         this.context = context;
         this.counterList = counterList;
     }
@@ -31,16 +31,16 @@ public class CounterRecyclerAdapter extends RecyclerView.Adapter<CounterRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.currentReward = counterList.get(i);
-        viewHolder.value.setText(viewHolder.currentReward.printValue());
-        viewHolder.title.setText(viewHolder.currentReward.getTitle() + ": ");
+        viewHolder.currentCurrency = counterList.get(i);
+        viewHolder.value.setText(viewHolder.currentCurrency.printValue());
+        viewHolder.title.setText(viewHolder.currentCurrency.getTitle() + ": ");
     }
 
     @Override
     public int getItemCount() {return counterList.size();}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public Reward currentReward;
+        public Currency currentCurrency;
         public TextView value;
         public TextView title;
 

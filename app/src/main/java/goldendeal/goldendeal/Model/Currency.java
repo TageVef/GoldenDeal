@@ -1,14 +1,14 @@
 package goldendeal.goldendeal.Model;
 
-public class Reward {
+public class Currency {
     private Long value;
     private String title;
     private boolean imageEconomy;
 
-    public Reward() {
+    public Currency() {
     }
 
-    public Reward(Long value, String title, boolean imageEconomy) {
+    public Currency(Long value, String title, boolean imageEconomy) {
         this.value = value;
         this.title = title;
         this.imageEconomy = imageEconomy;

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -23,7 +22,7 @@ import java.util.List;
 
 import goldendeal.goldendeal.Activities.OptionsActivity;
 import goldendeal.goldendeal.Data.CounterRecyclerAdapter;
-import goldendeal.goldendeal.Model.Reward;
+import goldendeal.goldendeal.Model.Currency;
 import goldendeal.goldendeal.R;
 
 public class BankActivity extends AppCompatActivity {
@@ -37,8 +36,8 @@ public class BankActivity extends AppCompatActivity {
     private CounterRecyclerAdapter counterRecyclerAdapter;
     private RecyclerView imageEconomyRecycler;
 
-    private List<Reward> counterList;
-    private List<Reward> imageEconomyList;
+    private List<Currency> counterList;
+    private List<Currency> imageEconomyList;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -54,7 +53,7 @@ public class BankActivity extends AppCompatActivity {
         SetupViews();
         mDatabaseReference.keepSynced(true);
 
-        counterList = new ArrayList<Reward>();
+        counterList = new ArrayList<Currency>();
         counterRecycler.setHasFixedSize(true);
         counterRecycler.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,9 +61,9 @@ public class BankActivity extends AppCompatActivity {
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Reward currentStoredReward = dataSnapshot.getValue(Reward.class);
-                if(!currentStoredReward.isImageEconomy()){
-                    counterList.add(currentStoredReward);
+                Currency currentStoredCurrency = dataSnapshot.getValue(Currency.class);
+                if(!currentStoredCurrency.isImageEconomy()){
+                    counterList.add(currentStoredCurrency);
 
                     counterRecyclerAdapter = new CounterRecyclerAdapter(BankActivity.this, counterList);
                     counterRecycler.setAdapter(counterRecyclerAdapter);
