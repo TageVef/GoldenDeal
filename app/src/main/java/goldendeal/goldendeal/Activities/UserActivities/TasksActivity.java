@@ -79,14 +79,6 @@ public class TasksActivity extends AppCompatActivity {
                 taskRecyclerAdapter = new TaskRecyclerAdapter(TasksActivity.this, taskList);
                 recyclerView.setAdapter(taskRecyclerAdapter);
                 taskRecyclerAdapter.notifyDataSetChanged();
-
-                /*Log.d(TAG, "onChildAdded: ");
-                for(Task printTask: taskList){
-                    Log.d(TAG,  "taskList " + printTask.getId() + ": " + printTask.printTask());
-                }
-                for(Task printTask: taskRecyclerAdapter.taskList){
-                    Log.d(TAG,  "taskRecyclerAdapter.taskList " + printTask.getId() + ": " + printTask.printTask());
-                }*/
             }
 
             @Override
@@ -95,27 +87,12 @@ public class TasksActivity extends AppCompatActivity {
                 int position = Integer.parseInt(dataSnapshot.getKey());
                 taskRecyclerAdapter.taskList.set(position, dataSnapshot.getValue(Task.class));
                 taskRecyclerAdapter.notifyItemChanged(position);
-                //Log.d(TAG, "onChildChanged tasklist: " + taskList.get(position).printTask());
-                //Log.d(TAG, "onChildChanged adapter tasklist: " + taskRecyclerAdapter.taskList.get(position).printTask());
                 taskRecyclerAdapter.notifyDataSetChanged();
-
-                /*Log.d(TAG, "onChildChanged: ");
-                for(Task printTask: taskList){
-                    Log.d(TAG,  "taskList " + printTask.getId() + ": " + printTask.printTask());
-                }
-                for(Task printTask: taskRecyclerAdapter.taskList){
-                    Log.d(TAG,  "taskRecyclerAdapter.taskList " + printTask.getId() + ": " + printTask.printTask());
-                }*/
 
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                /*Intent intent = getIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                startActivity(intent);*/
 
                 //Log.d(TAG, "onChildRemoved datasnapshot: " + dataSnapshot.getValue().toString());
                 int position = Integer.parseInt(dataSnapshot.getKey());
@@ -125,14 +102,6 @@ public class TasksActivity extends AppCompatActivity {
                     taskRecyclerAdapter.notifyItemRemoved(position);
                     taskRecyclerAdapter.notifyItemRangeChanged(position, taskList.size());
                 }
-
-                /*Log.d(TAG, "onChildRemoved: ");
-                for(Task printTask: taskList){
-                    Log.d(TAG,  "taskList " + printTask.getId() + ": " + printTask.printTask());
-                }
-                for(Task printTask: taskRecyclerAdapter.taskList){
-                    Log.d(TAG,  "taskRecyclerAdapter.taskList " + printTask.getId() + ": " + printTask.printTask());
-                }*/
             }
 
             @Override
