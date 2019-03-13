@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imagineEconomy10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy9"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy9"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy8"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy8"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy10"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy8"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy7"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy7"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy9"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy7"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy6"
+        app:layout_constraintLeft_toRightOf="@id/imagineEconomy6"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy8"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy6"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy5"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy5"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy7"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy5"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy4"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy4"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy6"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy4"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy3"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy3"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy5"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy3"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy2"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy2"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy4"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy2"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imagineEconomy1"
+        app:layout_constraintLeft_toRightOf="@+id/imagineEconomy1"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy3"
+        app:layout_constraintTop_toTopOf="@+id/imagineEconomy1"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <ImageView
+        android:id="@+id/imagineEconomy1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/imagineEconomy2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+</android.support.constraint.ConstraintLayout>
