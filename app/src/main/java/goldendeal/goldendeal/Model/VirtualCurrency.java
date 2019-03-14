@@ -1,17 +1,24 @@
 package goldendeal.goldendeal.Model;
 
-public class Currency {
+public class VirtualCurrency {
     private Long value;
     private String title;
     private boolean imageEconomy;
+    private Long maxValue;
 
-    public Currency() {
+    public VirtualCurrency() {
     }
 
-    public Currency(Long value, String title, boolean imageEconomy) {
+    public VirtualCurrency(Long value, Long maxValue) {
+        this.value = value;
+        this.maxValue = maxValue;
+    }
+
+    public VirtualCurrency(Long value, String title, boolean imageEconomy, Long maxValue) {
         this.value = value;
         this.title = title;
         this.imageEconomy = imageEconomy;
+        this.maxValue = maxValue;
     }
 
     public Long getValue() {
@@ -40,5 +47,13 @@ public class Currency {
 
     public void setImageEconomy(boolean imageEconomy) {
         this.imageEconomy = imageEconomy;
+    }
+
+    public Long getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(Long maxValue) {
+        this.maxValue = maxValue;
     }
 }

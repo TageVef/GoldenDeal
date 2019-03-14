@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Activities.OptionsActivity;
-import goldendeal.goldendeal.Data.CounterRecyclerAdapter;
-import goldendeal.goldendeal.Model.Currency;
+import goldendeal.goldendeal.Data.UserData.CounterRecyclerAdapter;
+import goldendeal.goldendeal.Data.UserData.ImageEconomyRecyclerAdapter;
+import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class BankActivity extends AppCompatActivity {
@@ -35,9 +36,10 @@ public class BankActivity extends AppCompatActivity {
     private RecyclerView counterRecycler;
     private CounterRecyclerAdapter counterRecyclerAdapter;
     private RecyclerView imageEconomyRecycler;
+    private ImageEconomyRecyclerAdapter imageEconomyRecyclerAdapter;
 
-    private List<Currency> counterList;
-    private List<Currency> imageEconomyList;
+    private List<VirtualCurrency> counterList;
+    private List<VirtualCurrency> imageEconomyList;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -53,16 +55,26 @@ public class BankActivity extends AppCompatActivity {
         SetupViews();
         mDatabaseReference.keepSynced(true);
 
-        counterList = new ArrayList<Currency>();
+        counterList = new ArrayList<VirtualCurrency>();
         counterRecycler.setHasFixedSize(true);
         counterRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        imageEconomyList = new ArrayList<VirtualCurrency>();
+        imageEconomyRecycler.setHasFixedSize(true);
+        imageEconomyRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Bank");
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Currency currentStoredCurrency = dataSnapshot.getValue(Currency.class);
-                if(!currentStoredCurrency.isImageEconomy()){
+                VirtualCurrency currentStoredCurrency = dataSnapshot.getValue(VirtualCurrency.class);
+                if (currentStoredCurrency.isImageEconomy()) {
+                    imageEconomyList.add(currentStoredCurrency);
+
+                    imageEconomyRecyclerAdapter = new ImageEconomyRecyclerAdapter(BankActivity.this, imageEconomyList);
+                    imageEconomyRecycler.setAdapter(imageEconomyRecyclerAdapter);
+                    imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                } else {
                     counterList.add(currentStoredCurrency);
 
                     counterRecyclerAdapter = new CounterRecyclerAdapter(BankActivity.this, counterList);

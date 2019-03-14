@@ -1,4 +1,4 @@
-package goldendeal.goldendeal.Data;
+package goldendeal.goldendeal.Data.UserData;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import goldendeal.goldendeal.Model.Currency;
+import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class CounterRecyclerAdapter extends RecyclerView.Adapter<CounterRecyclerAdapter.ViewHolder> {
     private Context context;
-    public List<Currency> counterList;
+    public List<VirtualCurrency> counterList;
 
-    public CounterRecyclerAdapter(Context context, List<Currency> counterList) {
+    public CounterRecyclerAdapter(Context context, List<VirtualCurrency> counterList) {
         this.context = context;
         this.counterList = counterList;
     }
@@ -40,7 +40,7 @@ public class CounterRecyclerAdapter extends RecyclerView.Adapter<CounterRecycler
     public int getItemCount() {return counterList.size();}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public Currency currentCurrency;
+        public VirtualCurrency currentCurrency;
         public TextView value;
         public TextView title;
 

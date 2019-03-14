@@ -1,4 +1,4 @@
-package goldendeal.goldendeal.Data;
+package goldendeal.goldendeal.Data.UserData;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,16 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.common.util.NumberUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
-import java.util.Set;
 
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
