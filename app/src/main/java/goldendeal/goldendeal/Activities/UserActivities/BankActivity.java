@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -28,10 +29,10 @@ import goldendeal.goldendeal.R;
 
 public class BankActivity extends AppCompatActivity {
 
-    private Button taskButton;
-    private Button storeButton;
-    private Button bankButton;
-    private Button rulesButton;
+    private ImageButton taskButton;
+    private ImageButton storeButton;
+    private ImageButton bankButton;
+    private ImageButton rulesButton;
     private Button optionsButton;
     private RecyclerView counterRecycler;
     private CounterRecyclerAdapter counterRecyclerAdapter;
@@ -112,10 +113,10 @@ public class BankActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        taskButton = (Button) findViewById(R.id.TaskButton);
-        storeButton = (Button) findViewById(R.id.StoreButton);
-        bankButton = (Button) findViewById(R.id.BankButton);
-        rulesButton = (Button) findViewById(R.id.RulesButton);
+        taskButton = (ImageButton) findViewById(R.id.TaskButton);
+        storeButton = (ImageButton) findViewById(R.id.StoreButton);
+        bankButton = (ImageButton) findViewById(R.id.BankButton);
+        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         counterRecycler = (RecyclerView) findViewById(R.id.CounterRecycler);
         imageEconomyRecycler = (RecyclerView) findViewById(R.id.ImageEconomyRecycler);

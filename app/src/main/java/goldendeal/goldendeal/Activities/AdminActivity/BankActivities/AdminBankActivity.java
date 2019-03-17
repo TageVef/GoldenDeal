@@ -37,6 +37,9 @@ public class AdminBankActivity extends AppCompatActivity {
     private Button optionsButton;
     private Button adminButton;
 
+    private RecyclerView currencyRecycler;
+    private Button newCurrencyButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,9 @@ public class AdminBankActivity extends AppCompatActivity {
         rulesButton = (Button) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
+
+        currencyRecycler = (RecyclerView) findViewById(R.id.CurrencyRecycler);
+        newCurrencyButton = (Button) findViewById(R.id.NewCurrency);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -86,6 +92,9 @@ public class AdminBankActivity extends AppCompatActivity {
                     case R.id.AdminButton:
                         startActivity(new Intent(AdminBankActivity.this, AdminPlanActivity.class));
                         break;
+                    case R.id.NewCurrency:
+                        startActivity(new Intent(AdminBankActivity.this, NewCurrencyActivity.class));
+                        break;
                 }
             }
         };
@@ -96,5 +105,6 @@ public class AdminBankActivity extends AppCompatActivity {
         //rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);
+        newCurrencyButton.setOnClickListener(switchPage);
     }
 }
