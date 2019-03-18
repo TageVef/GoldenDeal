@@ -63,7 +63,7 @@ public class AdminBankActivity extends AppCompatActivity {
         adminButton = (Button) findViewById(R.id.AdminButton);
 
         currencyRecycler = (RecyclerView) findViewById(R.id.CurrencyRecycler);
-        newCurrencyButton = (Button) findViewById(R.id.NewCurrency);
+        newCurrencyButton = (Button) findViewById(R.id.NewCurrencyButton);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -92,7 +92,7 @@ public class AdminBankActivity extends AppCompatActivity {
                     case R.id.AdminButton:
                         startActivity(new Intent(AdminBankActivity.this, AdminPlanActivity.class));
                         break;
-                    case R.id.NewCurrency:
+                    case R.id.NewCurrencyButton:
                         startActivity(new Intent(AdminBankActivity.this, NewCurrencyActivity.class));
                         break;
                 }

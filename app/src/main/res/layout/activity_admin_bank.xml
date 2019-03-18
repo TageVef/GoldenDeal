@@ -73,7 +73,7 @@
         app:layout_constraintStart_toEndOf="@+id/StoreButton" />
 
     <Button
-        android:id="@+id/NewCurrency"
+        android:id="@+id/NewCurrencyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
