@@ -94,15 +94,11 @@ public class AdminTasksActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                        /*Intent intent = getIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        startActivity(intent);*/
-
                         int position = Integer.parseInt(dataSnapshot.getKey());
-                        taskList.remove(position);
+                        taskRecyclerAdapter.taskList.remove(position);
                         taskRecyclerAdapter.notifyItemRemoved(position);
-                        taskRecyclerAdapter.notifyItemRangeChanged(position, taskList.size());
+                        taskRecyclerAdapter.notifyItemRangeChanged(position, taskRecyclerAdapter.taskList.size());
+                        taskRecyclerAdapter.notifyDataSetChanged();
 
                     }
 

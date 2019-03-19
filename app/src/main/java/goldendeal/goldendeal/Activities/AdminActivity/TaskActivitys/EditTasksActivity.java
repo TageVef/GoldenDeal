@@ -73,16 +73,18 @@ public class EditTasksActivity extends AppCompatActivity {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         int position = Integer.parseInt(dataSnapshot.getKey());
-                        taskList.set(position, dataSnapshot.getValue(Task.class));
+                        editTaskRecyclerAdapter.taskList.set(position, dataSnapshot.getValue(Task.class));
                         editTaskRecyclerAdapter.notifyItemChanged(position);
+                        editTaskRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                         int position = Integer.parseInt(dataSnapshot.getKey());
-                        taskList.remove(position);
+                        editTaskRecyclerAdapter.taskList.remove(position);
                         editTaskRecyclerAdapter.notifyItemRemoved(position);
                         editTaskRecyclerAdapter.notifyItemRangeChanged(position, editTaskRecyclerAdapter.taskList.size());
+                        editTaskRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
