@@ -101,17 +101,41 @@ public class AdminBankActivity extends AppCompatActivity {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         String currencyTitle = dataSnapshot.getKey();
-                        int position = 0;
                         for (int i = 0; i < currencyList.size(); i++){
                             if(TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)){
-
+                                currencyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
+                                currencyRecyclerAdapter.notifyItemChanged(i);
+                                currencyRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        for(int i = 0; i < imageEconomyList.size(); i++){
+                            if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                                imageEconomyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
+                                imageEconomyRecyclerAdapter.notifyItemChanged(i);
+                                imageEconomyRecyclerAdapter.notifyDataSetChanged();
                             }
                         }
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                        String currencyTitle = dataSnapshot.getKey();
+                        for (int i = 0; i < currencyList.size(); i++){
+                            if(TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)){
+                                currencyRecyclerAdapter.currencyList.remove(i);
+                                currencyRecyclerAdapter.notifyItemRemoved(i);
+                                currencyRecyclerAdapter.notifyItemRangeChanged(i, currencyRecyclerAdapter.currencyList.size());
+                                currencyRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        for(int i = 0; i < imageEconomyList.size(); i++){
+                            if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                                imageEconomyRecyclerAdapter.currencyList.remove(i);
+                                imageEconomyRecyclerAdapter.notifyItemRemoved(i);
+                                imageEconomyRecyclerAdapter.notifyItemRangeChanged(i, currencyRecyclerAdapter.currencyList.size());
+                                imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
                     }
 
                     @Override

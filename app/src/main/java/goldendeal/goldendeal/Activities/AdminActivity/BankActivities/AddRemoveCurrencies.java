@@ -18,16 +18,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class AddRemoveCurrencies extends AppCompatActivity {
     private static final String TAG = "AddRemoveCurrencies";
 
-    private Button addRemoveButton;
+    private Button addButton;
+    private Button removeButton;
+    private Button trashButton;
     private EditText numberEditText;
     private String currencyTitle;
-    private String opperation;
+    private String operation;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -41,7 +45,6 @@ public class AddRemoveCurrencies extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_remove_currencies);
         currencyTitle = getIntent().getStringExtra("Currency");
-        opperation = getIntent().getStringExtra("Opperation");
         SetupDatabase();
         SetupViews();
     }
@@ -53,54 +56,71 @@ public class AddRemoveCurrencies extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        addRemoveButton = (Button) findViewById(R.id.AddRemoveButton);
+        addButton = (Button) findViewById(R.id.AddButton);
+        removeButton = (Button) findViewById(R.id.RemoveButton);
+        trashButton = (Button) findViewById(R.id.TrashButton);
         numberEditText = (EditText) findViewById(R.id.NumberET);
 
-        addRemoveButton.setText(opperation);
-
-        addRemoveButton.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener addRemoveTrashClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.AddButton:
+                        operation = "add";
+                        break;
+                    case R.id.RemoveButton:
+                        operation = "remove";
+                        break;
+                    case R.id.TrashButton:
+                        operation = "trash";
+                        break;
+                }
                 mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
                 mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String currentAcces = dataSnapshot.getValue(String.class);
-                        mDatabaseReference = mDatabase.getReference().child("User").child(currentAcces).child("Bank").child(currencyTitle);
+                        String currentAccess = dataSnapshot.getValue(String.class);
+                        mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Bank").child(currencyTitle);
+
                         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                VirtualCurrency currentCurrency = dataSnapshot.getValue(VirtualCurrency.class);
-                                if (!TextUtils.isEmpty(currentCurrency.getTitle())) {
-                                    if (currentCurrency.isImageEconomy()) {
-                                        if (TextUtils.equals(opperation, "add")) {
-                                            currentCurrency.setValue(currentCurrency.getValue() + Long.parseLong(numberEditText.getText().toString()));
-                                        } else if (TextUtils.equals(opperation, "remove")) {
-                                            if (currentCurrency.getValue() - Long.parseLong(numberEditText.getText().toString()) < 0) {
-                                                currentCurrency.setValue((long) 0);
-                                            } else {
-                                                currentCurrency.setValue(currentCurrency.getValue() - Long.parseLong(numberEditText.getText().toString()));
-                                            }
-                                        }
-                                    }else{
-                                        if (TextUtils.equals(opperation, "add")) {
-                                            currentCurrency.setValue(currentCurrency.getValue() + Long.parseLong(numberEditText.getText().toString()));
-                                        } else if (TextUtils.equals(opperation, "remove")) {
+                                VirtualCurrency activeCurrency = dataSnapshot.getValue(VirtualCurrency.class);
 
-                                            if (currentCurrency.getValue() - Long.parseLong(numberEditText.getText().toString()) < 0) {
-                                                currentCurrency.setValue((long) 0);
-                                            } else {
-                                                currentCurrency.setValue(currentCurrency.getValue() - Long.parseLong(numberEditText.getText().toString()));
-                                            }
+                                if (TextUtils.equals(operation, "add")) {
+                                    if (activeCurrency.isImageEconomy()) {
+                                        activeCurrency.setValue(activeCurrency.getValue() + Long.parseLong(numberEditText.getText().toString()));
+                                    } else {
+                                        activeCurrency.setValue(activeCurrency.getValue() + Long.parseLong(numberEditText.getText().toString()));
+                                    }
+                                    mDatabaseReference.setValue(activeCurrency).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            finish();
                                         }
+                                    });
+                                } else if (TextUtils.equals(operation, "remove")) {
+                                    if (activeCurrency.getValue() - Long.parseLong(numberEditText.getText().toString()) < 0) {
+                                        activeCurrency.setValue((long) 0);
+                                    } else {
+                                        activeCurrency.setValue(activeCurrency.getValue() - Long.parseLong(numberEditText.getText().toString()));
                                     }
+                                    mDatabaseReference.setValue(activeCurrency).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            finish();
+                                        }
+                                    });
                                 }
-                                mDatabaseReference.setValue(currentCurrency).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        finish();
-                                    }
-                                });
+
+                                if (TextUtils.equals(operation, "trash")) {
+                                    mDatabaseReference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            finish();
+                                        }
+                                    });
+                                }
                             }
 
                             @Override
@@ -115,9 +135,13 @@ public class AddRemoveCurrencies extends AppCompatActivity {
 
                     }
                 });
+
+
             }
-        });
+        };
 
-
+        addButton.setOnClickListener(addRemoveTrashClickListener);
+        removeButton.setOnClickListener(addRemoveTrashClickListener);
+        trashButton.setOnClickListener(addRemoveTrashClickListener);
     }
 }

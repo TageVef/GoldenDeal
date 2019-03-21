@@ -7,12 +7,12 @@
     tools:context=".Activities.AdminActivity.BankActivities.AddRemoveCurrencies">
 
     <Button
-        android:id="@+id/AddRemoveButton"
+        android:id="@+id/TrashButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Button"
+        android:text="Trash"
         app:layout_constraintBaseline_toBaselineOf="@+id/NumberET"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/NumberET" />
@@ -34,4 +34,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/AddButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/RemoveButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NumberET" />
+
+    <Button
+        android:id="@+id/RemoveButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="remove"
+        app:layout_constraintBaseline_toBaselineOf="@+id/AddButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/AddButton" />
 </android.support.constraint.ConstraintLayout>

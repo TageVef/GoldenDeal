@@ -19,8 +19,8 @@ import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecyclerAdapter.ViewHolder> {
-    Context context;
-    List<VirtualCurrency> currencyList;
+    public Context context;
+    public List<VirtualCurrency> currencyList;
 
     public CurrencyRecyclerAdapter(Context context, List<VirtualCurrency> currencyList) {
         this.context = context;
@@ -51,8 +51,6 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
         public TextView valueText;
         public TextView maxValueText;
         public TextView fillerText;
-        public Button addButton;
-        public Button removeButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,35 +58,22 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
             valueText = (TextView) itemView.findViewById(R.id.Value);
             maxValueText = (TextView) itemView.findViewById(R.id.MaxValue);
             fillerText = (TextView) itemView.findViewById(R.id.FillerText);
-            addButton = (Button) itemView.findViewById(R.id.AddButton);
-            removeButton = (Button) itemView.findViewById(R.id.RemoveButton);
 
-            View.OnClickListener addRemoveClicker = new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, AddRemoveCurrencies.class);
                     intent.putExtra("Currency", currentCurrency.getTitle());
-                    switch (v.getId()){
-                        case R.id.AddButton:
-                            intent.putExtra("Opperation", "add");
-                            break;
-                        case R.id.RemoveButton:
-                            intent.putExtra("Oppreration", "remove");
-                            break;
-                    }
                     context.startActivity(intent);
 
                 }
-            };
-
-            addButton.setOnClickListener(addRemoveClicker);
-            removeButton.setOnClickListener(addRemoveClicker);
+            });
         }
 
-        public void SettingUpViews(){
+        public void SettingUpViews() {
             titleText.setText(currentCurrency.getTitle());
             valueText.setText(currentCurrency.getValue().toString());
-            if(currentCurrency.isImageEconomy()){
+            if (currentCurrency.isImageEconomy()) {
                 maxValueText.setText(currentCurrency.getMaxValue().toString());
                 maxValueText.setVisibility(View.VISIBLE);
                 fillerText.setVisibility(View.VISIBLE);
