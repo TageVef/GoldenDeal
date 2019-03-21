@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -99,7 +100,13 @@ public class AdminBankActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        String currencyTitle = dataSnapshot.getKey();
+                        int position = 0;
+                        for (int i = 0; i < currencyList.size(); i++){
+                            if(TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)){
 
+                            }
+                        }
                     }
 
                     @Override

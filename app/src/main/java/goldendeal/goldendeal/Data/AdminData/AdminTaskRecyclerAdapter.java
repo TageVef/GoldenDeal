@@ -150,7 +150,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
-                            removeTask = mDatabase.getReference().child("User").child(currentAccess).child("Bank").child(currentTask.getRewardTitle()).child("Value");
+                            removeTask = mDatabase.getReference().child("User").child(currentAccess).child("Bank").child(currentTask.getRewardTitle()).child("value");
                             removeTask.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

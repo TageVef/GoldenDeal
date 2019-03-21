@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/book_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.AdminActivity.BankActivities.NewCurrencyActivity"></activity>
+        <activity android:name=".Activities.AdminActivity.BankActivities.AddRemoveCurrencies"></activity>
+        <activity android:name=".Activities.AdminActivity.BankActivities.NewCurrencyActivity" />
         <activity android:name=".Activities.AdminActivity.TaskActivitys.AddNewTaskActivity" />
         <activity android:name=".Activities.AdminActivity.TaskActivitys.EditTasksActivity" />
         <activity android:name=".Activities.AdminActivity.TaskActivitys.AdminAddTasksActivity" />

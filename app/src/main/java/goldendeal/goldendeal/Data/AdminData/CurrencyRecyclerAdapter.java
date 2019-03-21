@@ -1,17 +1,20 @@
 package goldendeal.goldendeal.Data.AdminData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.BankActivities.AddRemoveCurrencies;
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
@@ -48,6 +51,8 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
         public TextView valueText;
         public TextView maxValueText;
         public TextView fillerText;
+        public Button addButton;
+        public Button removeButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +60,29 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
             valueText = (TextView) itemView.findViewById(R.id.Value);
             maxValueText = (TextView) itemView.findViewById(R.id.MaxValue);
             fillerText = (TextView) itemView.findViewById(R.id.FillerText);
+            addButton = (Button) itemView.findViewById(R.id.AddButton);
+            removeButton = (Button) itemView.findViewById(R.id.RemoveButton);
+
+            View.OnClickListener addRemoveClicker = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddRemoveCurrencies.class);
+                    intent.putExtra("Currency", currentCurrency.getTitle());
+                    switch (v.getId()){
+                        case R.id.AddButton:
+                            intent.putExtra("Opperation", "add");
+                            break;
+                        case R.id.RemoveButton:
+                            intent.putExtra("Oppreration", "remove");
+                            break;
+                    }
+                    context.startActivity(intent);
+
+                }
+            };
+
+            addButton.setOnClickListener(addRemoveClicker);
+            removeButton.setOnClickListener(addRemoveClicker);
         }
 
         public void SettingUpViews(){
