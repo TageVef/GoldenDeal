@@ -22,7 +22,7 @@ public class ImageEconomyRecyclerAdapter extends RecyclerView.Adapter<ImageEcono
 
 
     private Context context;
-    private List<VirtualCurrency> currencyList;
+    public List<VirtualCurrency> currencyList;
 
     public ImageEconomyRecyclerAdapter(Context context, List<VirtualCurrency> currencyList) {
         this.context = context;

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,7 +30,7 @@ import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class BankActivity extends AppCompatActivity {
-
+    private static final String TAG = "BankActivity";
     private ImageButton taskButton;
     private ImageButton storeButton;
     private ImageButton bankButton;
@@ -86,12 +88,44 @@ public class BankActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Log.d(TAG, "onChildChanged: start");
+                String currencyTitle = dataSnapshot.getKey();
+                for (int i = 0; i < counterList.size(); i++){
+                    if(TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)){
+                        counterRecyclerAdapter.counterList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
+                        counterRecyclerAdapter.notifyItemChanged(i);
+                        counterRecyclerAdapter.notifyDataSetChanged();
+                    }
+                }
+                for(int i = 0; i < imageEconomyList.size(); i++){
+                    if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                        imageEconomyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
+                        imageEconomyRecyclerAdapter.notifyItemChanged(i);
+                        imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                    }
+                }
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                Log.d(TAG, "onChildRemoved: start");
+                String currencyTitle = dataSnapshot.getKey();
+                for (int i = 0; i < counterList.size(); i++){
+                    if(TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)){
+                        counterRecyclerAdapter.counterList.remove(i);
+                        counterRecyclerAdapter.notifyItemRemoved(i);
+                        counterRecyclerAdapter.notifyItemRangeChanged(i, counterRecyclerAdapter.counterList.size());
+                        counterRecyclerAdapter.notifyDataSetChanged();
+                    }
+                }
+                for(int i = 0; i < imageEconomyList.size(); i++){
+                    if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                        imageEconomyRecyclerAdapter.currencyList.remove(i);
+                        imageEconomyRecyclerAdapter.notifyItemRemoved(i);
+                        imageEconomyRecyclerAdapter.notifyItemRangeChanged(i, imageEconomyRecyclerAdapter.currencyList.size());
+                        imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                    }
+                }
             }
 
             @Override
