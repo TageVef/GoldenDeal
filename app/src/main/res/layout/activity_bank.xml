@@ -7,6 +7,25 @@
     tools:context=".Activities.UserActivities.BankActivity"
     android:background="@drawable/linjeark">
 
+    <ImageView
+        android:id="@+id/OptionsButton"
+        android:layout_width="99dp"
+        android:layout_height="58dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/option" />
+
+    <ImageView
+        android:id="@+id/FaceButton"
+        android:layout_width="99dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/OptionsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/OptionsButton"
+        app:srcCompat="@drawable/face" />
+
     <android.support.constraint.Guideline
         android:id="@+id/ButtonGuideline"
         android:layout_width="wrap_content"
@@ -14,91 +33,74 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="120dp" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/TaskButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:scaleType="fitXY"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BankButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ButtonGuideline"
         app:srcCompat="@drawable/task_list" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/BankButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/TaskButton"
         app:layout_constraintEnd_toStartOf="@+id/StoreButton"
         app:layout_constraintStart_toEndOf="@+id/TaskButton"
         app:layout_constraintTop_toTopOf="@+id/TaskButton"
         app:srcCompat="@drawable/piggy_bank" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/StoreButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/BankButton"
         app:layout_constraintEnd_toStartOf="@+id/RulesButton"
         app:layout_constraintStart_toEndOf="@+id/BankButton"
         app:layout_constraintTop_toTopOf="@+id/BankButton"
         app:srcCompat="@drawable/store" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/RulesButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/StoreButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/StoreButton"
         app:layout_constraintTop_toTopOf="@+id/StoreButton"
         app:srcCompat="@drawable/book" />
 
-    <Button
-        android:id="@+id/OptionsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="options"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/CounterRecycler"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OptionsButton">
+        app:layout_constraintTop_toBottomOf="@+id/OptionsButton"
+        app:layout_constraintVertical_bias="0.0">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/CounterRecycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/ImageEconomyRecycler"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ImageEconomyRecycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/CounterRecycler" />
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ImageEconomyRecycler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CounterRecycler"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -37,11 +38,12 @@ public class TasksActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
-    private ImageButton taskButton;
-    private ImageButton storeButton;
-    private ImageButton bankButton;
-    private ImageButton rulesButton;
-    private Button optionsButton;
+    private ImageView taskButton;
+    private ImageView storeButton;
+    private ImageView bankButton;
+    private ImageView rulesButton;
+    private ImageView optionsButton;
+    private ImageView faceButton;
     private RecyclerView recyclerView;
 
     private TaskRecyclerAdapter taskRecyclerAdapter;
@@ -54,7 +56,7 @@ public class TasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tasks);
 
         SetupViews();
-        setupDatabase();
+        SetupDatabase();
         mDatabaseReference.keepSynced(true);
 
         mDatabaseReference = mDatabase.getReference();
@@ -117,18 +119,19 @@ public class TasksActivity extends AppCompatActivity {
 
     }
 
-    private void setupDatabase() {
+    private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
     }
 
     private void SetupViews() {
-        taskButton = (ImageButton) findViewById(R.id.TaskButton);
-        bankButton = (ImageButton) findViewById(R.id.BankButton);
-        storeButton = (ImageButton) findViewById(R.id.StoreButton);
-        rulesButton = (ImageButton) findViewById(R.id.RulesButton);
-        optionsButton = (Button) findViewById(R.id.OptionsButton);
+        taskButton = (ImageView) findViewById(R.id.TaskButton);
+        bankButton = (ImageView) findViewById(R.id.BankButton);
+        storeButton = (ImageView) findViewById(R.id.StoreButton);
+        rulesButton = (ImageView) findViewById(R.id.RulesButton);
+        optionsButton = (ImageView) findViewById(R.id.OptionsButton);
+        faceButton = (ImageView) findViewById(R.id.FaceButton);
         recyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
@@ -152,17 +155,21 @@ public class TasksActivity extends AppCompatActivity {
                         startActivity(new Intent(TasksActivity.this, RulesActivity.class));
                         finish();
                         break;
+                    case R.id.FaceButton:
+                        break;
                     case R.id.OptionsButton:
                         startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
                         break;
+
                 }
             }
         };
 
         taskButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
-        //storeButton.setOnClickListener(switchPage);
+        storeButton.setOnClickListener(switchPage);
         //rulesButton.setOnClickListener(switchPage);
+        //faceButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
     }
 }
