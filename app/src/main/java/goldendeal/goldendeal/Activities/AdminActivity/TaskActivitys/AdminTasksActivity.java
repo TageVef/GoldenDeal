@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goldendeal.goldendeal.Activities.AdminActivity.BankActivities.AdminBankActivity;
-import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminRulesActivity;
-import goldendeal.goldendeal.Activities.AdminActivity.MainActivity.AdminStoreActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.RulesActivity.AdminRulesActivity;
+import goldendeal.goldendeal.Activities.AdminActivity.StoreActivity.AdminStoreActivity;
 import goldendeal.goldendeal.Activities.AdminActivity.PlanActivitys.AdminPlanActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
 import goldendeal.goldendeal.Data.AdminData.AdminTaskRecyclerAdapter;
@@ -147,12 +146,12 @@ public class AdminTasksActivity extends AppCompatActivity {
                         startActivity(new Intent(AdminTasksActivity.this, AdminTasksActivity.class));
                         finish();
                         break;
-                    case R.id.StoreButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminStoreActivity.class));
-                        finish();
-                        break;
                     case R.id.BankButton:
                         startActivity(new Intent(AdminTasksActivity.this, AdminBankActivity.class));
+                        finish();
+                        break;
+                    case R.id.StoreButton:
+                        startActivity(new Intent(AdminTasksActivity.this, AdminStoreActivity.class));
                         finish();
                         break;
                     case R.id.RulesButton:
@@ -177,7 +176,7 @@ public class AdminTasksActivity extends AppCompatActivity {
 
         taskButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
-        //storeButton.setOnClickListener(switchPage);
+        storeButton.setOnClickListener(switchPage);
         //rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);

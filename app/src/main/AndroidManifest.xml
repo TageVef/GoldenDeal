@@ -17,8 +17,8 @@
         <activity android:name=".Activities.AdminActivity.PlanActivitys.NewUserActivity" />
         <activity android:name=".Activities.AdminActivity.PlanActivitys.AdminSelectUserActivity" />
         <activity android:name=".Activities.AdminActivity.PlanActivitys.AdminPlanActivity" />
-        <activity android:name=".Activities.AdminActivity.MainActivity.AdminRulesActivity" />
-        <activity android:name=".Activities.AdminActivity.MainActivity.AdminStoreActivity" />
+        <activity android:name=".Activities.AdminActivity.RulesActivity.AdminRulesActivity" />
+        <activity android:name=".Activities.AdminActivity.StoreActivity.AdminStoreActivity" />
         <activity android:name=".Activities.AdminActivity.BankActivities.AdminBankActivity" />
         <activity android:name=".Activities.AdminActivity.TaskActivitys.AdminTasksActivity" />
         <activity android:name=".Activities.OptionsActivity" />
