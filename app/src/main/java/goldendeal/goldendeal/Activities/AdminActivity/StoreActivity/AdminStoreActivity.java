@@ -35,6 +35,9 @@ public class AdminStoreActivity extends AppCompatActivity {
     private Button rulesButton;
     private Button optionsButton;
     private Button adminButton;
+    private Button addRewardButton;
+
+    private RecyclerView rewardRecycler;
 
 
     @Override
@@ -58,6 +61,8 @@ public class AdminStoreActivity extends AppCompatActivity {
         rulesButton = (Button) findViewById(R.id.RulesButton);
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
+        addRewardButton = (Button) findViewById(R.id.AddButton);
+        rewardRecycler = (RecyclerView) findViewById(R.id.RewardRecycler);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -86,6 +91,9 @@ public class AdminStoreActivity extends AppCompatActivity {
                     case R.id.AdminButton:
                         startActivity(new Intent(AdminStoreActivity.this, AdminPlanActivity.class));
                         break;
+                    case R.id.AddButton:
+                        
+                        break;
                 }
             }
         };
@@ -96,5 +104,6 @@ public class AdminStoreActivity extends AppCompatActivity {
         //rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);
+        addRewardButton.setOnClickListener(switchPage);
     }
 }

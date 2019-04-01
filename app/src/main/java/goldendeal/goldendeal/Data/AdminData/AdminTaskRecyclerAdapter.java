@@ -95,6 +95,9 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
             refresh = (Button) itemView.findViewById(R.id.RefreshButton);
             trashButton = (Button) itemView.findViewById(R.id.TrashButton);
 
+            refresh.setText("Reject");
+            complete.setText("Accept");
+
             refresh.setVisibility(View.INVISIBLE);
             trashButton.setVisibility(View.VISIBLE);
             trashButton.setOnClickListener(new View.OnClickListener() {
