@@ -83,11 +83,12 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/TaskRecycler"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OptionsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/OptionsButton"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
