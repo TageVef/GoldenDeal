@@ -1,16 +1,25 @@
 package goldendeal.goldendeal.Activities.AdminActivity.StoreActivity;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import goldendeal.goldendeal.Model.StoreItem;
+import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class NewRewardActivity extends AppCompatActivity {
@@ -28,6 +37,7 @@ public class NewRewardActivity extends AppCompatActivity {
     private EditText rewardTypeET;
     private ImageView rewardImage;
     private Button confirmButton;
+    private StoreItem newItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +50,6 @@ public class NewRewardActivity extends AppCompatActivity {
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference();
     }
 
     private void SetupViews() {
@@ -54,7 +63,45 @@ public class NewRewardActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!TextUtils.isEmpty(titleET.getText()) && !TextUtils.isEmpty(descriptionET.getText())
+                        && !TextUtils.isEmpty(rewardValueET.getText()) && !TextUtils.isEmpty(rewardTypeET.getText())) {
+                    newItem = new StoreItem(titleET.getText().toString(), descriptionET.getText().toString(),
+                            new VirtualCurrency(Long.parseLong(rewardTypeET.getText().toString()), rewardTypeET.getText().toString(), false, (long) 0));
 
+                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String currentAccess = dataSnapshot.getValue(String.class);
+                            mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Store");
+                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    mDatabaseReference = mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount()));
+                                    mDatabaseReference.setValue(newItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(NewRewardActivity.this, "Reward Added", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                } else {
+                    Toast.makeText(NewRewardActivity.this, "Not all fields are filled", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
