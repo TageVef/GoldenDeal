@@ -4,11 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -52,6 +60,12 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
         public TextView maxValueText;
         public TextView fillerText;
 
+        //Firebase Variables
+        private DatabaseReference mDatabaseReference;
+        private FirebaseDatabase mDatabase;
+        private FirebaseAuth mAuth;
+        //------------------------------------------------------
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleText = (TextView) itemView.findViewById(R.id.Title);
@@ -68,6 +82,9 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
 
                 }
             });
+
+            SetupDatabase();
+            SetupLanguage();
         }
 
         public void SettingUpViews() {
@@ -78,6 +95,33 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
                 maxValueText.setVisibility(View.VISIBLE);
                 fillerText.setVisibility(View.VISIBLE);
             }
+        }
+
+        private void SetupDatabase() {
+            mAuth = FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance();
+            mDatabaseReference = mDatabase.getReference();
+        }
+
+        private void SetupLanguage(){
+            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String language = dataSnapshot.getValue(String.class);
+
+                    if(TextUtils.equals(language, "Norsk")){
+                        fillerText.setText(" av ");
+                    } else if(TextUtils.equals(language, "English")){
+                        fillerText.setText(" of ");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 }

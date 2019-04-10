@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -18,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,9 @@ public class AdminBankActivity extends AppCompatActivity {
     private Button optionsButton;
     private Button adminButton;
 
+    private TextView currencyText;
+    private TextView imageEconomyText;
+
 
     private Button newCurrencyButton;
 
@@ -63,6 +69,8 @@ public class AdminBankActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_bank);
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
+
         currencyList = new ArrayList<VirtualCurrency>();
         currencyRecycler.hasFixedSize();
         currencyRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -169,6 +177,9 @@ public class AdminBankActivity extends AppCompatActivity {
         adminButton = (Button) findViewById(R.id.AdminButton);
         newCurrencyButton = (Button) findViewById(R.id.NewCurrencyButton);
 
+        currencyText = (TextView) findViewById(R.id.CurrencyTitle);
+        imageEconomyText = (TextView) findViewById(R.id.ImageEconomyTitle);
+
         currencyRecycler = (RecyclerView) findViewById(R.id.CurrencyRecycler);
         imageEconomyRecycler = (RecyclerView) findViewById(R.id.ImageEconomyRecycler);
 
@@ -213,5 +224,42 @@ public class AdminBankActivity extends AppCompatActivity {
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);
         newCurrencyButton.setOnClickListener(switchPage);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    taskButton.setText("Oppgaver");
+                    storeButton.setText("Butikk");
+                    bankButton.setText("Bank");
+                    rulesButton.setText("Regler");
+                    optionsButton.setText("Instillinger");
+                    adminButton.setText("Velg Plan");
+                    newCurrencyButton.setText("Ny Valuta");
+                    currencyText.setText("Valuta");
+                    imageEconomyText.setText("Bilde Økonomi");
+                } else if(TextUtils.equals(language, "English")){
+                    taskButton.setText("Tasks");
+                    storeButton.setText("Store");
+                    bankButton.setText("Bank");
+                    rulesButton.setText("Rules");
+                    optionsButton.setText("Options");
+                    adminButton.setText("Choose Plan");
+                    newCurrencyButton.setText("New currency");
+                    currencyText.setText("Currency");
+                    imageEconomyText.setText("Image Economy");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

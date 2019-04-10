@@ -6,10 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,9 +33,14 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText password;
     private Switch permission;
     private Button createAccount;
+    private TextView languageText;
+    private TextView languageChoice;
+
+    //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
+    //------------------------------------------------------
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -52,6 +60,44 @@ public class CreateAccountActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordEt);
         permission = (Switch) findViewById(R.id.Role);
         createAccount = (Button) findViewById(R.id.CreateAccButton);
+        languageText = (TextView) findViewById(R.id.LanguageText);
+        languageChoice = (TextView) findViewById(R.id.LanguageChoice);
+
+        languageChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final PopupMenu popup = new PopupMenu(CreateAccountActivity.this, v);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.Norwegian:
+                                email.setHint("E-post");
+                                phoneNum.setHint("Telefon Nummer");
+                                password.setHint("Passord");
+                                permission.setText("Admin");
+                                createAccount.setText("Lag Bruker");
+                                languageChoice.setText("Norsk");
+                                languageText.setText("språk");
+                                return true;
+                            case R.id.English:
+                                email.setHint("Email");
+                                phoneNum.setHint("Phone Number");
+                                password.setHint("Password");
+                                permission.setText("Admin");
+                                createAccount.setText("Create Account");
+                                languageChoice.setText("English");
+                                languageText.setText("language");
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.inflate(R.menu.language_menu);
+                popup.show();
+            }
+        });
 
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override

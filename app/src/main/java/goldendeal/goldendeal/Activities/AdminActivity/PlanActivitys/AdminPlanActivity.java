@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class AdminPlanActivity extends AppCompatActivity {
     private TextView currentUserMail;
     private Button editUserButton;
     private Button backButton;
+    private TextView userText;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -36,7 +38,8 @@ public class AdminPlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_plan);
         SetupViews();
-        setupDatabase();
+        SetupDatabase();
+        SetupLanguage();
 
         FindingUsersEmailAddress();
 
@@ -46,6 +49,7 @@ public class AdminPlanActivity extends AppCompatActivity {
         currentUserMail = (TextView) findViewById(R.id.UserEmail);
         editUserButton = (Button) findViewById(R.id.EditUserButton);
         backButton = (Button) findViewById(R.id.BackButton);
+        userText = (TextView) findViewById(R.id.User);
 
         View.OnClickListener buttonSwitch = new View.OnClickListener() {
             @Override
@@ -65,7 +69,7 @@ public class AdminPlanActivity extends AppCompatActivity {
         backButton.setOnClickListener(buttonSwitch);
     }
 
-    private void setupDatabase() {
+    private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
@@ -91,6 +95,31 @@ public class AdminPlanActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    backButton.setText("Tilbake");
+                    editUserButton.setText("Velg Bruker");
+                    userText.setText("Aktive Bruker");
+                } else if(TextUtils.equals(language, "English")){
+                    backButton.setText("Back");
+                    editUserButton.setText("Choose User");
+                    userText.setText("Active User");
+                }
             }
 
             @Override

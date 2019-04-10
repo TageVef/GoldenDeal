@@ -43,6 +43,7 @@ public class NewCurrencyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_currency);
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
     }
 
     private void SetupDatabase() {
@@ -122,15 +123,42 @@ public class NewCurrencyActivity extends AppCompatActivity {
                 Log.d(TAG, "onCheckedChanged: started");
                 if(isChecked){
                     maxValue.setVisibility(View.VISIBLE);
-                    //maxValue.setHeight(80);
                 }else{
-                    maxValue.setVisibility(View.INVISIBLE);
-                    //maxValue.setHeight(1);
+                    maxValue.setVisibility(View.GONE);
                 }
             }
         });
 
         backButton.setOnClickListener(switchPage);
         addCurrencyButton.setOnClickListener(switchPage);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    addCurrencyButton.setText("Legg Til Valuta");
+                    backButton.setText("Tilbake");
+                    currencyTitle.setHint("Titel");
+                    maxValue.setHint("Maks Verdi");
+                    imageEconomySwitch.setText("Bilde Økonomi");
+                } else if(TextUtils.equals(language, "English")){
+                    addCurrencyButton.setText("Add Currency");
+                    backButton.setText("Back");
+                    currencyTitle.setHint("Title");
+                    maxValue.setHint("Max value");
+                    imageEconomySwitch.setText("Image Economy");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

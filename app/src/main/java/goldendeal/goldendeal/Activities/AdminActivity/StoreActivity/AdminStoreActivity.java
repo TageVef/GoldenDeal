@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -60,6 +61,7 @@ public class AdminStoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_store);
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
 
         itemList = new ArrayList<StoreItem>();
         rewardRecycler.hasFixedSize();
@@ -176,5 +178,38 @@ public class AdminStoreActivity extends AppCompatActivity {
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);
         addRewardButton.setOnClickListener(switchPage);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    taskButton.setText("Oppgaver");
+                    storeButton.setText("Butikk");
+                    bankButton.setText("Bank");
+                    rulesButton.setText("Regler");
+                    optionsButton.setText("Instillinger");
+                    adminButton.setText("Velg Plan");
+                    addRewardButton.setText("Legg Til Belønning");
+                } else if(TextUtils.equals(language, "English")){
+                    taskButton.setText("Tasks");
+                    storeButton.setText("Store");
+                    bankButton.setText("Bank");
+                    rulesButton.setText("Rules");
+                    optionsButton.setText("Options");
+                    adminButton.setText("Choose Plan");
+                    addRewardButton.setText("Add Reward");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

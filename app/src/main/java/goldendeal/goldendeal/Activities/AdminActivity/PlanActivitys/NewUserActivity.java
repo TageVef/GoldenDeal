@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +25,7 @@ public class NewUserActivity extends AppCompatActivity {
     private Button addUserButton;
     private Button backButton;
     private EditText emailView;
+    private TextView infoView;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -35,20 +37,21 @@ public class NewUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
-        setupDatabase();
-        setupViews();
+        SetupDatabase();
+        SetupViews();
     }
 
-    private void setupDatabase() {
+    private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
     }
 
-    private void setupViews() {
+    private void SetupViews() {
         addUserButton = (Button) findViewById(R.id.AddUser);
         backButton = (Button) findViewById(R.id.BackButton);
         emailView = (EditText) findViewById(R.id.EmailView);
+        infoView = (TextView) findViewById(R.id.InfoView);
 
         View.OnClickListener buttonSwitch = new View.OnClickListener() {
             @Override
@@ -101,5 +104,32 @@ public class NewUserActivity extends AppCompatActivity {
 
         addUserButton.setOnClickListener(buttonSwitch);
         backButton.setOnClickListener(buttonSwitch);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    backButton.setText("Tilbake");
+                    addUserButton.setText("Legg Til Bruker");
+                    emailView.setHint("E-Post addresse");
+                    infoView.setText("Skriv in E-post addressen til brukeren du ønsker å legge til: ");
+                } else if(TextUtils.equals(language, "English")){
+                    backButton.setText("Back");
+                    addUserButton.setText("Add user");
+                    emailView.setHint("Email Address");
+                    infoView.setText("Enter the Email Address for the user you want you add");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

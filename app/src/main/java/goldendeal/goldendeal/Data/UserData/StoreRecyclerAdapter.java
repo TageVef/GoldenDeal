@@ -151,5 +151,26 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
             mDatabase = FirebaseDatabase.getInstance();
             mDatabaseReference = mDatabase.getReference();
         }
+
+        private void SetupLanguage(){
+            mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String language = dataSnapshot.getValue(String.class);
+
+                    if(TextUtils.equals(language, "Norsk")){
+                        completeButton.setText("Kjøp");
+                    } else if(TextUtils.equals(language, "English")){
+                        completeButton.setText("Buy");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +46,9 @@ public class AdminSelectUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_select_user);
-        setupDatabase();
+        SetupDatabase();
         SetupViews();
+        SetupLanguage();
 
         userIDList = new ArrayList<String>();
         selectUsers.setHasFixedSize(true);
@@ -83,7 +86,7 @@ public class AdminSelectUserActivity extends AppCompatActivity {
         });
     }
 
-    private void setupDatabase() {
+    private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
@@ -110,5 +113,28 @@ public class AdminSelectUserActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(buttonSwitch);
         addUserButton.setOnClickListener(buttonSwitch);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    backButton.setText("Tilbake");
+                    addUserButton.setText("Legg Til Bruker");
+                } else if(TextUtils.equals(language, "English")){
+                    backButton.setText("Back");
+                    addUserButton.setText("Add User");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

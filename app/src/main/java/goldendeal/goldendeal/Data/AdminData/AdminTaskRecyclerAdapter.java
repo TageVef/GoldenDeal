@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -274,6 +275,33 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
 
                         }
                     });
+                }
+            });
+            SetupDatabase();
+            SetupLanguage();
+        }
+
+        private void SetupLanguage(){
+            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String language = dataSnapshot.getValue(String.class);
+
+                    if(TextUtils.equals(language, "Norsk")){
+                        complete.setText("Godkjent");
+                        refresh.setText("Avslag");
+                        trashButton.setText("Kast");
+                    } else if(TextUtils.equals(language, "English")){
+                        complete.setText("Accept");
+                        refresh.setText("Reject");
+                        trashButton.setText("Trash");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
             });
         }

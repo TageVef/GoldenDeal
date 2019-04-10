@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +48,7 @@ public class AdminAddTasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_add_tasks);
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
 
         taskList = new ArrayList<Task>();
         addTaskRecyclerView.setHasFixedSize(true);
@@ -134,5 +136,26 @@ public class AdminAddTasksActivity extends AppCompatActivity {
         };
 
         backButton.setOnClickListener(buttonSwitch);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    backButton.setText("Tilbake");
+                } else if(TextUtils.equals(language, "English")){
+                    backButton.setText("Back");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

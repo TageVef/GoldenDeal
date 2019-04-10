@@ -42,6 +42,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
         taskID = getIntent().getStringExtra("TaskID");
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
 
 
     }
@@ -160,5 +161,36 @@ public class AddNewTaskActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    backButton.setText("Tilbake");
+                    addTask.setText("Legg Til Oppgave");
+                    taskTitle.setHint("Oppgave Titel");
+                    taskDescription.setHint("Oppgave Beskrivelse");
+                    rewardValue.setHint("Belønnings Mengde");
+                    rewardType.setHint("Belønnings type");
+                } else if(TextUtils.equals(language, "English")){
+                    backButton.setText("Back");
+                    addTask.setText("Add Task");
+                    taskTitle.setHint("Task Title");
+                    taskDescription.setHint("Task Description");
+                    rewardValue.setHint("Reward");
+                    rewardType.setHint("Reward Type");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

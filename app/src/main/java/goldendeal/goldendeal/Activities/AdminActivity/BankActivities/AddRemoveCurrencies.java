@@ -47,6 +47,9 @@ public class AddRemoveCurrencies extends AppCompatActivity {
         currencyTitle = getIntent().getStringExtra("Currency");
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
+
+
     }
 
     private void SetupDatabase() {
@@ -143,5 +146,32 @@ public class AddRemoveCurrencies extends AppCompatActivity {
         addButton.setOnClickListener(addRemoveTrashClickListener);
         removeButton.setOnClickListener(addRemoveTrashClickListener);
         trashButton.setOnClickListener(addRemoveTrashClickListener);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    addButton.setText("Legg til");
+                    removeButton.setText("Fjern");
+                    trashButton.setText("Kast");
+                    numberEditText.setHint("Antall");
+                } else if(TextUtils.equals(language, "English")){
+                    addButton.setText("Add");
+                    removeButton.setText("Remove");
+                    trashButton.setText("Trash");
+                    numberEditText.setHint("Amount");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

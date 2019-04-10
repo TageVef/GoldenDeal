@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -59,7 +60,7 @@ public class AdminTasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_tasks);
         SetupDatabase();
         SetupViews();
-
+        SetupLanguage();
 
         taskList = new ArrayList<Task>();
         taskRecyclerView.setHasFixedSize(true);
@@ -182,5 +183,40 @@ public class AdminTasksActivity extends AppCompatActivity {
         adminButton.setOnClickListener(switchPage);
         addTaskButton.setOnClickListener(switchPage);
         editTasksButton.setOnClickListener(switchPage);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    taskButton.setText("Oppgaver");
+                    storeButton.setText("Butikk");
+                    bankButton.setText("Bank");
+                    rulesButton.setText("Regler");
+                    optionsButton.setText("Instillinger");
+                    adminButton.setText("Velg Plan");
+                    addTaskButton.setText("Legg Til Oppgaver");
+                    editTasksButton.setText("Endre Oppgaver");
+                } else if(TextUtils.equals(language, "English")){
+                    taskButton.setText("Tasks");
+                    storeButton.setText("Store");
+                    bankButton.setText("Bank");
+                    rulesButton.setText("Rules");
+                    optionsButton.setText("Options");
+                    adminButton.setText("Choose Plan");
+                    addTaskButton.setText("Add Tasks");
+                    editTasksButton.setText("Edit Tasks");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

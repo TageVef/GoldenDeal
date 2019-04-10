@@ -222,6 +222,8 @@ public class AdminStoreRecyclerAdapter extends RecyclerView.Adapter<AdminStoreRe
                     });
                 }
             });
+            SetupDatabase();
+            SetupLanguage();
         }
 
         public void ViewHolderSetUp(StoreItem newItem){
@@ -246,6 +248,31 @@ public class AdminStoreRecyclerAdapter extends RecyclerView.Adapter<AdminStoreRe
             mAuth = FirebaseAuth.getInstance();
             mDatabase = FirebaseDatabase.getInstance();
             mDatabaseReference = mDatabase.getReference();
+        }
+
+        private void SetupLanguage(){
+            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String language = dataSnapshot.getValue(String.class);
+
+                    if(TextUtils.equals(language, "Norsk")){
+                        trashbutton.setText("Kast");
+                        completeButton.setText("Fullfør");
+                        rejectButton.setText("Avslå");
+                    } else if(TextUtils.equals(language, "English")){
+                        trashbutton.setText("Trash");
+                        completeButton.setText("Complete");
+                        rejectButton.setText("Reject");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 }

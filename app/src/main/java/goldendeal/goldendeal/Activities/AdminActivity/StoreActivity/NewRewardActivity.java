@@ -37,6 +37,7 @@ public class NewRewardActivity extends AppCompatActivity {
     private EditText rewardTypeET;
     private ImageView rewardImage;
     private Button confirmButton;
+    private Button backButton;
     private StoreItem newItem;
 
     @Override
@@ -45,6 +46,7 @@ public class NewRewardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_reward);
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
     }
 
     private void SetupDatabase() {
@@ -59,6 +61,7 @@ public class NewRewardActivity extends AppCompatActivity {
         rewardTypeET = (EditText) findViewById(R.id.ValueType);
         rewardImage = (ImageView) findViewById(R.id.RewardPicture);
         confirmButton = (Button) findViewById(R.id.ConfirmButton);
+        backButton = (Button) findViewById(R.id.BackButton);
 
         rewardImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +113,44 @@ public class NewRewardActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(NewRewardActivity.this, "Not all fields are filled", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    titleET.setHint("Titel");
+                    descriptionET.setHint("Beskrivelse");
+                    rewardValueET.setHint("Antall Valuta");
+                    rewardTypeET.setHint("Valuta Type");
+                    confirmButton.setText("Bekreft");
+                    backButton.setText("Tilbake");
+                } else if(TextUtils.equals(language, "English")){
+                    titleET.setHint("Title");
+                    descriptionET.setHint("Description");
+                    rewardValueET.setHint("Required Amount");
+                    rewardTypeET.setHint("Value Type");
+                    confirmButton.setText("Confirm");
+                    backButton.setText("Back");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

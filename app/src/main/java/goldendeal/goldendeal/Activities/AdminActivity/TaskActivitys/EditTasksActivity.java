@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -46,6 +47,7 @@ public class EditTasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_tasks);
         SetupDatabase();
         SetupViews();
+        SetupLanguage();
 
         taskList = new ArrayList<Task>();
         taskRecyclerView.setHasFixedSize(true);
@@ -133,5 +135,28 @@ public class EditTasksActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mDatabase.getReference();
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    backButton.setText("Tilbake");
+                    addNewTaskButton.setText("Legg Til Ny Oppgave");
+                } else if(TextUtils.equals(language, "English")){
+                    backButton.setText("Back");
+                    addNewTaskButton.setText("Add new Task");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

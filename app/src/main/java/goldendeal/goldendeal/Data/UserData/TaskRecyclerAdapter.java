@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -56,16 +60,16 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             viewHolder.reward.setVisibility(View.VISIBLE);
             viewHolder.rewardTitle.setVisibility(View.VISIBLE);
             if (viewHolder.currentTask.isComplete()) {
-                viewHolder.complete.setVisibility(View.INVISIBLE);
+                viewHolder.complete.setVisibility(View.GONE);
             } else {
                 viewHolder.complete.setVisibility(View.VISIBLE);
             }
 
         } else {
-            viewHolder.desc.setVisibility(View.INVISIBLE);
-            viewHolder.reward.setVisibility(View.INVISIBLE);
-            viewHolder.rewardTitle.setVisibility(View.INVISIBLE);
-            viewHolder.complete.setVisibility(View.INVISIBLE);
+            viewHolder.desc.setVisibility(View.GONE);
+            viewHolder.reward.setVisibility(View.GONE);
+            viewHolder.rewardTitle.setVisibility(View.GONE);
+            viewHolder.complete.setVisibility(View.GONE);
         }
     }
 
@@ -104,8 +108,8 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
             refresh = (Button) itemView.findViewById(R.id.RefreshButton);
             trashButton = (Button) itemView.findViewById(R.id.TrashButton);
 
-            trashButton.setVisibility(View.INVISIBLE);
-            refresh.setVisibility(View.INVISIBLE);
+            trashButton.setVisibility(View.GONE);
+            refresh.setVisibility(View.GONE);
 
             title.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,12 +134,36 @@ public class TaskRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerAdapte
 
                 }
             });
+
+            SetupDatabase();
+            SetupLanguage();
         }
 
         private void SetupDatabase() {
             mAuth = FirebaseAuth.getInstance();
             mDatabase = FirebaseDatabase.getInstance();
             mDatabaseReference = mDatabase.getReference();
+        }
+
+        private void SetupLanguage(){
+            mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String language = dataSnapshot.getValue(String.class);
+
+                    if(TextUtils.equals(language, "Norsk")){
+                        complete.setText("Fullfør");
+                    } else if(TextUtils.equals(language, "English")){
+                        complete.setText("Complete");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 }
