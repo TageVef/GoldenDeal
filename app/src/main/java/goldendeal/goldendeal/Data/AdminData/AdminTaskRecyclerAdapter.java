@@ -42,7 +42,7 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_layout, viewGroup, false);
-        return new AdminTaskRecyclerAdapter.ViewHolder(view, context);
+        return new AdminTaskRecyclerAdapter.ViewHolder(view);
     }
 
     @Override
@@ -84,9 +84,8 @@ public class AdminTaskRecyclerAdapter extends RecyclerView.Adapter<AdminTaskRecy
         private FirebaseAuth mAuth;
         //------------------------------------------------------
 
-        public ViewHolder(@NonNull View itemView, Context ctx) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            context = ctx;
             title = (TextView) itemView.findViewById(R.id.taskTitle);
             desc = (TextView) itemView.findViewById(R.id.taskDecription);
             reward = (TextView) itemView.findViewById(R.id.reward);

@@ -5,22 +5,25 @@ public class StoreItem {
     private String description;
     private String imageURL;
     private VirtualCurrency currency;
+    private boolean bought;
 
     public StoreItem() {
 
     }
 
-    public StoreItem(String title, String description, VirtualCurrency currency) {
+    public StoreItem(String title, String description, VirtualCurrency currency, boolean bought) {
         this.title = title;
         this.description = description;
         this.currency = currency;
+        this.bought = bought;
     }
 
-    public StoreItem(String title, String description, String imageURL, VirtualCurrency currency) {
+    public StoreItem(String title, String description, String imageURL, VirtualCurrency currency, boolean bought) {
         this.title = title;
         this.description = description;
         this.imageURL = imageURL;
         this.currency = currency;
+        this.bought = bought;
     }
 
     public String getTitle() {return title;}
@@ -46,4 +49,8 @@ public class StoreItem {
     public void setCurrency(VirtualCurrency currency) {
         this.currency = currency;
     }
+
+    public boolean isBought() {return bought;}
+
+    public void setBought(boolean bought) { this.bought = bought; }
 }

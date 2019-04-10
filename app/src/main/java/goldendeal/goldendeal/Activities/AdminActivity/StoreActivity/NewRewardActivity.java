@@ -60,13 +60,20 @@ public class NewRewardActivity extends AppCompatActivity {
         rewardImage = (ImageView) findViewById(R.id.RewardPicture);
         confirmButton = (Button) findViewById(R.id.ConfirmButton);
 
+        rewardImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: set up picture selection.
+            }
+        });
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(titleET.getText()) && !TextUtils.isEmpty(descriptionET.getText())
                         && !TextUtils.isEmpty(rewardValueET.getText()) && !TextUtils.isEmpty(rewardTypeET.getText())) {
                     newItem = new StoreItem(titleET.getText().toString(), descriptionET.getText().toString(),
-                            new VirtualCurrency(Long.parseLong(rewardTypeET.getText().toString()), rewardTypeET.getText().toString(), false, (long) 0));
+                            new VirtualCurrency(Long.parseLong(rewardValueET.getText().toString()), rewardTypeET.getText().toString(), false, (long) 0));
 
                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,11 +81,12 @@ public class NewRewardActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String currentAccess = dataSnapshot.getValue(String.class);
                             mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Store");
+                            Toast.makeText(NewRewardActivity.this, "checking database", Toast.LENGTH_SHORT).show();
                             mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    mDatabaseReference = mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount()));
-                                    mDatabaseReference.setValue(newItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    //TODO: set up picture uploading
+                                    mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount())).setValue(newItem).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(NewRewardActivity.this, "Reward Added", Toast.LENGTH_SHORT).show();

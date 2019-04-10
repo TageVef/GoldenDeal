@@ -1,15 +1,25 @@
 package goldendeal.goldendeal.Activities.AdminActivity.StoreActivity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import goldendeal.goldendeal.Activities.AdminActivity.BankActivities.AdminBankActivity;
 import goldendeal.goldendeal.Activities.AdminActivity.PlanActivitys.AdminPlanActivity;
@@ -18,6 +28,8 @@ import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminAddTask
 import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.EditTasksActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
+import goldendeal.goldendeal.Data.AdminData.AdminStoreRecyclerAdapter;
+import goldendeal.goldendeal.Model.StoreItem;
 import goldendeal.goldendeal.R;
 
 public class AdminStoreActivity extends AppCompatActivity {
@@ -37,7 +49,9 @@ public class AdminStoreActivity extends AppCompatActivity {
     private Button adminButton;
     private Button addRewardButton;
 
+    private List<StoreItem> itemList;
     private RecyclerView rewardRecycler;
+    private AdminStoreRecyclerAdapter storeItemRecyclerAdapter;
 
 
     @Override
@@ -46,6 +60,62 @@ public class AdminStoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_store);
         SetupDatabase();
         SetupViews();
+
+        itemList = new ArrayList<StoreItem>();
+        rewardRecycler.hasFixedSize();
+        rewardRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String currentAccess = dataSnapshot.getValue(String.class);
+
+                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Store");
+                mDatabaseReference.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        itemList.add(dataSnapshot.getValue(StoreItem.class));
+
+                        storeItemRecyclerAdapter = new AdminStoreRecyclerAdapter(itemList, AdminStoreActivity.this);
+                        rewardRecycler.setAdapter(storeItemRecyclerAdapter);
+                        storeItemRecyclerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        storeItemRecyclerAdapter.itemList.set(position, dataSnapshot.getValue(StoreItem.class));
+                        storeItemRecyclerAdapter.notifyItemChanged(position);
+                        storeItemRecyclerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        storeItemRecyclerAdapter.itemList.remove(position);
+                        storeItemRecyclerAdapter.notifyItemRemoved(position);
+                        storeItemRecyclerAdapter.notifyItemRangeChanged(position, storeItemRecyclerAdapter.itemList.size());
+                        storeItemRecyclerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetupDatabase() {
@@ -62,6 +132,7 @@ public class AdminStoreActivity extends AppCompatActivity {
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         addRewardButton = (Button) findViewById(R.id.AddButton);
+
         rewardRecycler = (RecyclerView) findViewById(R.id.RewardRecycler);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
@@ -92,7 +163,7 @@ public class AdminStoreActivity extends AppCompatActivity {
                         startActivity(new Intent(AdminStoreActivity.this, AdminPlanActivity.class));
                         break;
                     case R.id.AddButton:
-                        
+                        startActivity(new Intent( AdminStoreActivity.this, NewRewardActivity.class));
                         break;
                 }
             }
