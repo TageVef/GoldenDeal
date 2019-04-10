@@ -73,7 +73,7 @@ public class NewRewardActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(titleET.getText()) && !TextUtils.isEmpty(descriptionET.getText())
                         && !TextUtils.isEmpty(rewardValueET.getText()) && !TextUtils.isEmpty(rewardTypeET.getText())) {
                     newItem = new StoreItem(titleET.getText().toString(), descriptionET.getText().toString(),
-                            new VirtualCurrency(Long.parseLong(rewardValueET.getText().toString()), rewardTypeET.getText().toString(), false, (long) 0));
+                            new VirtualCurrency(Long.parseLong(rewardValueET.getText().toString()), rewardTypeET.getText().toString(), false, (long) 0), false);
 
                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
