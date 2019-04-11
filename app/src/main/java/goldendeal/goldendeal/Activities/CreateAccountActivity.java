@@ -133,6 +133,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             currentUserDb.child("theme").setValue("none");
                             currentUserDb.child("password").setValue(pw);
                             currentUserDb.child("CurrentAccess").setValue("none");
+                            currentUserDb.child("language").setValue(languageChoice.getText());
 
                             mProgressDialog.dismiss();
                             //sending user to main activity
@@ -149,6 +150,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             currentUserDb.child("role").setValue(role);
                             currentUserDb.child("theme").setValue("none");
                             currentUserDb.child("password").setValue(pw);
+                            currentUserDb.child("language").setValue(languageChoice.getText());
 
                             mProgressDialog.dismiss();
                             //sending user to main activity
