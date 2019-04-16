@@ -1,12 +1,21 @@
 package goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import goldendeal.goldendeal.Model.Task;
 import goldendeal.goldendeal.R;
@@ -26,8 +38,10 @@ public class AddNewTaskActivity extends AppCompatActivity {
     private EditText taskTitle;
     private EditText taskDescription;
     private EditText rewardValue;
-    private EditText rewardType;
+    private TextView rewardType;
     private String taskID;
+
+    private List<String> currencyList;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -44,7 +58,34 @@ public class AddNewTaskActivity extends AppCompatActivity {
         SetupViews();
         SetupLanguage();
 
+        currencyList = new ArrayList<String>();
 
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String currentAccess = dataSnapshot.getValue(String.class);
+                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Bank");
+                mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot currency: dataSnapshot.getChildren()){
+                            currencyList.add(currency.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetupViews() {
@@ -53,9 +94,30 @@ public class AddNewTaskActivity extends AppCompatActivity {
         taskTitle = (EditText) findViewById(R.id.TitleET);
         taskDescription = (EditText) findViewById(R.id.DescriptionET);
         rewardValue = (EditText) findViewById(R.id.RewardValueET);
-        rewardType = (EditText) findViewById(R.id.RewardTitleET);
+        rewardType = (TextView) findViewById(R.id.RewardTitleET);
 
         CheckingIfTaskIsSelected();
+
+        rewardType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(AddNewTaskActivity.this, v);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        rewardType.setText(item.getTitle());
+
+                        return false;
+                    }
+                });
+
+                for(int i = 0; i < currencyList.size(); i++){
+                    popup.getMenu().add(currencyList.get(i));
+                }
+                popup.show();
+            }
+        });
+
 
         View.OnClickListener buttonSwitch = new View.OnClickListener() {
             @Override

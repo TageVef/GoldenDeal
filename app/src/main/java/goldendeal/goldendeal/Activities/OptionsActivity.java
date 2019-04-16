@@ -124,44 +124,31 @@ public class OptionsActivity extends AppCompatActivity {
         languageChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PopupMenu popup = new PopupMenu(OptionsActivity.this, v);
+                PopupMenu popup = new PopupMenu(OptionsActivity.this, v);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.Norwegian:
-                                language = "Norsk";
-                                signout.setText("Log ut");
-                                backButton.setText("Tilbake");
-                                languageText.setText("språk");
-                                if(userRole){
-                                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
-                                    mDatabaseReference.setValue("Norsk");
-                                } else {
-                                    mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
-                                    mDatabaseReference.setValue("Norsk");
-                                }
-                                return true;
-                            case R.id.English:
-                                language = "English";
-                                signout.setText("Signout");
-                                backButton.setText("back");
-                                languageText.setText("language");
-                                if(userRole){
-                                    mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
-                                    mDatabaseReference.setValue("English");
-                                } else {
-                                    mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
-                                    mDatabaseReference.setValue("English");
-                                }
-                                return true;
-
-                            default:
-                                return false;
+                        language = item.getTitle().toString();
+                        if(TextUtils.equals(item.getTitle(), "Norsk")){
+                            signout.setText("Log ut");
+                            backButton.setText("Tilbake");
+                            languageText.setText("språk");
+                        }else if(TextUtils.equals(item.getTitle(), "English")){
+                            signout.setText("Signout");
+                            backButton.setText("back");
+                            languageText.setText("language");
                         }
+                        if(userRole){
+                            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
+                        } else {
+                            mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
+                        }
+                        mDatabaseReference.setValue(item.getTitle().toString());
+                        return false;
                     }
                 });
-                popup.inflate(R.menu.language_menu);
+                popup.getMenu().add("Norsk");
+                popup.getMenu().add("English");
                 popup.show();
             }
         });

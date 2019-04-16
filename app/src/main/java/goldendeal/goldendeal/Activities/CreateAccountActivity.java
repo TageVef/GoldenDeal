@@ -70,31 +70,29 @@ public class CreateAccountActivity extends AppCompatActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.Norwegian:
-                                email.setHint("E-post");
-                                phoneNum.setHint("Telefon Nummer");
-                                password.setHint("Passord");
-                                permission.setText("Admin");
-                                createAccount.setText("Lag Bruker");
-                                languageChoice.setText("Norsk");
-                                languageText.setText("språk");
-                                return true;
-                            case R.id.English:
-                                email.setHint("Email");
-                                phoneNum.setHint("Phone Number");
-                                password.setHint("Password");
-                                permission.setText("Admin");
-                                createAccount.setText("Create Account");
-                                languageChoice.setText("English");
-                                languageText.setText("language");
-                                return true;
-                            default:
-                                return false;
+                        languageChoice.setText(item.getTitle().toString());
+                        if(TextUtils.equals(item.getTitle(), "Norsk")){
+                            email.setHint("E-post");
+                            phoneNum.setHint("Telefon Nummer");
+                            password.setHint("Passord");
+                            permission.setText("Admin");
+                            createAccount.setText("Lag Bruker");
+                            languageChoice.setText("Norsk");
+                            languageText.setText("språk");
+                        }else if(TextUtils.equals(item.getTitle(), "English")){
+                            email.setHint("Email");
+                            phoneNum.setHint("Phone Number");
+                            password.setHint("Password");
+                            permission.setText("Admin");
+                            createAccount.setText("Create Account");
+                            languageChoice.setText("English");
+                            languageText.setText("language");
                         }
+                        return false;
                     }
                 });
-                popup.inflate(R.menu.language_menu);
+                popup.getMenu().add("Norsk");
+                popup.getMenu().add("English");
                 popup.show();
             }
         });

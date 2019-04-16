@@ -4,10 +4,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,6 +20,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import goldendeal.goldendeal.Model.StoreItem;
 import goldendeal.goldendeal.Model.VirtualCurrency;
@@ -34,11 +40,13 @@ public class NewRewardActivity extends AppCompatActivity {
     private EditText titleET;
     private EditText descriptionET;
     private EditText rewardValueET;
-    private EditText rewardTypeET;
+    private TextView rewardType;
     private ImageView rewardImage;
     private Button confirmButton;
     private Button backButton;
     private StoreItem newItem;
+
+    private List<String> currencyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,35 @@ public class NewRewardActivity extends AppCompatActivity {
         SetupDatabase();
         SetupViews();
         SetupLanguage();
+
+        currencyList = new ArrayList<String>();
+
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String currentAccess = dataSnapshot.getValue(String.class);
+                mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Bank");
+                mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot currency: dataSnapshot.getChildren()){
+                            currencyList.add(currency.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetupDatabase() {
@@ -58,10 +95,29 @@ public class NewRewardActivity extends AppCompatActivity {
         titleET = (EditText) findViewById(R.id.Title);
         descriptionET = (EditText) findViewById(R.id.Description);
         rewardValueET = (EditText) findViewById(R.id.RewardValue);
-        rewardTypeET = (EditText) findViewById(R.id.ValueType);
+        rewardType = (TextView) findViewById(R.id.ValueType);
         rewardImage = (ImageView) findViewById(R.id.RewardPicture);
         confirmButton = (Button) findViewById(R.id.ConfirmButton);
         backButton = (Button) findViewById(R.id.BackButton);
+
+        rewardType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu menu = new PopupMenu(NewRewardActivity.this, v);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        rewardType.setText(item.getTitle());
+                        return false;
+                    }
+                });
+
+                for(int i = 0; i < currencyList.size(); i++){
+                    menu.getMenu().add(currencyList.get(i));
+                }
+                menu.show();
+            }
+        });
 
         rewardImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +130,9 @@ public class NewRewardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(titleET.getText()) && !TextUtils.isEmpty(descriptionET.getText())
-                        && !TextUtils.isEmpty(rewardValueET.getText()) && !TextUtils.isEmpty(rewardTypeET.getText())) {
+                        && !TextUtils.isEmpty(rewardValueET.getText()) && !TextUtils.isEmpty(rewardType.getText())) {
                     newItem = new StoreItem(titleET.getText().toString(), descriptionET.getText().toString(),
-                            new VirtualCurrency(Long.parseLong(rewardValueET.getText().toString()), rewardTypeET.getText().toString(), false, (long) 0), false);
+                            new VirtualCurrency(Long.parseLong(rewardValueET.getText().toString()), rewardType.getText().toString(), false, (long) 0), false);
 
                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -135,14 +191,14 @@ public class NewRewardActivity extends AppCompatActivity {
                     titleET.setHint("Titel");
                     descriptionET.setHint("Beskrivelse");
                     rewardValueET.setHint("Antall Valuta");
-                    rewardTypeET.setHint("Valuta Type");
+                    rewardType.setHint("Valuta Type");
                     confirmButton.setText("Bekreft");
                     backButton.setText("Tilbake");
                 } else if(TextUtils.equals(language, "English")){
                     titleET.setHint("Title");
                     descriptionET.setHint("Description");
                     rewardValueET.setHint("Required Amount");
-                    rewardTypeET.setHint("Value Type");
+                    rewardType.setHint("Value Type");
                     confirmButton.setText("Confirm");
                     backButton.setText("Back");
                 }
