@@ -49,6 +49,7 @@ public class AdminBankActivity extends AppCompatActivity {
     private Button rulesButton;
     private Button optionsButton;
     private Button adminButton;
+    private TextView titleText;
 
     private TextView currencyText;
     private TextView imageEconomyText;
@@ -162,6 +163,12 @@ public class AdminBankActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SetupLanguage();
+    }
+
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -176,6 +183,7 @@ public class AdminBankActivity extends AppCompatActivity {
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         newCurrencyButton = (Button) findViewById(R.id.NewCurrencyButton);
+        titleText = (TextView) findViewById(R.id.TitleText);
 
         currencyText = (TextView) findViewById(R.id.CurrencyTitle);
         imageEconomyText = (TextView) findViewById(R.id.ImageEconomyTitle);
@@ -243,6 +251,7 @@ public class AdminBankActivity extends AppCompatActivity {
                     newCurrencyButton.setText("Ny Valuta");
                     currencyText.setText("Valuta");
                     imageEconomyText.setText("Bilde Økonomi");
+                    titleText.setText("Bank");
                 } else if(TextUtils.equals(language, "English")){
                     taskButton.setText("Tasks");
                     storeButton.setText("Store");
@@ -253,6 +262,7 @@ public class AdminBankActivity extends AppCompatActivity {
                     newCurrencyButton.setText("New currency");
                     currencyText.setText("Currency");
                     imageEconomyText.setText("Image Economy");
+                    titleText.setText("Bank");
                 }
             }
 

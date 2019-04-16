@@ -61,9 +61,7 @@ public class OptionsActivity extends AppCompatActivity {
                 if(currentUser != null){
                     if(currentUser.getRole()){
                         userRole = true;
-                        language = currentUser.getLanguage();
-                        languageChoice.setText(language);
-                        LanguageCheck(language);
+                        LanguageCheck(currentUser.getLanguage());
                     } else {
                         userRole = false;
                     }
@@ -76,9 +74,7 @@ public class OptionsActivity extends AppCompatActivity {
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            language = dataSnapshot.getValue(String.class);
-                            languageChoice.setText(language);
-                            LanguageCheck(language);
+                            LanguageCheck(dataSnapshot.getValue(String.class));
                         }
 
                         @Override
@@ -96,7 +92,9 @@ public class OptionsActivity extends AppCompatActivity {
         });
     }
 
-    private void LanguageCheck(CharSequence language) {
+    private void LanguageCheck(String newLanguage) {
+        language = newLanguage;
+        languageChoice.setText(language);
         if (TextUtils.equals(language, "Norsk")) {
             signout.setText("Log ut");
             backButton.setText("Tilbake");
@@ -133,14 +131,13 @@ public class OptionsActivity extends AppCompatActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        language = item.getTitle().toString();
-                        LanguageCheck(item.getTitle());
+                        LanguageCheck(item.getTitle().toString());
                         if(userRole){
                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
                         } else {
                             mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
                         }
-                        mDatabaseReference.setValue(item.getTitle().toString());
+                        mDatabaseReference.setValue(language);
                         return false;
                     }
                 });

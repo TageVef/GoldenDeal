@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class RulesActivity extends AppCompatActivity {
     private ImageView rulesButton;
     private ImageView faceButton;
     private ImageView optionsButton;
+    private TextView titleText;
 
     private List<String> ruleList;
     private RecyclerView rulesRecycler;
@@ -95,6 +99,14 @@ public class RulesActivity extends AppCompatActivity {
 
             }
         });
+
+        SetupLanguage();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SetupLanguage();
     }
 
     private void SetupDatabase() {
@@ -110,6 +122,7 @@ public class RulesActivity extends AppCompatActivity {
         rulesButton = (ImageView) findViewById(R.id.RulesButton);
         faceButton = (ImageView) findViewById(R.id.FaceButton);
         optionsButton = (ImageView) findViewById(R.id.OptionsButton);
+        titleText = (TextView) findViewById(R.id.TitleText);
 
         rulesRecycler = (RecyclerView) findViewById(R.id.RulesRecycler);
 
@@ -150,5 +163,26 @@ public class RulesActivity extends AppCompatActivity {
         faceButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
 
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    titleText.setText("Regler");
+                } else if(TextUtils.equals(language, "English")){
+                    titleText.setText("Rules");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

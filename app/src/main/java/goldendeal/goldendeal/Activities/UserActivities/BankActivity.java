@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class BankActivity extends AppCompatActivity {
     private ImageView rulesButton;
     private ImageView optionsButton;
     private ImageView faceButton;
+    private TextView titleText;
 
     private RecyclerView counterRecycler;
     private CounterRecyclerAdapter counterRecyclerAdapter;
@@ -142,6 +145,14 @@ public class BankActivity extends AppCompatActivity {
 
             }
         });
+
+        SetupLanguage();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SetupLanguage();
     }
 
     private void SetupDatabase() {
@@ -159,6 +170,7 @@ public class BankActivity extends AppCompatActivity {
         faceButton = (ImageView) findViewById(R.id.FaceButton);
         counterRecycler = (RecyclerView) findViewById(R.id.CounterRecycler);
         imageEconomyRecycler = (RecyclerView) findViewById(R.id.ImageEconomyRecycler);
+        titleText = (TextView) findViewById(R.id.TitleText);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -196,5 +208,26 @@ public class BankActivity extends AppCompatActivity {
         rulesButton.setOnClickListener(switchPage);
         //faceButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
+    }
+
+    private void SetupLanguage(){
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String language = dataSnapshot.getValue(String.class);
+
+                if(TextUtils.equals(language, "Norsk")){
+                    titleText.setText("Butikk");
+                } else if(TextUtils.equals(language, "English")){
+                    titleText.setText("Store");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

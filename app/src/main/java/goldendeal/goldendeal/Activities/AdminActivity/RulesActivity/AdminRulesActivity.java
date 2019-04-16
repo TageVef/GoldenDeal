@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -47,6 +48,7 @@ public class AdminRulesActivity extends AppCompatActivity {
     private Button optionsButton;
     private Button adminButton;
     private Button addRulesButton;
+    private TextView titleText;
 
     private List<String> ruleList;
     private RecyclerView rulesRecycler;
@@ -120,6 +122,12 @@ public class AdminRulesActivity extends AppCompatActivity {
         SetupLanguage();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SetupLanguage();
+    }
+
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -134,6 +142,7 @@ public class AdminRulesActivity extends AppCompatActivity {
         optionsButton = (Button) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         addRulesButton = (Button) findViewById(R.id.AddButton);
+        titleText = (TextView) findViewById(R.id.TitleText);
 
         rulesRecycler = (RecyclerView) findViewById(R.id.RulesRecycler);
 
@@ -195,6 +204,7 @@ public class AdminRulesActivity extends AppCompatActivity {
                     optionsButton.setText("Instillinger");
                     adminButton.setText("Velg Plan");
                     addRulesButton.setText("Legg Til Regel");
+                    titleText.setText("Regler");
                 } else if(TextUtils.equals(language, "English")){
                     taskButton.setText("Tasks");
                     storeButton.setText("Store");
@@ -203,6 +213,7 @@ public class AdminRulesActivity extends AppCompatActivity {
                     optionsButton.setText("Options");
                     adminButton.setText("Choose Plan");
                     addRulesButton.setText("Add Rule");
+                    titleText.setText("Rules");
                 }
             }
 

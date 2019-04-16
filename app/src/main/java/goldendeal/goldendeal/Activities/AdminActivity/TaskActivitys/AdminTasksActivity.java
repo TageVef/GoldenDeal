@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -48,6 +49,8 @@ public class AdminTasksActivity extends AppCompatActivity {
     private Button adminButton;
     private Button addTaskButton;
     private Button editTasksButton;
+    private TextView titleText;
+
     private RecyclerView taskRecyclerView;
     private AdminTaskRecyclerAdapter taskRecyclerAdapter;
 
@@ -121,6 +124,12 @@ public class AdminTasksActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SetupLanguage();
+    }
+
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -137,6 +146,7 @@ public class AdminTasksActivity extends AppCompatActivity {
         addTaskButton = (Button) findViewById(R.id.AddTasksButton);
         editTasksButton = (Button) findViewById(R.id.EditTasksButton);
         taskRecyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
+        titleText = (TextView) findViewById(R.id.TitleText);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -201,6 +211,7 @@ public class AdminTasksActivity extends AppCompatActivity {
                     adminButton.setText("Velg Plan");
                     addTaskButton.setText("Legg Til Oppgaver");
                     editTasksButton.setText("Endre Oppgaver");
+                    titleText.setText("Oppgaver");
                 } else if(TextUtils.equals(language, "English")){
                     taskButton.setText("Tasks");
                     storeButton.setText("Store");
@@ -210,6 +221,7 @@ public class AdminTasksActivity extends AppCompatActivity {
                     adminButton.setText("Choose Plan");
                     addTaskButton.setText("Add Tasks");
                     editTasksButton.setText("Edit Tasks");
+                    titleText.setText("Tasks");
                 }
             }
 

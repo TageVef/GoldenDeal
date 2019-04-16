@@ -8,15 +8,6 @@
     android:background="@drawable/linjeark">
 
     <ImageView
-        android:id="@+id/OptionsButton"
-        android:layout_width="99dp"
-        android:layout_height="58dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/option" />
-
-    <ImageView
         android:id="@+id/FaceButton"
         android:layout_width="99dp"
         android:layout_height="0dp"
@@ -25,6 +16,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/OptionsButton"
         app:srcCompat="@drawable/face" />
+
+    <TextView
+        android:id="@+id/TitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Rules"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/OptionsButton"
+        app:layout_constraintEnd_toStartOf="@+id/OptionsButton"
+        app:layout_constraintStart_toEndOf="@+id/FaceButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/OptionsButton"
+        android:layout_width="99dp"
+        android:layout_height="58dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/option" />
 
     <android.support.constraint.Guideline
         android:id="@+id/ButtonGuideline"
