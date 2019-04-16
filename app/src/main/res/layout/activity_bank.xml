@@ -82,8 +82,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/CounterRecycler"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/ImageEconomyRecycler"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/OptionsButton"
@@ -94,7 +95,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ImageEconomyRecycler"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintEnd_toEndOf="parent"
