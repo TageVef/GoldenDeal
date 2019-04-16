@@ -34,6 +34,9 @@ public class OptionsActivity extends AppCompatActivity {
     private Button backButton;
     private Button signout;
 
+    private TextView versionText;
+    private TextView versionNumber;
+
     private boolean userRole;
     private String language;
 
@@ -60,15 +63,7 @@ public class OptionsActivity extends AppCompatActivity {
                         userRole = true;
                         language = currentUser.getLanguage();
                         languageChoice.setText(language);
-                        if(TextUtils.equals(language, "Norsk")){
-                            signout.setText("Log ut");
-                            backButton.setText("Tilbake");
-                            languageText.setText("språk");
-                        } else if(TextUtils.equals(language, "English")){
-                            signout.setText("Signout");
-                            backButton.setText("back");
-                            languageText.setText("language");
-                        }
+                        LanguageCheck(language);
                     } else {
                         userRole = false;
                     }
@@ -83,15 +78,7 @@ public class OptionsActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             language = dataSnapshot.getValue(String.class);
                             languageChoice.setText(language);
-                            if(TextUtils.equals(language, "Norsk")){
-                                signout.setText("Log ut");
-                                backButton.setText("Tilbake");
-                                languageText.setText("språk");
-                            } else if(TextUtils.equals(language, "English")){
-                                signout.setText("Signout");
-                                backButton.setText("back");
-                                languageText.setText("language");
-                            }
+                            LanguageCheck(language);
                         }
 
                         @Override
@@ -109,6 +96,20 @@ public class OptionsActivity extends AppCompatActivity {
         });
     }
 
+    private void LanguageCheck(CharSequence language) {
+        if (TextUtils.equals(language, "Norsk")) {
+            signout.setText("Log ut");
+            backButton.setText("Tilbake");
+            languageText.setText("språk");
+            versionText.setText("Versjon: ");
+        } else if (TextUtils.equals(language, "English")) {
+            signout.setText("Signout");
+            backButton.setText("back");
+            languageText.setText("language");
+            versionText.setText("Version: ");
+        }
+    }
+
     private void SetupDatabase() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -120,6 +121,10 @@ public class OptionsActivity extends AppCompatActivity {
         languageChoice = (TextView) findViewById(R.id.LanguageBox);
         backButton = (Button) findViewById(R.id.BackButton);
         signout = (Button) findViewById(R.id.signoutButton);
+        versionText = (TextView) findViewById(R.id.VersionText);
+        versionNumber = (TextView) findViewById(R.id.VersionNumber);
+
+        versionNumber.setText("0.1.0v");
 
         languageChoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,15 +134,7 @@ public class OptionsActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         language = item.getTitle().toString();
-                        if(TextUtils.equals(item.getTitle(), "Norsk")){
-                            signout.setText("Log ut");
-                            backButton.setText("Tilbake");
-                            languageText.setText("språk");
-                        }else if(TextUtils.equals(item.getTitle(), "English")){
-                            signout.setText("Signout");
-                            backButton.setText("back");
-                            languageText.setText("language");
-                        }
+                        LanguageCheck(item.getTitle());
                         if(userRole){
                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
                         } else {
