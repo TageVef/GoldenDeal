@@ -151,7 +151,7 @@ public class StoreActivity extends AppCompatActivity {
         taskButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
         storeButton.setOnClickListener(switchPage);
-        //rulesButton.setOnClickListener(switchPage);
+        rulesButton.setOnClickListener(switchPage);
         //faceButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
     }

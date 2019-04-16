@@ -174,7 +174,7 @@ public class AdminStoreActivity extends AppCompatActivity {
         taskButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
         storeButton.setOnClickListener(switchPage);
-        //rulesButton.setOnClickListener(switchPage);
+        rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);
         addRewardButton.setOnClickListener(switchPage);

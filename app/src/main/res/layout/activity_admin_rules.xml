@@ -6,4 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".Activities.AdminActivity.RulesActivity.AdminRulesActivity">
 
+    <Button
+        android:id="@+id/OptionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/AdminButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Choose plan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/ButtonGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="100dp" />
+
+    <Button
+        android:id="@+id/TaskButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Task"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/BankButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AddButton" />
+
+    <Button
+        android:id="@+id/BankButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bank"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TaskButton"
+        app:layout_constraintEnd_toStartOf="@+id/StoreButton"
+        app:layout_constraintStart_toEndOf="@+id/TaskButton" />
+
+    <Button
+        android:id="@+id/StoreButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Store"
+        app:layout_constraintBaseline_toBaselineOf="@+id/BankButton"
+        app:layout_constraintEnd_toStartOf="@+id/RulesButton"
+        app:layout_constraintStart_toEndOf="@+id/BankButton" />
+
+    <Button
+        android:id="@+id/RulesButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Rules"
+        app:layout_constraintBaseline_toBaselineOf="@+id/StoreButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/StoreButton" />
+
+    <Button
+        android:id="@+id/AddButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Add Rules"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ButtonGuideline" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/RulesRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/AddButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OptionsButton"
+        app:layout_constraintVertical_bias="0.0" />
+
 </android.support.constraint.ConstraintLayout>

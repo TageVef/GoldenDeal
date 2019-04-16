@@ -220,7 +220,7 @@ public class AdminBankActivity extends AppCompatActivity {
         taskButton.setOnClickListener(switchPage);
         bankButton.setOnClickListener(switchPage);
         storeButton.setOnClickListener(switchPage);
-        //rulesButton.setOnClickListener(switchPage);
+        rulesButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
         adminButton.setOnClickListener(switchPage);
         newCurrencyButton.setOnClickListener(switchPage);
