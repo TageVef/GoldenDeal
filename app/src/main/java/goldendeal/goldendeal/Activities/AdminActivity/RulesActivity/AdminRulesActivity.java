@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +42,11 @@ public class AdminRulesActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
-    private Button taskButton;
-    private Button storeButton;
-    private Button bankButton;
-    private Button rulesButton;
-    private Button optionsButton;
+    private ImageView taskButton;
+    private ImageView storeButton;
+    private ImageView bankButton;
+    private ImageView rulesButton;
+    private ImageView optionsButton;
     private Button adminButton;
     private Button addRulesButton;
     private TextView titleText;
@@ -135,11 +136,11 @@ public class AdminRulesActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        taskButton = (Button) findViewById(R.id.TaskButton);
-        storeButton = (Button) findViewById(R.id.StoreButton);
-        bankButton = (Button) findViewById(R.id.BankButton);
-        rulesButton = (Button) findViewById(R.id.RulesButton);
-        optionsButton = (Button) findViewById(R.id.OptionsButton);
+        taskButton = (ImageView) findViewById(R.id.TaskButton);
+        storeButton = (ImageView) findViewById(R.id.StoreButton);
+        bankButton = (ImageView) findViewById(R.id.BankButton);
+        rulesButton = (ImageView) findViewById(R.id.RulesButton);
+        optionsButton = (ImageView) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         addRulesButton = (Button) findViewById(R.id.AddButton);
         titleText = (TextView) findViewById(R.id.TitleText);
@@ -197,20 +198,10 @@ public class AdminRulesActivity extends AppCompatActivity {
                 String language = dataSnapshot.getValue(String.class);
 
                 if(TextUtils.equals(language, "Norsk")){
-                    taskButton.setText("Oppgaver");
-                    storeButton.setText("Butikk");
-                    bankButton.setText("Bank");
-                    rulesButton.setText("Regler");
-                    optionsButton.setText("Instillinger");
                     adminButton.setText("Velg Plan");
                     addRulesButton.setText("Legg Til Regel");
                     titleText.setText("Regler");
                 } else if(TextUtils.equals(language, "English")){
-                    taskButton.setText("Tasks");
-                    storeButton.setText("Store");
-                    bankButton.setText("Bank");
-                    rulesButton.setText("Rules");
-                    optionsButton.setText("Options");
                     adminButton.setText("Choose Plan");
                     addRulesButton.setText("Add Rule");
                     titleText.setText("Rules");

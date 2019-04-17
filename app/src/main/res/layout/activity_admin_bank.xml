@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AdminActivity.BankActivities.AdminBankActivity">
+    tools:context=".Activities.AdminActivity.BankActivities.AdminBankActivity"
+    android:background="@drawable/linjeark">
 
     <Button
         android:id="@+id/AdminButton"
@@ -30,68 +31,74 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
+    <ImageView
         android:id="@+id/OptionsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Options"
+        android:layout_width="99dp"
+        android:layout_height="58dp"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/option" />
 
     <android.support.constraint.Guideline
         android:id="@+id/ButtonGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="100dp" />
+        app:layout_constraintGuide_end="150dp" />
 
-    <Button
+    <ImageView
         android:id="@+id/TaskButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Task"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BankButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NewCurrencyButton" />
+        app:layout_constraintTop_toBottomOf="@+id/NewCurrencyButton"
+        app:srcCompat="@drawable/task_list" />
 
-    <Button
+    <ImageView
         android:id="@+id/BankButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Bank"
-        app:layout_constraintBaseline_toBaselineOf="@+id/TaskButton"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/TaskButton"
         app:layout_constraintEnd_toStartOf="@+id/StoreButton"
-        app:layout_constraintStart_toEndOf="@+id/TaskButton" />
+        app:layout_constraintStart_toEndOf="@+id/TaskButton"
+        app:layout_constraintTop_toTopOf="@+id/TaskButton"
+        app:srcCompat="@drawable/piggy_bank" />
 
-    <Button
+    <ImageView
         android:id="@+id/StoreButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Store"
-        app:layout_constraintBaseline_toBaselineOf="@+id/BankButton"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/BankButton"
         app:layout_constraintEnd_toStartOf="@+id/RulesButton"
-        app:layout_constraintStart_toEndOf="@+id/BankButton" />
+        app:layout_constraintStart_toEndOf="@+id/BankButton"
+        app:layout_constraintTop_toTopOf="@+id/BankButton"
+        app:srcCompat="@drawable/store" />
 
-    <Button
+    <ImageView
         android:id="@+id/RulesButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Rules"
-        app:layout_constraintBaseline_toBaselineOf="@+id/StoreButton"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/StoreButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/StoreButton" />
+        app:layout_constraintStart_toEndOf="@+id/StoreButton"
+        app:layout_constraintTop_toTopOf="@+id/StoreButton"
+        app:srcCompat="@drawable/book" />
 
     <Button
         android:id="@+id/NewCurrencyButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="new currency"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ButtonGuideline" />
 
