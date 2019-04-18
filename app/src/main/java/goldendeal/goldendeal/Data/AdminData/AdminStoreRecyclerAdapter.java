@@ -1,6 +1,7 @@
 package goldendeal.goldendeal.Data.AdminData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.StoreActivity.NewRewardActivity;
 import goldendeal.goldendeal.Model.StoreItem;
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
@@ -85,6 +87,15 @@ public class AdminStoreRecyclerAdapter extends RecyclerView.Adapter<AdminStoreRe
             completeButton.setVisibility(View.GONE);
             rejectButton.setVisibility(View.GONE);
             rewardImage.setVisibility(View.GONE);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, NewRewardActivity.class);
+                    intent.putExtra("StoreItemID", Long.toString(currentItem.getId()));
+                    context.startActivity(intent);
+                }
+            });
 
             trashbutton.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,6 +1,7 @@
 package goldendeal.goldendeal.Model;
 
 public class StoreItem {
+    private long id;
     private String title;
     private String description;
     private String imageURL;
@@ -18,13 +19,18 @@ public class StoreItem {
         this.bought = bought;
     }
 
-    public StoreItem(String title, String description, String imageURL, VirtualCurrency currency, boolean bought) {
+    public StoreItem(long id, String title, String description, String imageURL, VirtualCurrency currency, boolean bought) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.imageURL = imageURL;
         this.currency = currency;
         this.bought = bought;
     }
+
+    public long getId() {return id;}
+
+    public void setId(long id) { this.id = id; }
 
     public String getTitle() {return title;}
 

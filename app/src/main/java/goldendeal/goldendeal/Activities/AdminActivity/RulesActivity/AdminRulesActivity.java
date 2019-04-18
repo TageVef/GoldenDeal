@@ -78,7 +78,7 @@ public class AdminRulesActivity extends AppCompatActivity {
                 mDatabaseReference.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        ruleList.add(dataSnapshot.getValue(String.class));
+                        ruleList.add(dataSnapshot.child("text").getValue(String.class));
 
                         rulesRecyclerAdapter = new AdminRulesRecyclerAdapter(ruleList, AdminRulesActivity.this);
                         rulesRecycler.setAdapter(rulesRecyclerAdapter);
@@ -87,15 +87,15 @@ public class AdminRulesActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        int position = Integer.parseInt(dataSnapshot.getKey());
-                        rulesRecyclerAdapter.rulesList.set(position, dataSnapshot.getValue(String.class));
+                        int position = Integer.parseInt(dataSnapshot.getKey())-1;
+                        rulesRecyclerAdapter.rulesList.set(position, dataSnapshot.child("text").getValue(String.class));
                         rulesRecyclerAdapter.notifyItemChanged(position);
                         rulesRecyclerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                        int position = Integer.parseInt(dataSnapshot.getKey());
+                        int position = Integer.parseInt(dataSnapshot.getKey())-1;
                         rulesRecyclerAdapter.rulesList.remove(position);
                         rulesRecyclerAdapter.notifyItemRemoved(position);
                         rulesRecyclerAdapter.notifyItemRangeChanged(position, rulesRecyclerAdapter.rulesList.size());

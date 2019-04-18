@@ -45,6 +45,8 @@ public class NewRewardActivity extends AppCompatActivity {
     private Button confirmButton;
     private Button backButton;
     private StoreItem newItem;
+    private String storeItemID;
+    private String language;
 
     private List<String> currencyList;
 
@@ -52,9 +54,43 @@ public class NewRewardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_reward);
+        storeItemID = getIntent().getStringExtra("StoreItemID");
         SetupDatabase();
         SetupViews();
-        SetupLanguage();
+
+        if (!TextUtils.isEmpty(storeItemID)) {
+            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String currentAccess = dataSnapshot.getValue(String.class);
+                    mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Store").child(storeItemID);
+                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            newItem = dataSnapshot.getValue(StoreItem.class);
+                            newItem.setId(Long.parseLong(dataSnapshot.getKey()));
+
+                            titleET.setText(newItem.getTitle());
+                            descriptionET.setText(newItem.getDescription());
+                            rewardValueET.setText(Long.toString(newItem.getCurrency().getValue()));
+                            rewardType.setText(newItem.getCurrency().getTitle());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
         currencyList = new ArrayList<String>();
 
@@ -67,7 +103,7 @@ public class NewRewardActivity extends AppCompatActivity {
                 mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot currency: dataSnapshot.getChildren()){
+                        for (DataSnapshot currency : dataSnapshot.getChildren()) {
                             currencyList.add(currency.getKey());
                         }
                     }
@@ -84,6 +120,8 @@ public class NewRewardActivity extends AppCompatActivity {
 
             }
         });
+
+        SetupLanguage();
     }
 
     private void SetupDatabase() {
@@ -112,7 +150,7 @@ public class NewRewardActivity extends AppCompatActivity {
                     }
                 });
 
-                for(int i = 0; i < currencyList.size(); i++){
+                for (int i = 0; i < currencyList.size(); i++) {
                     menu.getMenu().add(currencyList.get(i));
                 }
                 menu.show();
@@ -134,6 +172,10 @@ public class NewRewardActivity extends AppCompatActivity {
                     newItem = new StoreItem(titleET.getText().toString(), descriptionET.getText().toString(),
                             new VirtualCurrency(Long.parseLong(rewardValueET.getText().toString()), rewardType.getText().toString(), false, (long) 0), false);
 
+                    if(!TextUtils.isEmpty(storeItemID)){
+                        newItem.setId(Long.parseLong(storeItemID));
+                    }
+
                     mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -145,10 +187,18 @@ public class NewRewardActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     //TODO: set up picture uploading
-                                    mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount())).setValue(newItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    if (TextUtils.isEmpty(Long.toString(newItem.getId()))) {
+                                        newItem.setId(dataSnapshot.getChildrenCount());
+                                    }
+                                    mDatabaseReference.child(Long.toString(newItem.getId())).setValue(newItem).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText(NewRewardActivity.this, "Reward Added", Toast.LENGTH_SHORT).show();
+                                            if(TextUtils.equals(language, "Norsk")){
+                                                Toast.makeText(NewRewardActivity.this, "Belønning lagt til", Toast.LENGTH_SHORT).show();
+                                            }else if(TextUtils.equals(language, "English")){
+                                                Toast.makeText(NewRewardActivity.this, "Reward Added", Toast.LENGTH_SHORT).show();
+                                            }
+
                                             finish();
                                         }
                                     });
@@ -180,21 +230,21 @@ public class NewRewardActivity extends AppCompatActivity {
         });
     }
 
-    private void SetupLanguage(){
+    private void SetupLanguage() {
         mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String language = dataSnapshot.getValue(String.class);
+                language = dataSnapshot.getValue(String.class);
 
-                if(TextUtils.equals(language, "Norsk")){
+                if (TextUtils.equals(language, "Norsk")) {
                     titleET.setHint("Titel");
                     descriptionET.setHint("Beskrivelse");
                     rewardValueET.setHint("Antall Valuta");
                     rewardType.setHint("Valuta Type");
                     confirmButton.setText("Bekreft");
                     backButton.setText("Tilbake");
-                } else if(TextUtils.equals(language, "English")){
+                } else if (TextUtils.equals(language, "English")) {
                     titleET.setHint("Title");
                     descriptionET.setHint("Description");
                     rewardValueET.setHint("Required Amount");

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ public class NewRuleActivity extends AppCompatActivity {
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
+    private DatabaseReference removeRule;
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
@@ -37,6 +39,8 @@ public class NewRuleActivity extends AppCompatActivity {
     private EditText ruleDrescription;
     private Button backButton;
     private Button addButton;
+    private Button trashButton;
+    private String ruleNumber;
 
     private String language;
 
@@ -46,6 +50,36 @@ public class NewRuleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_rule);
         SetupDatabase();
         SetupViews();
+
+        ruleNumber = getIntent().getStringExtra("RuleNumber");
+        if(!TextUtils.isEmpty(ruleNumber)){
+            trashButton.setVisibility(View.VISIBLE);
+            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String currentAccess = dataSnapshot.getValue(String.class);
+                    mDatabaseReference = mDatabase.getReference().child("User").child(currentAccess).child("Rules").child(ruleNumber).child("text");
+                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String ruleText = dataSnapshot.getValue(String.class);
+                            ruleDrescription.setText(ruleText);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
 
 
         SetupLanguage();
@@ -61,6 +95,7 @@ public class NewRuleActivity extends AppCompatActivity {
         ruleDrescription = (EditText) findViewById(R.id.RuleDescription);
         backButton = (Button) findViewById(R.id.BackButton);
         addButton = (Button) findViewById(R.id.AddButton);
+        trashButton = (Button) findViewById(R.id.TrashButton);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -68,6 +103,45 @@ public class NewRuleActivity extends AppCompatActivity {
                 switch (v.getId()) {
                     case R.id.BackButton:
                         finish();
+                        break;
+                    case R.id.TrashButton:
+                        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
+                        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                final String currentAccess = dataSnapshot.getValue(String.class);
+                                removeRule = mDatabase.getReference().child("User").child(currentAccess).child("Rules");
+                                removeRule.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        long moveCounter = dataSnapshot.getChildrenCount();
+                                        for(DataSnapshot ruleItems: dataSnapshot.getChildren()){
+                                            String ruleText = ruleItems.child("text").getValue(String.class);
+                                            if(TextUtils.equals(ruleText, ruleDrescription.getText())){
+                                                moveCounter = Long.parseLong(ruleItems.getKey());
+                                            }
+                                            if(Long.parseLong(ruleItems.getKey()) > moveCounter){
+                                                removeRule.child(Long.toString(Long.parseLong(ruleItems.getKey()) - 1)).child("text").setValue(ruleText);
+                                            }
+                                            if(Long.parseLong(ruleItems.getKey()) == dataSnapshot.getChildrenCount()){
+                                                removeRule.child(Long.toString(dataSnapshot.getChildrenCount())).removeValue();
+                                            }
+                                        }
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                         break;
                     case R.id.AddButton:
                         if (!TextUtils.isEmpty(ruleDrescription.getText())) {
@@ -80,8 +154,11 @@ public class NewRuleActivity extends AppCompatActivity {
                                     mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            mDatabaseReference.child(Long.toString(dataSnapshot.getChildrenCount() + 1))
-                                                    .setValue(ruleDrescription.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            if(TextUtils.isEmpty(ruleNumber)){
+                                                ruleNumber = Long.toString(dataSnapshot.getChildrenCount() + 1);
+                                            }
+                                            mDatabaseReference.child(ruleNumber).child("text").setValue(ruleDrescription.getText().toString())
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     if(TextUtils.equals(language, "Norsk")){
@@ -116,6 +193,7 @@ public class NewRuleActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(switchPage);
         addButton.setOnClickListener(switchPage);
+        trashButton.setOnClickListener(switchPage);
     }
 
     private void SetupLanguage() {
@@ -129,10 +207,12 @@ public class NewRuleActivity extends AppCompatActivity {
                     ruleDrescription.setHint("Regel beskrivelse");
                     backButton.setText("Tilbake");
                     addButton.setText("Legg til regel");
+                    trashButton.setText("Kast");
                 } else if (TextUtils.equals(language, "English")) {
                     ruleDrescription.setHint("Rules description");
                     backButton.setText("back");
                     addButton.setText("add rule");
+                    trashButton.setText("Trash");
                 }
             }
 

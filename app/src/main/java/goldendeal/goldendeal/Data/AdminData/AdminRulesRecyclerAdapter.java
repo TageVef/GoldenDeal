@@ -1,6 +1,7 @@
 package goldendeal.goldendeal.Data.AdminData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import goldendeal.goldendeal.Activities.AdminActivity.RulesActivity.NewRuleActivity;
 import goldendeal.goldendeal.R;
 
 public class AdminRulesRecyclerAdapter extends RecyclerView.Adapter<AdminRulesRecyclerAdapter.ViewHolder> {
@@ -50,6 +52,15 @@ public class AdminRulesRecyclerAdapter extends RecyclerView.Adapter<AdminRulesRe
 
             ruleDescription = (TextView) itemView.findViewById(R.id.RuleDescription);
             ruleNumberText = (TextView) itemView.findViewById(R.id.NumberText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, NewRuleActivity.class);
+                    intent.putExtra("RuleNumber", Long.toString(ruleNumber));
+                    context.startActivity(intent);
+                }
+            });
         }
 
         public void ViewHolderSetup(String ruleDescription, long number) {

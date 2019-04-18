@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -66,7 +67,7 @@ public class RulesActivity extends AppCompatActivity {
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                ruleList.add(dataSnapshot.getValue(String.class));
+                ruleList.add(dataSnapshot.child("text").getValue(String.class));
                 rulesRecyclerAdapter = new RulesRecyclerAdapter(ruleList, RulesActivity.this);
                 rulesRecycler.setAdapter(rulesRecyclerAdapter);
                 rulesRecyclerAdapter.notifyDataSetChanged();
@@ -74,15 +75,15 @@ public class RulesActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                int position = Integer.getInteger(dataSnapshot.getKey());
-                rulesRecyclerAdapter.rulesList.set(position, dataSnapshot.getValue(String.class));
+                int position = Integer.parseInt(dataSnapshot.getKey())-1;
+                rulesRecyclerAdapter.rulesList.set(position, dataSnapshot.child("text").getValue(String.class));
                 rulesRecyclerAdapter.notifyItemChanged(position);
                 rulesRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                int position = Integer.getInteger(dataSnapshot.getKey());
+                int position = Integer.parseInt(dataSnapshot.getKey())-1;
                 rulesRecyclerAdapter.rulesList.remove(position);
                 rulesRecyclerAdapter.notifyItemRemoved(position);
                 rulesRecyclerAdapter.notifyItemRangeChanged(position, rulesRecyclerAdapter.rulesList.size());

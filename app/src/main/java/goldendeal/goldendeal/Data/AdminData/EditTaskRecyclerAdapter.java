@@ -155,17 +155,14 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
 
                 }
             });
-            complete.setVisibility(View.INVISIBLE);
-
-            View.OnClickListener viewClick = new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, AddNewTaskActivity.class);
-                    intent.putExtra("TaskID", Long.toString(currentTask.getId()));
-                    context.startActivity(intent);
+                            Intent intent = new Intent(context, AddNewTaskActivity.class);
+                            intent.putExtra("TaskID", Long.toString(currentTask.getId()));
+                            context.startActivity(intent);
                 }
-            };
-            itemView.setOnClickListener(viewClick);
+            });
 
             SetupDatabase();
             SetupLanguage();
