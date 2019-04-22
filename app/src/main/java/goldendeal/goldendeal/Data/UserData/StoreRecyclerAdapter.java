@@ -132,6 +132,7 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
         }
 
         private void ViewHolderSetup(StoreItem item) {
+            SetupLanguage();
             currentItem = item;
             if (currentItem.isBought()) {
                 completeButton.setVisibility(View.GONE);
@@ -153,6 +154,7 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
         }
 
         private void SetupLanguage(){
+            SetupDatabase();
             mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
             mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

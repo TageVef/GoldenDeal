@@ -84,6 +84,7 @@ public class EditTaskRecyclerAdapter extends RecyclerView.Adapter<EditTaskRecycl
 
             refresh.setVisibility(View.INVISIBLE);
             trashButton.setVisibility(View.VISIBLE);
+            complete.setVisibility(View.INVISIBLE);
 
             trashButton.setOnClickListener(new View.OnClickListener() {
                 @Override
