@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.UserActivities.RulesActivity"
-    android:background="@drawable/linjeark">
+    tools:context=".Activities.UserActivities.RulesActivity">
 
     <ImageView
         android:id="@+id/FaceButton"
