@@ -232,9 +232,9 @@ public class BankActivity extends AppCompatActivity {
                 String language = dataSnapshot.getValue(String.class);
 
                 if(TextUtils.equals(language, "Norsk")){
-                    titleText.setText("Butikk");
+                    titleText.setText("Bank");
                 } else if(TextUtils.equals(language, "English")){
-                    titleText.setText("Store");
+                    titleText.setText("Bank");
                 }
             }
 

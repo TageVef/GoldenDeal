@@ -187,7 +187,7 @@ public class NewRewardActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     //TODO: set up picture uploading
-                                    if (TextUtils.isEmpty(Long.toString(newItem.getId()))) {
+                                    if (TextUtils.isEmpty(storeItemID)) {
                                         newItem.setId(dataSnapshot.getChildrenCount());
                                     }
                                     mDatabaseReference.child(Long.toString(newItem.getId())).setValue(newItem).addOnSuccessListener(new OnSuccessListener<Void>() {
