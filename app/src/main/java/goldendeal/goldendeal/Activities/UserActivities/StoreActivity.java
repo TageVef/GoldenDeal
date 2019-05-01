@@ -3,6 +3,7 @@ package goldendeal.goldendeal.Activities.UserActivities;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,29 +34,31 @@ import goldendeal.goldendeal.Data.UserData.CounterRecyclerAdapter;
 import goldendeal.goldendeal.Data.UserData.ImageEconomyRecyclerAdapter;
 import goldendeal.goldendeal.Data.UserData.StoreRecyclerAdapter;
 import goldendeal.goldendeal.Model.StoreItem;
+import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class StoreActivity extends AppCompatActivity {
     private static final String TAG = "StoreActivity";
 
-    private ImageView taskButton;
-    private ImageView storeButton;
-    private ImageView bankButton;
-    private ImageView rulesButton;
-    private ImageView optionsButton;
-    private ImageView faceButton;
-    private TextView titleText;
-
+    private User currentUser;
     private List<StoreItem> itemList;
-    private RecyclerView itemRecycler;
-    private StoreRecyclerAdapter storeRecyclerAdapter;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     //------------------------------------------------------
+
+    private ConstraintLayout background;
+    private ImageView taskButton;
+    private ImageView storeButton;
+    private ImageView bankButton;
+    private ImageView rulesButton;
+    private ImageView optionsButton;
+
+    private RecyclerView itemRecycler;
+    private StoreRecyclerAdapter storeRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,21 @@ public class StoreActivity extends AppCompatActivity {
         SetupDatabase();
         SetupViews();
 
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        SetupDatabase();
         itemList = new ArrayList<StoreItem>();
         itemRecycler.hasFixedSize();
         itemRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -105,14 +123,25 @@ public class StoreActivity extends AppCompatActivity {
 
             }
         });
-
-        SetupLanguage();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        SetupLanguage();
+        SetupDatabase();
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetupDatabase() {
@@ -122,14 +151,13 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
+        background = (ConstraintLayout) findViewById(R.id.StoreLayout);
         taskButton = (ImageView) findViewById(R.id.TaskButton);
         storeButton = (ImageView) findViewById(R.id.StoreButton);
         bankButton = (ImageView) findViewById(R.id.BankButton);
         rulesButton = (ImageView) findViewById(R.id.RulesButton);
         optionsButton = (ImageView) findViewById(R.id.OptionsButton);
-        faceButton = (ImageView) findViewById(R.id.FaceButton);
         itemRecycler = (RecyclerView) findViewById(R.id.StoreRecycler);
-        titleText = (TextView) findViewById(R.id.TitleText);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -155,8 +183,6 @@ public class StoreActivity extends AppCompatActivity {
                         startActivity(newIntent);
                         finish();
                         break;
-                    case R.id.FaceButton:
-                        break;
                     case R.id.OptionsButton:
                         newIntent = new Intent(StoreActivity.this, OptionsActivity.class);
                         newIntent.putExtra("Role", false);
@@ -170,28 +196,51 @@ public class StoreActivity extends AppCompatActivity {
         bankButton.setOnClickListener(switchPage);
         storeButton.setOnClickListener(switchPage);
         rulesButton.setOnClickListener(switchPage);
-        //faceButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
     }
 
-    private void SetupLanguage(){
-        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String language = dataSnapshot.getValue(String.class);
-
-                if(TextUtils.equals(language, "Norsk")){
-                    titleText.setText("Butikk");
-                } else if(TextUtils.equals(language, "English")){
-                    titleText.setText("Store");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    private void SetupTheme() {
+        switch (currentUser.getTheme()) {
+            case "Mermaids":
+                background.setBackgroundResource(R.drawable.mermaids_background_store_english);
+                taskButton.setImageResource(R.drawable.mermaids_button_task_english);
+                bankButton.setImageResource(R.drawable.mermaids_button_bank_english);
+                storeButton.setImageResource(R.drawable.mermaids_button_store_english);
+                rulesButton.setImageResource(R.drawable.mermaids_button_rules_english);
+                optionsButton.setImageResource(R.drawable.mermaids_button_options);
+                break;
+            case "Western":
+                background.setBackgroundResource(R.drawable.western_background_store_english);
+                taskButton.setImageResource(R.drawable.western_button_task_english);
+                bankButton.setImageResource(R.drawable.western_button_bank_english);
+                storeButton.setImageResource(R.drawable.western_button_store_english);
+                rulesButton.setImageResource(R.drawable.western_button_rules_english);
+                optionsButton.setImageResource(R.drawable.western_button_options);
+                break;
+            case "Space":
+                background.setBackgroundResource(R.drawable.space_background_store_english);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                break;
+            case "Season":
+                background.setBackgroundResource(R.drawable.season_background_night_english);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                break;
+            case "Standard":
+                background.setBackgroundResource(R.drawable.pirate_background_store_english);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                break;
+        }
     }
 }

@@ -5,47 +5,35 @@
     android:id="@+id/AdminBankLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pirate_background_bank_english"
     tools:context=".Activities.AdminActivity.BankActivities.AdminBankActivity">
 
     <Button
         android:id="@+id/AdminButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Choose plan"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/TitleText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Bank"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/OptionsButton"
-        app:layout_constraintEnd_toStartOf="@+id/OptionsButton"
-        app:layout_constraintStart_toEndOf="@+id/AdminButton"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
         android:id="@+id/OptionsButton"
-        android:layout_width="99dp"
-        android:layout_height="58dp"
-        android:scaleType="fitCenter"
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="@+id/AdminButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/option" />
+        app:layout_constraintTop_toTopOf="@+id/AdminButton"
+        app:srcCompat="@drawable/pirate_button_options" />
 
     <android.support.constraint.Guideline
         android:id="@+id/ButtonGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="150dp" />
+        app:layout_constraintGuide_end="100dp" />
 
     <ImageView
         android:id="@+id/TaskButton"
@@ -56,7 +44,7 @@
         app:layout_constraintEnd_toStartOf="@+id/BankButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NewCurrencyButton"
-        app:srcCompat="@drawable/task_list" />
+        app:srcCompat="@drawable/pirate_button_task_english" />
 
     <ImageView
         android:id="@+id/BankButton"
@@ -67,7 +55,7 @@
         app:layout_constraintEnd_toStartOf="@+id/StoreButton"
         app:layout_constraintStart_toEndOf="@+id/TaskButton"
         app:layout_constraintTop_toTopOf="@+id/TaskButton"
-        app:srcCompat="@drawable/piggy_bank" />
+        app:srcCompat="@drawable/pirate_button_bank_english" />
 
     <ImageView
         android:id="@+id/StoreButton"
@@ -78,7 +66,7 @@
         app:layout_constraintEnd_toStartOf="@+id/RulesButton"
         app:layout_constraintStart_toEndOf="@+id/BankButton"
         app:layout_constraintTop_toTopOf="@+id/BankButton"
-        app:srcCompat="@drawable/store" />
+        app:srcCompat="@drawable/pirate_button_store_english" />
 
     <ImageView
         android:id="@+id/RulesButton"
@@ -89,7 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/StoreButton"
         app:layout_constraintTop_toTopOf="@+id/StoreButton"
-        app:srcCompat="@drawable/book" />
+        app:srcCompat="@drawable/pirate_button_rules_english" />
 
     <Button
         android:id="@+id/NewCurrencyButton"
@@ -106,8 +94,8 @@
         android:id="@+id/CurrencyRecycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,9 +107,9 @@
         android:id="@+id/CurrencyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         android:text="Currency: "
         android:textSize="24sp"
@@ -137,9 +125,9 @@
         android:id="@+id/ImageEconomyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         android:text="Image Economy: "
         android:textSize="24sp"
@@ -155,8 +143,8 @@
         android:id="@+id/ImageEconomyRecycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonGuideline"
         app:layout_constraintEnd_toEndOf="parent"

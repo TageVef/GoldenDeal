@@ -7,103 +7,103 @@
 
     <ImageView
         android:id="@+id/ImageEconomy10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="@id/ImageEconomy9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/ImageEconomy9"
+        app:layout_constraintStart_toEndOf="@+id/ImageEconomy9"
         app:layout_constraintTop_toTopOf="@id/ImageEconomy9"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy8"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy8"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy10"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy8"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy7"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy7"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy9"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy7"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy6"
         app:layout_constraintLeft_toRightOf="@id/ImageEconomy6"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy8"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy6"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy5"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy5"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy7"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy5"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy4"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy4"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy6"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy4"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy3"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy3"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy5"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy3"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy2"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy2"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy4"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy2"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/ImageEconomy1"
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy1"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy3"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy1"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/ImageEconomy2"
+        app:layout_constraintEnd_toStartOf="@+id/ImageEconomy2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/baseline_star_border_black_18dp" />
+        app:srcCompat="@drawable/pirate_price_black" />
 </android.support.constraint.ConstraintLayout>

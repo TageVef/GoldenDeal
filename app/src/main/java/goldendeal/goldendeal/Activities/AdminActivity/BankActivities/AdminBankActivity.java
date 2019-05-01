@@ -53,7 +53,6 @@ public class AdminBankActivity extends AppCompatActivity {
     private ImageView rulesButton;
     private ImageView optionsButton;
     private Button adminButton;
-    private TextView titleText;
 
     private TextView currencyText;
     private TextView imageEconomyText;
@@ -190,7 +189,6 @@ public class AdminBankActivity extends AppCompatActivity {
         optionsButton = (ImageView) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         newCurrencyButton = (Button) findViewById(R.id.NewCurrencyButton);
-        titleText = (TextView) findViewById(R.id.TitleText);
 
         currencyText = (TextView) findViewById(R.id.CurrencyTitle);
         imageEconomyText = (TextView) findViewById(R.id.ImageEconomyTitle);
@@ -260,13 +258,11 @@ public class AdminBankActivity extends AppCompatActivity {
                     newCurrencyButton.setText("Ny Valuta");
                     currencyText.setText("Valuta");
                     imageEconomyText.setText("Bilde Økonomi");
-                    titleText.setText("Bank");
                 } else if(TextUtils.equals(language, "English")){
                     adminButton.setText("Choose Plan");
                     newCurrencyButton.setText("New currency");
                     currencyText.setText("Currency");
                     imageEconomyText.setText("Image Economy");
-                    titleText.setText("Bank");
                 }
             }
 
@@ -286,11 +282,28 @@ public class AdminBankActivity extends AppCompatActivity {
 
                 switch(theme){
                     case "Mermaids":
-                        background.setBackgroundResource(R.drawable.mermaids_bank_background);
+                        background.setBackgroundResource(R.drawable.mermaids_background_bank_english);
+                        optionsButton.setImageResource(R.drawable.mermaids_button_options);
+                        taskButton.setImageResource(R.drawable.mermaids_button_task_english);
+                        bankButton.setImageResource(R.drawable.mermaids_button_bank_english);
+                        storeButton.setImageResource(R.drawable.mermaids_button_store_english);
+                        rulesButton.setImageResource(R.drawable.mermaids_button_rules_english);
                         break;
                     case "Western":
+                        background.setBackgroundResource(R.drawable.western_background_bank_english);
+                        optionsButton.setImageResource(R.drawable.western_button_options);
+                        taskButton.setImageResource(R.drawable.western_button_task_english);
+                        bankButton.setImageResource(R.drawable.western_button_bank_english);
+                        storeButton.setImageResource(R.drawable.western_button_store_english);
+                        rulesButton.setImageResource(R.drawable.western_button_rules_english);
                         break;
                     case "Standard":
+                        background.setBackgroundResource(R.drawable.pirate_background_bank_english);
+                        optionsButton.setImageResource(R.drawable.pirate_button_options);
+                        taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                        bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                        storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                        rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
                         break;
                 }
             }

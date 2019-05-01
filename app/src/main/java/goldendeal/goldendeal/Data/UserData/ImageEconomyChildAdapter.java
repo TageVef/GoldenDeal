@@ -15,10 +15,12 @@ import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class ImageEconomyChildAdapter extends RecyclerView.Adapter<ImageEconomyChildAdapter.ViewHolder> {
+    private String theme;
     private Context context;
     private List<VirtualCurrency> CurrencyRowList;
 
-    public ImageEconomyChildAdapter(Context context, List<VirtualCurrency> currencyRowList) {
+    public ImageEconomyChildAdapter(Context context, List<VirtualCurrency> currencyRowList, String theme) {
+        this.theme = theme;
         this.context = context;
         CurrencyRowList = currencyRowList;
     }
@@ -37,11 +39,44 @@ public class ImageEconomyChildAdapter extends RecyclerView.Adapter<ImageEconomyC
 
         for (int j = 0; j < viewHolder.CurrencyRow.getMaxValue(); j++) {
             viewHolder.imageList.get(j).setVisibility(View.VISIBLE);
+            switch(theme){
+                case "Mermaids":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.mermaids_price_black);
+                    break;
+                case "Western":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.western_price_black);
+                    break;
+                case "Space":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.space_price_black);
+                    break;
+                case "Season":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price_black);
+                    break;
+                case "Standard":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price_black);
+                    break;
+            }
         }
 
         if (viewHolder.CurrencyRow.getValue() > 0) {
             for (int j = 0; j < viewHolder.CurrencyRow.getValue(); j++) {
-                viewHolder.imageList.get(j).setImageResource(R.mipmap.baseline_star_black_18dp);
+                switch(theme){
+                    case "Mermaids":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.mermaids_price);
+                        break;
+                    case "Western":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.western_price);
+                        break;
+                    case "Space":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.space_price);
+                        break;
+                    case "Season":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price);
+                        break;
+                    case "Standard":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price);
+                        break;
+                }
             }
         }
 

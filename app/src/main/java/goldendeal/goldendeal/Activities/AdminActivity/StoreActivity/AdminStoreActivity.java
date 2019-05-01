@@ -51,7 +51,6 @@ public class AdminStoreActivity extends AppCompatActivity {
     private ImageView optionsButton;
     private Button adminButton;
     private Button addRewardButton;
-    private TextView titleText;
 
     private List<StoreItem> itemList;
     private RecyclerView rewardRecycler;
@@ -143,7 +142,6 @@ public class AdminStoreActivity extends AppCompatActivity {
         optionsButton = (ImageView) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         addRewardButton = (Button) findViewById(R.id.AddButton);
-        titleText = (TextView) findViewById(R.id.TitleText);
 
         rewardRecycler = (RecyclerView) findViewById(R.id.RewardRecycler);
 
@@ -208,11 +206,9 @@ public class AdminStoreActivity extends AppCompatActivity {
                 if(TextUtils.equals(language, "Norsk")){
                     adminButton.setText("Velg Plan");
                     addRewardButton.setText("Legg Til Belønning");
-                    titleText.setText("Butikk");
                 } else if(TextUtils.equals(language, "English")){
                     adminButton.setText("Choose Plan");
                     addRewardButton.setText("Add Reward");
-                    titleText.setText("Store");
                 }
             }
 

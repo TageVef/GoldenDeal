@@ -50,7 +50,6 @@ public class AdminTasksActivity extends AppCompatActivity {
     private Button adminButton;
     private Button addTaskButton;
     private Button editTasksButton;
-    private TextView titleText;
 
     private RecyclerView taskRecyclerView;
     private AdminTaskRecyclerAdapter taskRecyclerAdapter;
@@ -147,7 +146,6 @@ public class AdminTasksActivity extends AppCompatActivity {
         addTaskButton = (Button) findViewById(R.id.AddTasksButton);
         editTasksButton = (Button) findViewById(R.id.EditTasksButton);
         taskRecyclerView = (RecyclerView) findViewById(R.id.TaskRecycler);
-        titleText = (TextView) findViewById(R.id.TitleText);
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -215,12 +213,10 @@ public class AdminTasksActivity extends AppCompatActivity {
                     adminButton.setText("Velg Plan");
                     addTaskButton.setText("Legg Til Oppgaver");
                     editTasksButton.setText("Endre Oppgaver");
-                    titleText.setText("Oppgaver");
                 } else if(TextUtils.equals(language, "English")){
                     adminButton.setText("Choose Plan");
                     addTaskButton.setText("Add Tasks");
                     editTasksButton.setText("Edit Tasks");
-                    titleText.setText("Tasks");
                 }
             }
 

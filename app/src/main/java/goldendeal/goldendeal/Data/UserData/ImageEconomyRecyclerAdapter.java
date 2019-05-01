@@ -20,11 +20,12 @@ import goldendeal.goldendeal.R;
 
 public class ImageEconomyRecyclerAdapter extends RecyclerView.Adapter<ImageEconomyRecyclerAdapter.ViewHolder> {
 
-
+    private String theme;
     private Context context;
     public List<VirtualCurrency> currencyList;
 
-    public ImageEconomyRecyclerAdapter(Context context, List<VirtualCurrency> currencyList) {
+    public ImageEconomyRecyclerAdapter(Context context, List<VirtualCurrency> currencyList, String theme) {
+        this.theme = theme;
         this.context = context;
         this.currencyList = currencyList;
     }
@@ -87,7 +88,7 @@ public class ImageEconomyRecyclerAdapter extends RecyclerView.Adapter<ImageEcono
                 }
             }
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(currencyRecycler.getContext(), LinearLayoutManager.VERTICAL, false);
-            imageEconomyChildAdapter = new ImageEconomyChildAdapter(context, currencyRowList);
+            imageEconomyChildAdapter = new ImageEconomyChildAdapter(context, currencyRowList, theme);
             currencyRecycler.setLayoutManager(layoutManager);
             currencyRecycler.setAdapter(imageEconomyChildAdapter);
             imageEconomyChildAdapter.notifyDataSetChanged();

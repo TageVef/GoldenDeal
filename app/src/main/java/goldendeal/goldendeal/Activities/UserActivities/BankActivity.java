@@ -1,6 +1,5 @@
 package goldendeal.goldendeal.Activities.UserActivities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -40,21 +35,6 @@ public class BankActivity extends AppCompatActivity {
     private static final String TAG = "BankActivity";
 
     private User currentUser;
-
-    private ImageView taskButton;
-    private ImageView storeButton;
-    private ImageView bankButton;
-    private ImageView rulesButton;
-    private ImageView optionsButton;
-    private ImageView faceButton;
-    private TextView titleText;
-    private ConstraintLayout layout;
-
-    private RecyclerView counterRecycler;
-    private CounterRecyclerAdapter counterRecyclerAdapter;
-    private RecyclerView imageEconomyRecycler;
-    private ImageEconomyRecyclerAdapter imageEconomyRecyclerAdapter;
-
     private List<VirtualCurrency> counterList;
     private List<VirtualCurrency> imageEconomyList;
 
@@ -64,12 +44,41 @@ public class BankActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
+    private ConstraintLayout background;
+    private ImageView taskButton;
+    private ImageView storeButton;
+    private ImageView bankButton;
+    private ImageView rulesButton;
+    private ImageView optionsButton;
+
+    private RecyclerView counterRecycler;
+    private CounterRecyclerAdapter counterRecyclerAdapter;
+    private RecyclerView imageEconomyRecycler;
+    private ImageEconomyRecyclerAdapter imageEconomyRecyclerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank);
         SetupDatabase();
         SetupViews();
+        ;
+
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        SetupDatabase();
         mDatabaseReference.keepSynced(true);
 
         counterList = new ArrayList<VirtualCurrency>();
@@ -88,7 +97,7 @@ public class BankActivity extends AppCompatActivity {
                 if (currentStoredCurrency.isImageEconomy()) {
                     imageEconomyList.add(currentStoredCurrency);
 
-                    imageEconomyRecyclerAdapter = new ImageEconomyRecyclerAdapter(BankActivity.this, imageEconomyList);
+                    imageEconomyRecyclerAdapter = new ImageEconomyRecyclerAdapter(BankActivity.this, imageEconomyList, currentUser.getTheme());
                     imageEconomyRecycler.setAdapter(imageEconomyRecyclerAdapter);
                     imageEconomyRecyclerAdapter.notifyDataSetChanged();
                 } else {
@@ -104,15 +113,15 @@ public class BankActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Log.d(TAG, "onChildChanged: start");
                 String currencyTitle = dataSnapshot.getKey();
-                for (int i = 0; i < counterList.size(); i++){
-                    if(TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)){
+                for (int i = 0; i < counterList.size(); i++) {
+                    if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
                         counterRecyclerAdapter.counterList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
                         counterRecyclerAdapter.notifyItemChanged(i);
                         counterRecyclerAdapter.notifyDataSetChanged();
                     }
                 }
-                for(int i = 0; i < imageEconomyList.size(); i++){
-                    if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                for (int i = 0; i < imageEconomyList.size(); i++) {
+                    if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
                         imageEconomyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
                         imageEconomyRecyclerAdapter.notifyItemChanged(i);
                         imageEconomyRecyclerAdapter.notifyDataSetChanged();
@@ -124,16 +133,16 @@ public class BankActivity extends AppCompatActivity {
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onChildRemoved: start");
                 String currencyTitle = dataSnapshot.getKey();
-                for (int i = 0; i < counterList.size(); i++){
-                    if(TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)){
+                for (int i = 0; i < counterList.size(); i++) {
+                    if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
                         counterRecyclerAdapter.counterList.remove(i);
                         counterRecyclerAdapter.notifyItemRemoved(i);
                         counterRecyclerAdapter.notifyItemRangeChanged(i, counterRecyclerAdapter.counterList.size());
                         counterRecyclerAdapter.notifyDataSetChanged();
                     }
                 }
-                for(int i = 0; i < imageEconomyList.size(); i++){
-                    if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                for (int i = 0; i < imageEconomyList.size(); i++) {
+                    if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
                         imageEconomyRecyclerAdapter.currencyList.remove(i);
                         imageEconomyRecyclerAdapter.notifyItemRemoved(i);
                         imageEconomyRecyclerAdapter.notifyItemRangeChanged(i, imageEconomyRecyclerAdapter.currencyList.size());
@@ -152,14 +161,27 @@ public class BankActivity extends AppCompatActivity {
 
             }
         });
-
-        SetupLanguage();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        SetupLanguage();
+        SetupDatabase();
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupTheme();
+                imageEconomyRecyclerAdapter = new ImageEconomyRecyclerAdapter(BankActivity.this, imageEconomyList, currentUser.getTheme());
+                imageEconomyRecycler.setAdapter(imageEconomyRecyclerAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetupDatabase() {
@@ -169,17 +191,14 @@ public class BankActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
+        background = (ConstraintLayout) findViewById(R.id.BankLayout);
         taskButton = (ImageView) findViewById(R.id.TaskButton);
         storeButton = (ImageView) findViewById(R.id.StoreButton);
         bankButton = (ImageView) findViewById(R.id.BankButton);
         rulesButton = (ImageView) findViewById(R.id.RulesButton);
         optionsButton = (ImageView) findViewById(R.id.OptionsButton);
-        faceButton = (ImageView) findViewById(R.id.FaceButton);
         counterRecycler = (RecyclerView) findViewById(R.id.CounterRecycler);
         imageEconomyRecycler = (RecyclerView) findViewById(R.id.ImageEconomyRecycler);
-        titleText = (TextView) findViewById(R.id.TitleText);
-        layout = (ConstraintLayout) findViewById(R.id.BankLayout);
-
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -205,8 +224,6 @@ public class BankActivity extends AppCompatActivity {
                         startActivity(newIntent);
                         finish();
                         break;
-                    case R.id.FaceButton:
-                        break;
                     case R.id.OptionsButton:
                         newIntent = new Intent(BankActivity.this, OptionsActivity.class);
                         newIntent.putExtra("Role", false);
@@ -220,47 +237,51 @@ public class BankActivity extends AppCompatActivity {
         bankButton.setOnClickListener(switchPage);
         storeButton.setOnClickListener(switchPage);
         rulesButton.setOnClickListener(switchPage);
-        //faceButton.setOnClickListener(switchPage);
         optionsButton.setOnClickListener(switchPage);
     }
 
-    private void SetupLanguage(){
-        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String language = dataSnapshot.getValue(String.class);
-
-                if(TextUtils.equals(language, "Norsk")){
-                    titleText.setText("Bank");
-                } else if(TextUtils.equals(language, "English")){
-                    titleText.setText("Bank");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void SetupTheme(){
-        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("theme");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String theme = dataSnapshot.getValue(String.class);
-
-                switch(theme){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    private void SetupTheme() {
+        switch (currentUser.getTheme()) {
+            case "Mermaids":
+                background.setBackgroundResource(R.drawable.mermaids_background_bank_english);
+                taskButton.setImageResource(R.drawable.mermaids_button_task_english);
+                bankButton.setImageResource(R.drawable.mermaids_button_bank_english);
+                storeButton.setImageResource(R.drawable.mermaids_button_store_english);
+                rulesButton.setImageResource(R.drawable.mermaids_button_rules_english);
+                optionsButton.setImageResource(R.drawable.mermaids_button_options);
+                break;
+            case "Western":
+                background.setBackgroundResource(R.drawable.western_background_bank_english);
+                taskButton.setImageResource(R.drawable.western_button_task_english);
+                bankButton.setImageResource(R.drawable.western_button_bank_english);
+                storeButton.setImageResource(R.drawable.western_button_store_english);
+                rulesButton.setImageResource(R.drawable.western_button_rules_english);
+                optionsButton.setImageResource(R.drawable.western_button_options);
+                break;
+            case "Space":
+                background.setBackgroundResource(R.drawable.space_background_bank_english);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                break;
+            case "Season":
+                background.setBackgroundResource(R.drawable.season_background_sunrise_english);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                break;
+            case "Standard":
+                background.setBackgroundResource(R.drawable.pirate_background_bank_english);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                break;
+        }
     }
 }

@@ -49,7 +49,6 @@ public class AdminRulesActivity extends AppCompatActivity {
     private ImageView optionsButton;
     private Button adminButton;
     private Button addRulesButton;
-    private TextView titleText;
 
     private List<String> ruleList;
     private RecyclerView rulesRecycler;
@@ -143,7 +142,6 @@ public class AdminRulesActivity extends AppCompatActivity {
         optionsButton = (ImageView) findViewById(R.id.OptionsButton);
         adminButton = (Button) findViewById(R.id.AdminButton);
         addRulesButton = (Button) findViewById(R.id.AddButton);
-        titleText = (TextView) findViewById(R.id.TitleText);
 
         rulesRecycler = (RecyclerView) findViewById(R.id.RulesRecycler);
 
@@ -208,11 +206,9 @@ public class AdminRulesActivity extends AppCompatActivity {
                 if(TextUtils.equals(language, "Norsk")){
                     adminButton.setText("Velg Plan");
                     addRulesButton.setText("Legg Til Regel");
-                    titleText.setText("Regler");
                 } else if(TextUtils.equals(language, "English")){
                     adminButton.setText("Choose Plan");
                     addRulesButton.setText("Add Rule");
-                    titleText.setText("Rules");
                 }
             }
 

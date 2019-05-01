@@ -99,11 +99,11 @@
 
     <ImageView
         android:id="@+id/BackButton"
-        android:layout_width="100dp"
+        android:layout_width="70dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back" />
+        app:srcCompat="@drawable/pirate_button_back_english" />
 </android.support.constraint.ConstraintLayout>
