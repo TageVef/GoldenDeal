@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,15 +35,15 @@ public class OptionsActivity extends AppCompatActivity {
     private TextView languageChoice;
     private TextView themeText;
     private TextView themeChoice;
-    private Button backButton;
+    private ImageView backButton;
     private Button signout;
     private ConstraintLayout optionsLayout;
 
     private TextView versionText;
     private TextView versionNumber;
 
-    private boolean userRole;
-    private String language;
+    private User currentUser;
+    private Boolean role;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -57,36 +58,19 @@ public class OptionsActivity extends AppCompatActivity {
         SetupDatabase();
         SetupViews();
 
-        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+        role = getIntent().getBooleanExtra("Role", false);
+
+        if (role)
+            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+        else
+            mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info");
+
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User currentUser = dataSnapshot.getValue(User.class);
-                if(currentUser != null){
-                    if(currentUser.getRole()){
-                        userRole = true;
-                        LanguageCheck(currentUser.getLanguage());
-                    } else {
-                        userRole = false;
-                    }
-                } else {
-                    userRole = false;
-                }
-
-                if(!userRole){
-                    mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
-                    mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            LanguageCheck(dataSnapshot.getValue(String.class));
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                }
+                currentUser = dataSnapshot.getValue(User.class);
+                LanguageCheck(currentUser.getLanguage());
+                ThemeSetup(currentUser.getTheme());
             }
 
             @Override
@@ -94,24 +78,6 @@ public class OptionsActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void LanguageCheck(String newLanguage) {
-        language = newLanguage;
-        languageChoice.setText(language);
-        if (TextUtils.equals(language, "Norsk")) {
-            signout.setText("Log ut");
-            backButton.setText("Tilbake");
-            languageText.setText("språk");
-            versionText.setText("Versjon: ");
-            themeText.setText("Tema: ");
-        } else if (TextUtils.equals(language, "English")) {
-            signout.setText("Signout");
-            backButton.setText("back");
-            languageText.setText("language");
-            versionText.setText("Version: ");
-            themeText.setText("Theme: ");
-        }
     }
 
     private void SetupDatabase() {
@@ -125,7 +91,7 @@ public class OptionsActivity extends AppCompatActivity {
         languageChoice = (TextView) findViewById(R.id.LanguageBox);
         themeText = (TextView) findViewById(R.id.ThemeText);
         themeChoice = (TextView) findViewById(R.id.ThemeChoice);
-        backButton = (Button) findViewById(R.id.BackButton);
+        backButton = (ImageView) findViewById(R.id.BackButton);
         signout = (Button) findViewById(R.id.signoutButton);
         versionText = (TextView) findViewById(R.id.VersionText);
         versionNumber = (TextView) findViewById(R.id.VersionNumber);
@@ -141,12 +107,12 @@ public class OptionsActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         LanguageCheck(item.getTitle().toString());
-                        if(userRole){
+                        if (currentUser.getRole()) {
                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
                         } else {
                             mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("language");
                         }
-                        mDatabaseReference.setValue(language);
+                        mDatabaseReference.setValue(currentUser.getLanguage());
                         return false;
                     }
                 });
@@ -163,8 +129,8 @@ public class OptionsActivity extends AppCompatActivity {
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        themeChoice.setText(item.getTitle().toString());
-                        if(userRole){
+                        ThemeSetup(item.getTitle().toString());
+                        if (currentUser.getRole()) {
                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("theme");
                         } else {
                             mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("theme");
@@ -203,5 +169,38 @@ public class OptionsActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(switchPage);
         signout.setOnClickListener(switchPage);
+    }
+
+    private void LanguageCheck(String newLanguage) {
+        currentUser.setLanguage(newLanguage);
+        languageChoice.setText(currentUser.getLanguage());
+        if (TextUtils.equals(currentUser.getLanguage(), "Norsk")) {
+            signout.setText("Log ut");
+            languageText.setText("språk");
+            versionText.setText("Versjon: ");
+            themeText.setText("Tema: ");
+        } else if (TextUtils.equals(currentUser.getLanguage(), "English")) {
+            signout.setText("Signout");
+            languageText.setText("language");
+            versionText.setText("Version: ");
+            themeText.setText("Theme: ");
+        }
+    }
+
+    private void ThemeSetup(String activeTheme) {
+        themeChoice.setText(activeTheme);
+        currentUser.setTheme(activeTheme);
+        switch (currentUser.getTheme()) {
+            case "Mermaids":
+                backButton.setImageResource(R.drawable.mermaids_back);
+                break;
+            case "Western":
+                backButton.setImageResource(R.drawable.western_back);
+                break;
+            case "Standard":
+                backButton.setImageResource(R.drawable.back);
+                break;
+        }
+
     }
 }

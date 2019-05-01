@@ -149,30 +149,34 @@ public class TasksActivity extends AppCompatActivity {
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newIntent = new Intent(TasksActivity.this, TasksActivity.class);
                 switch (view.getId()) {
                     case R.id.TaskButton:
-                        startActivity(new Intent(TasksActivity.this, TasksActivity.class));
-                        finish();
-                        break;
-                    case R.id.BankButton:
-                        startActivity(new Intent(TasksActivity.this, BankActivity.class));
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.StoreButton:
-                        startActivity(new Intent(TasksActivity.this, StoreActivity.class));
+                        newIntent = new Intent(TasksActivity.this, StoreActivity.class);
+                        startActivity(newIntent);
+                        finish();
+                        break;
+                    case R.id.BankButton:
+                        newIntent = new Intent(TasksActivity.this, BankActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.RulesButton:
-                        startActivity(new Intent(TasksActivity.this, RulesActivity.class));
+                        newIntent = new Intent(TasksActivity.this, RulesActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.FaceButton:
                         break;
                     case R.id.OptionsButton:
-                        startActivity(new Intent(TasksActivity.this, OptionsActivity.class));
+                        newIntent = new Intent(TasksActivity.this, OptionsActivity.class);
+                        newIntent.putExtra("Role", false);
+                        startActivity(newIntent);
                         break;
-
                 }
             }
         };

@@ -134,28 +134,33 @@ public class StoreActivity extends AppCompatActivity {
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newIntent = new Intent(StoreActivity.this, StoreActivity.class);
                 switch (view.getId()) {
                     case R.id.TaskButton:
-                        startActivity(new Intent(StoreActivity.this, TasksActivity.class));
+                        newIntent = new Intent(StoreActivity.this, TasksActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.StoreButton:
-                        startActivity(new Intent(StoreActivity.this, StoreActivity.class));
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.BankButton:
-                        startActivity(new Intent(StoreActivity.this, BankActivity.class));
+                        newIntent = new Intent(StoreActivity.this, BankActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.RulesButton:
-                        startActivity(new Intent(StoreActivity.this, RulesActivity.class));
+                        newIntent = new Intent(StoreActivity.this, RulesActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.FaceButton:
                         break;
                     case R.id.OptionsButton:
-                        startActivity(new Intent(StoreActivity.this, OptionsActivity.class));
+                        newIntent = new Intent(StoreActivity.this, OptionsActivity.class);
+                        newIntent.putExtra("Role", false);
+                        startActivity(newIntent);
                         break;
                 }
             }

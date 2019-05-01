@@ -32,11 +32,14 @@ import java.util.List;
 import goldendeal.goldendeal.Activities.OptionsActivity;
 import goldendeal.goldendeal.Data.UserData.CounterRecyclerAdapter;
 import goldendeal.goldendeal.Data.UserData.ImageEconomyRecyclerAdapter;
+import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class BankActivity extends AppCompatActivity {
     private static final String TAG = "BankActivity";
+
+    private User currentUser;
 
     private ImageView taskButton;
     private ImageView storeButton;
@@ -181,28 +184,33 @@ public class BankActivity extends AppCompatActivity {
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newIntent = new Intent(BankActivity.this, BankActivity.class);
                 switch (view.getId()) {
                     case R.id.TaskButton:
-                        startActivity(new Intent(BankActivity.this, TasksActivity.class));
+                        newIntent = new Intent(BankActivity.this, TasksActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.StoreButton:
-                        startActivity(new Intent(BankActivity.this, StoreActivity.class));
+                        newIntent = new Intent(BankActivity.this, StoreActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.BankButton:
-                        startActivity(new Intent(BankActivity.this, BankActivity.class));
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.RulesButton:
-                        startActivity(new Intent(BankActivity.this, RulesActivity.class));
+                        newIntent = new Intent(BankActivity.this, RulesActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.FaceButton:
                         break;
                     case R.id.OptionsButton:
-                        startActivity(new Intent(BankActivity.this, OptionsActivity.class));
+                        newIntent = new Intent(BankActivity.this, OptionsActivity.class);
+                        newIntent.putExtra("Role", false);
+                        startActivity(newIntent);
                         break;
                 }
             }

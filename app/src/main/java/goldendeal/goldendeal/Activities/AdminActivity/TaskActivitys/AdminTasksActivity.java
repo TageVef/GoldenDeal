@@ -152,35 +152,43 @@ public class AdminTasksActivity extends AppCompatActivity {
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newIntent = new Intent(AdminTasksActivity.this, AdminTasksActivity.class);
                 switch (view.getId()) {
                     case R.id.TaskButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminTasksActivity.class));
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.BankButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminBankActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, AdminBankActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.StoreButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminStoreActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, AdminStoreActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.RulesButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminRulesActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, AdminRulesActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.OptionsButton:
-                        startActivity(new Intent(AdminTasksActivity.this, OptionsActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, OptionsActivity.class);
+                        newIntent.putExtra("Role", true);
+                        startActivity(newIntent);
                         break;
                     case R.id.AdminButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminPlanActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, AdminPlanActivity.class);
+                        startActivity(newIntent);
                         break;
                     case R.id.AddTasksButton:
-                        startActivity(new Intent(AdminTasksActivity.this, AdminAddTasksActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, AdminAddTasksActivity.class);
+                        startActivity(newIntent);
                         break;
                     case R.id.EditTasksButton:
-                        startActivity(new Intent(AdminTasksActivity.this, EditTasksActivity.class));
+                        newIntent = new Intent(AdminTasksActivity.this, EditTasksActivity.class);
+                        startActivity(newIntent);
                         break;
                 }
             }

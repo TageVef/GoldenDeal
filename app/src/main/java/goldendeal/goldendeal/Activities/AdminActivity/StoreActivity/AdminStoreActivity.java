@@ -147,35 +147,43 @@ public class AdminStoreActivity extends AppCompatActivity {
 
         rewardRecycler = (RecyclerView) findViewById(R.id.RewardRecycler);
 
+
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newIntent = new Intent(AdminStoreActivity.this, AdminStoreActivity.class);
                 switch (view.getId()) {
                     case R.id.TaskButton:
-                        startActivity(new Intent(AdminStoreActivity.this, AdminTasksActivity.class));
+                        newIntent = new Intent(AdminStoreActivity.this, AdminTasksActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.BankButton:
-                        startActivity(new Intent(AdminStoreActivity.this, AdminBankActivity.class));
+                        newIntent = new Intent(AdminStoreActivity.this, AdminBankActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.StoreButton:
-                        startActivity(new Intent(AdminStoreActivity.this, AdminStoreActivity.class));
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.RulesButton:
-                        startActivity(new Intent(AdminStoreActivity.this, AdminRulesActivity.class));
+                        newIntent = new Intent(AdminStoreActivity.this, AdminRulesActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.OptionsButton:
-                        startActivity(new Intent(AdminStoreActivity.this, OptionsActivity.class));
+                        newIntent = new Intent(AdminStoreActivity.this, OptionsActivity.class);
+                        newIntent.putExtra("Role", true);
+                        startActivity(newIntent);
                         break;
                     case R.id.AdminButton:
-                        startActivity(new Intent(AdminStoreActivity.this, AdminPlanActivity.class));
+                        newIntent = new Intent(AdminStoreActivity.this, AdminPlanActivity.class);
+                        startActivity(newIntent);
                         break;
                     case R.id.AddButton:
-                        startActivity(new Intent( AdminStoreActivity.this, NewRewardActivity.class));
+                        newIntent = new Intent( AdminStoreActivity.this, NewRewardActivity.class);
+                        startActivity(newIntent);
                         break;
                 }
             }

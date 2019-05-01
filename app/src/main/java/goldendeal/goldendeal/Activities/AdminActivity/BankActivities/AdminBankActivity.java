@@ -3,6 +3,7 @@ package goldendeal.goldendeal.Activities.AdminActivity.BankActivities;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import goldendeal.goldendeal.Activities.AdminActivity.StoreActivity.AdminStoreAc
 import goldendeal.goldendeal.Activities.AdminActivity.PlanActivitys.AdminPlanActivity;
 import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
+import goldendeal.goldendeal.Activities.UserActivities.RulesActivity;
 import goldendeal.goldendeal.Data.AdminData.CurrencyRecyclerAdapter;
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
@@ -44,6 +46,7 @@ public class AdminBankActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
+    private ConstraintLayout background;
     private ImageView taskButton;
     private ImageView storeButton;
     private ImageView bankButton;
@@ -72,6 +75,7 @@ public class AdminBankActivity extends AppCompatActivity {
         SetupDatabase();
         SetupViews();
         SetupLanguage();
+        SetupTheme();
 
         currencyList = new ArrayList<VirtualCurrency>();
         currencyRecycler.hasFixedSize();
@@ -168,6 +172,7 @@ public class AdminBankActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         SetupLanguage();
+        SetupTheme();
     }
 
     private void SetupDatabase() {
@@ -177,6 +182,7 @@ public class AdminBankActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
+        background = (ConstraintLayout) findViewById(R.id.AdminBankLayout);
         taskButton = (ImageView) findViewById(R.id.TaskButton);
         storeButton = (ImageView) findViewById(R.id.StoreButton);
         bankButton = (ImageView) findViewById(R.id.BankButton);
@@ -195,32 +201,39 @@ public class AdminBankActivity extends AppCompatActivity {
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newIntent = new Intent(AdminBankActivity.this, AdminBankActivity.class);
                 switch (view.getId()) {
                     case R.id.TaskButton:
-                        startActivity(new Intent(AdminBankActivity.this, AdminTasksActivity.class));
+                        newIntent = new Intent(AdminBankActivity.this, AdminTasksActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.BankButton:
-                        startActivity(new Intent(AdminBankActivity.this, AdminBankActivity.class));
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.StoreButton:
-                        startActivity(new Intent(AdminBankActivity.this, AdminStoreActivity.class));
+                        newIntent = new Intent(AdminBankActivity.this, AdminStoreActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.RulesButton:
-                        startActivity(new Intent(AdminBankActivity.this, AdminRulesActivity.class));
+                        newIntent = new Intent(AdminBankActivity.this, AdminRulesActivity.class);
+                        startActivity(newIntent);
                         finish();
                         break;
                     case R.id.OptionsButton:
-                        startActivity(new Intent(AdminBankActivity.this, OptionsActivity.class));
+                        newIntent = new Intent(AdminBankActivity.this, OptionsActivity.class);
+                        newIntent.putExtra("Role", true);
+                        startActivity(newIntent);
                         break;
                     case R.id.AdminButton:
-                        startActivity(new Intent(AdminBankActivity.this, AdminPlanActivity.class));
+                        newIntent = new Intent(AdminBankActivity.this, AdminPlanActivity.class);
+                        startActivity(newIntent);
                         break;
                     case R.id.NewCurrencyButton:
-                        startActivity(new Intent(AdminBankActivity.this, NewCurrencyActivity.class));
+                        newIntent = new Intent(AdminBankActivity.this, NewCurrencyActivity.class);
+                        startActivity(newIntent);
                         break;
                 }
             }
@@ -254,6 +267,31 @@ public class AdminBankActivity extends AppCompatActivity {
                     currencyText.setText("Currency");
                     imageEconomyText.setText("Image Economy");
                     titleText.setText("Bank");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void SetupTheme(){
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("theme");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String theme = dataSnapshot.getValue(String.class);
+
+                switch(theme){
+                    case "Mermaids":
+                        background.setBackgroundResource(R.drawable.mermaids_bank_background);
+                        break;
+                    case "Western":
+                        break;
+                    case "Standard":
+                        break;
                 }
             }
 
