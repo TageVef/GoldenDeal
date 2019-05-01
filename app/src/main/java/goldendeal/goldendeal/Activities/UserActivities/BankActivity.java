@@ -1,8 +1,10 @@
 package goldendeal.goldendeal.Activities.UserActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +45,7 @@ public class BankActivity extends AppCompatActivity {
     private ImageView optionsButton;
     private ImageView faceButton;
     private TextView titleText;
+    private ConstraintLayout layout;
 
     private RecyclerView counterRecycler;
     private CounterRecyclerAdapter counterRecyclerAdapter;
@@ -171,6 +175,8 @@ public class BankActivity extends AppCompatActivity {
         counterRecycler = (RecyclerView) findViewById(R.id.CounterRecycler);
         imageEconomyRecycler = (RecyclerView) findViewById(R.id.ImageEconomyRecycler);
         titleText = (TextView) findViewById(R.id.TitleText);
+        layout = (ConstraintLayout) findViewById(R.id.BankLayout);
+
 
         View.OnClickListener switchPage = new View.OnClickListener() {
             @Override
@@ -221,6 +227,25 @@ public class BankActivity extends AppCompatActivity {
                     titleText.setText("Butikk");
                 } else if(TextUtils.equals(language, "English")){
                     titleText.setText("Store");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void SetupTheme(){
+        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("theme");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String theme = dataSnapshot.getValue(String.class);
+
+                switch(theme){
+
                 }
             }
 

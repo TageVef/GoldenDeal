@@ -128,7 +128,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             currentUserDb.child("email").setValue(em);
                             currentUserDb.child("phoneNum").setValue(phnum);
                             currentUserDb.child("role").setValue(role);
-                            currentUserDb.child("theme").setValue("none");
+                            currentUserDb.child("theme").setValue("standard");
                             currentUserDb.child("password").setValue(pw);
                             currentUserDb.child("CurrentAccess").setValue("none");
                             currentUserDb.child("language").setValue(languageChoice.getText());

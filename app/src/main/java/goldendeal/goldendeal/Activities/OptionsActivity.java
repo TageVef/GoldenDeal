@@ -3,6 +3,7 @@ package goldendeal.goldendeal.Activities;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,8 +32,11 @@ public class OptionsActivity extends AppCompatActivity {
 
     private TextView languageText;
     private TextView languageChoice;
+    private TextView themeText;
+    private TextView themeChoice;
     private Button backButton;
     private Button signout;
+    private ConstraintLayout optionsLayout;
 
     private TextView versionText;
     private TextView versionNumber;
@@ -100,11 +104,13 @@ public class OptionsActivity extends AppCompatActivity {
             backButton.setText("Tilbake");
             languageText.setText("språk");
             versionText.setText("Versjon: ");
+            themeText.setText("Tema: ");
         } else if (TextUtils.equals(language, "English")) {
             signout.setText("Signout");
             backButton.setText("back");
             languageText.setText("language");
             versionText.setText("Version: ");
+            themeText.setText("Theme: ");
         }
     }
 
@@ -117,10 +123,13 @@ public class OptionsActivity extends AppCompatActivity {
     private void SetupViews() {
         languageText = (TextView) findViewById(R.id.LanguageText);
         languageChoice = (TextView) findViewById(R.id.LanguageBox);
+        themeText = (TextView) findViewById(R.id.ThemeText);
+        themeChoice = (TextView) findViewById(R.id.ThemeChoice);
         backButton = (Button) findViewById(R.id.BackButton);
         signout = (Button) findViewById(R.id.signoutButton);
         versionText = (TextView) findViewById(R.id.VersionText);
         versionNumber = (TextView) findViewById(R.id.VersionNumber);
+        optionsLayout = (ConstraintLayout) findViewById(R.id.OptionsLayout);
 
         versionNumber.setText("0.1.0v");
 
@@ -144,6 +153,31 @@ public class OptionsActivity extends AppCompatActivity {
                 popup.getMenu().add("Norsk");
                 popup.getMenu().add("English");
                 popup.show();
+            }
+        });
+
+        themeChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu menu = new PopupMenu(OptionsActivity.this, v);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        themeChoice.setText(item.getTitle().toString());
+                        if(userRole){
+                            mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("theme");
+                        } else {
+                            mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("theme");
+                        }
+                        mDatabaseReference.setValue(item.getTitle().toString());
+
+                        return false;
+                    }
+                });
+                menu.getMenu().add("Mermaids");
+                menu.getMenu().add("Western");
+                menu.getMenu().add("Standard");
+                menu.show();
             }
         });
 
