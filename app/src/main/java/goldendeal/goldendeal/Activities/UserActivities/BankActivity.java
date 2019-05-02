@@ -260,11 +260,11 @@ public class BankActivity extends AppCompatActivity {
                 break;
             case "Space":
                 background.setBackgroundResource(R.drawable.space_background_bank_english);
-                taskButton.setImageResource(R.drawable.pirate_button_task_english);
-                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
-                storeButton.setImageResource(R.drawable.pirate_button_store_english);
-                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
-                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                taskButton.setImageResource(R.drawable.space_button_task_english);
+                bankButton.setImageResource(R.drawable.space_button_bank_english);
+                storeButton.setImageResource(R.drawable.space_button_store_english);
+                rulesButton.setImageResource(R.drawable.space_button_rules_english);
+                optionsButton.setImageResource(R.drawable.space_button_options);
                 break;
             case "Season":
                 background.setBackgroundResource(R.drawable.season_background_sunrise_english);

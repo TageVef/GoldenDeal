@@ -142,7 +142,7 @@ public class OptionsActivity extends AppCompatActivity {
                 });
                 menu.getMenu().add("Mermaids");
                 menu.getMenu().add("Western");
-                //menu.getMenu().add("space");
+                menu.getMenu().add("Space");
                 //menu.getMenu().add("season");
                 menu.getMenu().add("Standard");
                 menu.show();
@@ -198,6 +198,11 @@ public class OptionsActivity extends AppCompatActivity {
                 break;
             case "Western":
                 backButton.setImageResource(R.drawable.western_button_back);
+                break;
+            case "Space":
+                backButton.setImageResource(R.drawable.space_button_back);
+                break;
+            case "Season":
                 break;
             case "Standard":
                 backButton.setImageResource(R.drawable.pirate_button_back_english);
