@@ -1,13 +1,11 @@
 package goldendeal.goldendeal.Activities;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
@@ -55,10 +50,9 @@ public class OptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+        role = getIntent().getBooleanExtra("Role", false);
         SetupDatabase();
         SetupViews();
-
-        role = getIntent().getBooleanExtra("Role", false);
 
         if (role)
             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
@@ -69,8 +63,8 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
-                LanguageCheck(currentUser.getLanguage());
-                ThemeSetup(currentUser.getTheme());
+                SetupLanguage();
+                SetupTheme();
             }
 
             @Override
@@ -106,7 +100,8 @@ public class OptionsActivity extends AppCompatActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        LanguageCheck(item.getTitle().toString());
+                        currentUser.setLanguage(item.getTitle().toString());
+                        SetupLanguage();
                         if (currentUser.getRole()) {
                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
                         } else {
@@ -129,14 +124,14 @@ public class OptionsActivity extends AppCompatActivity {
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        ThemeSetup(item.getTitle().toString());
+                        currentUser.setTheme(item.getTitle().toString());
+                        SetupTheme();
                         if (currentUser.getRole()) {
                             mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("theme");
                         } else {
                             mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Info").child("theme");
                         }
-                        mDatabaseReference.setValue(item.getTitle().toString());
-
+                        mDatabaseReference.setValue(currentUser.getTheme());
                         return false;
                     }
                 });
@@ -157,7 +152,6 @@ public class OptionsActivity extends AppCompatActivity {
                         if (mAuth != null) {
                             mAuth.signOut();
                             Toast.makeText(OptionsActivity.this, "signed out!", Toast.LENGTH_SHORT).show();
-
                             startActivity(new Intent(OptionsActivity.this, MainActivity.class));
                             finish();
                         }
@@ -173,25 +167,26 @@ public class OptionsActivity extends AppCompatActivity {
         signout.setOnClickListener(switchPage);
     }
 
-    private void LanguageCheck(String newLanguage) {
-        currentUser.setLanguage(newLanguage);
+    private void SetupLanguage() {
         languageChoice.setText(currentUser.getLanguage());
-        if (TextUtils.equals(currentUser.getLanguage(), "Norsk")) {
-            signout.setText("Log ut");
-            languageText.setText("språk");
-            versionText.setText("Versjon: ");
-            themeText.setText("Tema: ");
-        } else if (TextUtils.equals(currentUser.getLanguage(), "English")) {
-            signout.setText("Signout");
-            languageText.setText("language");
-            versionText.setText("Version: ");
-            themeText.setText("Theme: ");
+        switch(currentUser.getLanguage()){
+            case "Norsk":
+                signout.setText("Log ut");
+                languageText.setText("språk");
+                versionText.setText("Versjon: ");
+                themeText.setText("Tema: ");
+                break;
+            case "English":
+                signout.setText("Signout");
+                languageText.setText("language");
+                versionText.setText("Version: ");
+                themeText.setText("Theme: ");
+                break;
         }
     }
 
-    private void ThemeSetup(String activeTheme) {
-        themeChoice.setText(activeTheme);
-        currentUser.setTheme(activeTheme);
+    private void SetupTheme() {
+        themeChoice.setText(currentUser.getTheme());
         switch (currentUser.getTheme()) {
             case "Mermaids":
                 backButton.setImageResource(R.drawable.mermaids_button_back);

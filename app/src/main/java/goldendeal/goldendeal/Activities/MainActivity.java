@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     //user is signed in
                     Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
                     databaseReference = databaseReference.child("Admin").child(user.getUid()).child("Info");
-                    databaseReference.addValueEventListener(loginListerner);
+                    databaseReference.addListenerForSingleValueEvent(loginListerner);
 
                 } else {
                     //user is signed out

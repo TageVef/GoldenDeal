@@ -77,14 +77,14 @@ public class AdminPlanActivity extends AppCompatActivity {
 
     private void FindingUsersEmailAddress() {
         mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String userID = dataSnapshot.getValue(String.class);
 
 
                 mDatabaseReference = mDatabase.getReference().child("User").child(userID).child("Info").child("email");
-                mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         currentUserMail.setText(dataSnapshot.getValue(String.class));
@@ -114,11 +114,11 @@ public class AdminPlanActivity extends AppCompatActivity {
                 if(TextUtils.equals(language, "Norsk")){
                     backButton.setText("Tilbake");
                     editUserButton.setText("Velg Bruker");
-                    userText.setText("Aktive Bruker");
+                    userText.setText("Aktive Bruker: ");
                 } else if(TextUtils.equals(language, "English")){
                     backButton.setText("Back");
                     editUserButton.setText("Choose User");
-                    userText.setText("Active User");
+                    userText.setText("Active User: ");
                 }
             }
 

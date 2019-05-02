@@ -63,7 +63,7 @@ public class NewUserActivity extends AppCompatActivity {
                     case R.id.AddUser:
                         if (!TextUtils.isEmpty(emailView.getText())) {
                             mDatabaseReference = mDatabase.getReference().child("User");
-                            mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     // Looking through users to find correct user

@@ -60,7 +60,7 @@ public class AdminAddTasksActivity extends AppCompatActivity {
         super.onStart();
 
         mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("CurrentAccess");
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentAccess = dataSnapshot.getValue(String.class);
