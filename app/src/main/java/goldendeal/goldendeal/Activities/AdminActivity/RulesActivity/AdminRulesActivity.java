@@ -3,6 +3,7 @@ package goldendeal.goldendeal.Activities.AdminActivity.RulesActivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,10 +32,13 @@ import goldendeal.goldendeal.Activities.AdminActivity.StoreActivity.NewRewardAct
 import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
 import goldendeal.goldendeal.Data.AdminData.AdminRulesRecyclerAdapter;
+import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.R;
 
 public class AdminRulesActivity extends AppCompatActivity {
     private static final String TAG = "AdminRulesActivity";
+    private User currentUser;
+    private List<String> ruleList;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -42,6 +46,7 @@ public class AdminRulesActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //------------------------------------------------------
 
+    private ConstraintLayout background;
     private ImageView taskButton;
     private ImageView storeButton;
     private ImageView bankButton;
@@ -50,7 +55,6 @@ public class AdminRulesActivity extends AppCompatActivity {
     private Button adminButton;
     private Button addRulesButton;
 
-    private List<String> ruleList;
     private RecyclerView rulesRecycler;
     private AdminRulesRecyclerAdapter rulesRecyclerAdapter;
 
@@ -59,9 +63,23 @@ public class AdminRulesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_rules);
-
         SetupDatabase();
         SetupViews();
+
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupLanguage();
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         ruleList = new ArrayList<String>();
         rulesRecycler.hasFixedSize();
@@ -118,14 +136,26 @@ public class AdminRulesActivity extends AppCompatActivity {
 
             }
         });
-
-        SetupLanguage();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        SetupLanguage();
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupLanguage();
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void SetupDatabase() {
@@ -135,6 +165,7 @@ public class AdminRulesActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
+        background = (ConstraintLayout) findViewById(R.id.AdminRulesLayout);
         taskButton = (ImageView) findViewById(R.id.TaskButton);
         storeButton = (ImageView) findViewById(R.id.StoreButton);
         bankButton = (ImageView) findViewById(R.id.BankButton);
@@ -197,25 +228,60 @@ public class AdminRulesActivity extends AppCompatActivity {
     }
 
     private void SetupLanguage(){
-        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String language = dataSnapshot.getValue(String.class);
+        switch(currentUser.getLanguage()){
+            case "Norsk":
+                adminButton.setText("Velg Plan");
+                addRulesButton.setText("Legg Til Regel");
+                break;
+            case "English":
+                adminButton.setText("Choose Plan");
+                addRulesButton.setText("Add Rule");
+                break;
+        }
+    }
 
-                if(TextUtils.equals(language, "Norsk")){
-                    adminButton.setText("Velg Plan");
-                    addRulesButton.setText("Legg Til Regel");
-                } else if(TextUtils.equals(language, "English")){
-                    adminButton.setText("Choose Plan");
-                    addRulesButton.setText("Add Rule");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    private void SetupTheme() {
+        switch (currentUser.getTheme()) {
+            case "Mermaids":
+                background.setBackgroundResource(R.drawable.mermaids_background_rules_english);
+                optionsButton.setImageResource(R.drawable.mermaids_button_options);
+                taskButton.setImageResource(R.drawable.mermaids_button_task_english);
+                bankButton.setImageResource(R.drawable.mermaids_button_bank_english);
+                storeButton.setImageResource(R.drawable.mermaids_button_store_english);
+                rulesButton.setImageResource(R.drawable.mermaids_button_rules_english);
+                break;
+            case "Western":
+                background.setBackgroundResource(R.drawable.western_background_rules_english);
+                optionsButton.setImageResource(R.drawable.western_button_options);
+                taskButton.setImageResource(R.drawable.western_button_task_english);
+                bankButton.setImageResource(R.drawable.western_button_bank_english);
+                storeButton.setImageResource(R.drawable.western_button_store_english);
+                rulesButton.setImageResource(R.drawable.western_button_rules_english);
+                break;
+            case "Space":
+                background.setBackgroundResource(R.drawable.space_background_rules_english);
+                optionsButton.setImageResource(R.drawable.space_button_options);
+                taskButton.setImageResource(R.drawable.space_button_task_english);
+                bankButton.setImageResource(R.drawable.space_button_bank_english);
+                storeButton.setImageResource(R.drawable.space_button_store_english);
+                rulesButton.setImageResource(R.drawable.space_button_rules_english);
+                break;
+            case "Season":
+                background.setBackgroundResource(R.drawable.season_background_winter_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                break;
+            case "Standard":
+                background.setBackgroundResource(R.drawable.pirate_background_rules_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                break;
+        }
     }
 }

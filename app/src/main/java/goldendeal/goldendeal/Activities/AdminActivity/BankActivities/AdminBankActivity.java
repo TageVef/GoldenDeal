@@ -22,8 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +30,16 @@ import goldendeal.goldendeal.Activities.AdminActivity.StoreActivity.AdminStoreAc
 import goldendeal.goldendeal.Activities.AdminActivity.PlanActivitys.AdminPlanActivity;
 import goldendeal.goldendeal.Activities.AdminActivity.TaskActivitys.AdminTasksActivity;
 import goldendeal.goldendeal.Activities.OptionsActivity;
-import goldendeal.goldendeal.Activities.UserActivities.RulesActivity;
 import goldendeal.goldendeal.Data.AdminData.CurrencyRecyclerAdapter;
+import goldendeal.goldendeal.Model.User;
 import goldendeal.goldendeal.Model.VirtualCurrency;
 import goldendeal.goldendeal.R;
 
 public class AdminBankActivity extends AppCompatActivity {
     private static final String TAG = "AdminBankActivity";
+    private User currentUser;
+    private List<VirtualCurrency> currencyList;
+    private List<VirtualCurrency> imageEconomyList;
 
     //Firebase Variables
     private DatabaseReference mDatabaseReference;
@@ -53,18 +54,14 @@ public class AdminBankActivity extends AppCompatActivity {
     private ImageView rulesButton;
     private ImageView optionsButton;
     private Button adminButton;
+    private Button newCurrencyButton;
 
     private TextView currencyText;
     private TextView imageEconomyText;
 
-
-    private Button newCurrencyButton;
-
     private RecyclerView currencyRecycler;
-    private List<VirtualCurrency> currencyList;
     private CurrencyRecyclerAdapter currencyRecyclerAdapter;
     private RecyclerView imageEconomyRecycler;
-    private List<VirtualCurrency> imageEconomyList;
     private CurrencyRecyclerAdapter imageEconomyRecyclerAdapter;
 
     @Override
@@ -73,8 +70,21 @@ public class AdminBankActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_bank);
         SetupDatabase();
         SetupViews();
-        SetupLanguage();
-        SetupTheme();
+
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupLanguage();
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         currencyList = new ArrayList<VirtualCurrency>();
         currencyRecycler.hasFixedSize();
@@ -93,13 +103,13 @@ public class AdminBankActivity extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         VirtualCurrency currentCurrency = dataSnapshot.getValue(VirtualCurrency.class);
-                        if(currentCurrency.isImageEconomy()){
+                        if (currentCurrency.isImageEconomy()) {
                             imageEconomyList.add(currentCurrency);
 
                             imageEconomyRecyclerAdapter = new CurrencyRecyclerAdapter(AdminBankActivity.this, imageEconomyList);
                             imageEconomyRecycler.setAdapter(imageEconomyRecyclerAdapter);
                             imageEconomyRecyclerAdapter.notifyDataSetChanged();
-                        }else{
+                        } else {
                             currencyList.add(currentCurrency);
 
                             currencyRecyclerAdapter = new CurrencyRecyclerAdapter(AdminBankActivity.this, currencyList);
@@ -111,15 +121,15 @@ public class AdminBankActivity extends AppCompatActivity {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         String currencyTitle = dataSnapshot.getKey();
-                        for (int i = 0; i < currencyList.size(); i++){
-                            if(TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)){
+                        for (int i = 0; i < currencyList.size(); i++) {
+                            if (TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)) {
                                 currencyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
                                 currencyRecyclerAdapter.notifyItemChanged(i);
                                 currencyRecyclerAdapter.notifyDataSetChanged();
                             }
                         }
-                        for(int i = 0; i < imageEconomyList.size(); i++){
-                            if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                        for (int i = 0; i < imageEconomyList.size(); i++) {
+                            if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
                                 imageEconomyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
                                 imageEconomyRecyclerAdapter.notifyItemChanged(i);
                                 imageEconomyRecyclerAdapter.notifyDataSetChanged();
@@ -130,16 +140,16 @@ public class AdminBankActivity extends AppCompatActivity {
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                         String currencyTitle = dataSnapshot.getKey();
-                        for (int i = 0; i < currencyList.size(); i++){
-                            if(TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)){
+                        for (int i = 0; i < currencyList.size(); i++) {
+                            if (TextUtils.equals(currencyList.get(i).getTitle(), currencyTitle)) {
                                 currencyRecyclerAdapter.currencyList.remove(i);
                                 currencyRecyclerAdapter.notifyItemRemoved(i);
                                 currencyRecyclerAdapter.notifyItemRangeChanged(i, currencyRecyclerAdapter.currencyList.size());
                                 currencyRecyclerAdapter.notifyDataSetChanged();
                             }
                         }
-                        for(int i = 0; i < imageEconomyList.size(); i++){
-                            if(TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)){
+                        for (int i = 0; i < imageEconomyList.size(); i++) {
+                            if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
                                 imageEconomyRecyclerAdapter.currencyList.remove(i);
                                 imageEconomyRecyclerAdapter.notifyItemRemoved(i);
                                 imageEconomyRecyclerAdapter.notifyItemRangeChanged(i, currencyRecyclerAdapter.currencyList.size());
@@ -170,8 +180,20 @@ public class AdminBankActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        SetupLanguage();
-        SetupTheme();
+        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info");
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                SetupLanguage();
+                SetupTheme();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetupDatabase() {
@@ -181,7 +203,7 @@ public class AdminBankActivity extends AppCompatActivity {
     }
 
     private void SetupViews() {
-        background = (ConstraintLayout) findViewById(R.id.AdminBankLayout);
+        background = (ConstraintLayout) findViewById(R.id.AdminRulesLayout);
         taskButton = (ImageView) findViewById(R.id.TaskButton);
         storeButton = (ImageView) findViewById(R.id.StoreButton);
         bankButton = (ImageView) findViewById(R.id.BankButton);
@@ -246,72 +268,66 @@ public class AdminBankActivity extends AppCompatActivity {
         newCurrencyButton.setOnClickListener(switchPage);
     }
 
-    private void SetupLanguage(){
-        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("language");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String language = dataSnapshot.getValue(String.class);
+    private void SetupLanguage() {
 
-                if(TextUtils.equals(language, "Norsk")){
-                    adminButton.setText("Velg Plan");
-                    newCurrencyButton.setText("Ny Valuta");
-                    currencyText.setText("Valuta");
-                    imageEconomyText.setText("Bilde Økonomi");
-                } else if(TextUtils.equals(language, "English")){
-                    adminButton.setText("Choose Plan");
-                    newCurrencyButton.setText("New currency");
-                    currencyText.setText("Currency");
-                    imageEconomyText.setText("Image Economy");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        switch (currentUser.getLanguage()) {
+            case "Norsk":
+                adminButton.setText("Velg Plan");
+                newCurrencyButton.setText("Ny Valuta");
+                currencyText.setText("Valuta");
+                imageEconomyText.setText("Bilde Økonomi");
+                break;
+            case "English":
+                adminButton.setText("Choose Plan");
+                newCurrencyButton.setText("New currency");
+                currencyText.setText("Currency");
+                imageEconomyText.setText("Image Economy");
+                break;
+        }
     }
 
-    private void SetupTheme(){
-        mDatabaseReference = mDatabase.getReference().child("Admin").child(mAuth.getUid()).child("Info").child("theme");
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String theme = dataSnapshot.getValue(String.class);
-
-                switch(theme){
-                    case "Mermaids":
-                        background.setBackgroundResource(R.drawable.mermaids_background_bank_english);
-                        optionsButton.setImageResource(R.drawable.mermaids_button_options);
-                        taskButton.setImageResource(R.drawable.mermaids_button_task_english);
-                        bankButton.setImageResource(R.drawable.mermaids_button_bank_english);
-                        storeButton.setImageResource(R.drawable.mermaids_button_store_english);
-                        rulesButton.setImageResource(R.drawable.mermaids_button_rules_english);
-                        break;
-                    case "Western":
-                        background.setBackgroundResource(R.drawable.western_background_bank_english);
-                        optionsButton.setImageResource(R.drawable.western_button_options);
-                        taskButton.setImageResource(R.drawable.western_button_task_english);
-                        bankButton.setImageResource(R.drawable.western_button_bank_english);
-                        storeButton.setImageResource(R.drawable.western_button_store_english);
-                        rulesButton.setImageResource(R.drawable.western_button_rules_english);
-                        break;
-                    case "Standard":
-                        background.setBackgroundResource(R.drawable.pirate_background_bank_english);
-                        optionsButton.setImageResource(R.drawable.pirate_button_options);
-                        taskButton.setImageResource(R.drawable.pirate_button_task_english);
-                        bankButton.setImageResource(R.drawable.pirate_button_bank_english);
-                        storeButton.setImageResource(R.drawable.pirate_button_store_english);
-                        rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
-                        break;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    private void SetupTheme() {
+        switch (currentUser.getTheme()) {
+            case "Mermaids":
+                background.setBackgroundResource(R.drawable.mermaids_background_bank_english);
+                optionsButton.setImageResource(R.drawable.mermaids_button_options);
+                taskButton.setImageResource(R.drawable.mermaids_button_task_english);
+                bankButton.setImageResource(R.drawable.mermaids_button_bank_english);
+                storeButton.setImageResource(R.drawable.mermaids_button_store_english);
+                rulesButton.setImageResource(R.drawable.mermaids_button_rules_english);
+                break;
+            case "Western":
+                background.setBackgroundResource(R.drawable.western_background_bank_english);
+                optionsButton.setImageResource(R.drawable.western_button_options);
+                taskButton.setImageResource(R.drawable.western_button_task_english);
+                bankButton.setImageResource(R.drawable.western_button_bank_english);
+                storeButton.setImageResource(R.drawable.western_button_store_english);
+                rulesButton.setImageResource(R.drawable.western_button_rules_english);
+                break;
+            case "Space":
+                background.setBackgroundResource(R.drawable.space_background_bank_english);
+                optionsButton.setImageResource(R.drawable.space_button_options);
+                taskButton.setImageResource(R.drawable.space_button_task_english);
+                bankButton.setImageResource(R.drawable.space_button_bank_english);
+                storeButton.setImageResource(R.drawable.space_button_store_english);
+                rulesButton.setImageResource(R.drawable.space_button_rules_english);
+                break;
+            case "Season":
+                background.setBackgroundResource(R.drawable.season_background_sunrise_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                break;
+            case "Standard":
+                background.setBackgroundResource(R.drawable.pirate_background_bank_english);
+                optionsButton.setImageResource(R.drawable.pirate_button_options);
+                taskButton.setImageResource(R.drawable.pirate_button_task_english);
+                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
+                storeButton.setImageResource(R.drawable.pirate_button_store_english);
+                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
+                break;
+        }
     }
 }
