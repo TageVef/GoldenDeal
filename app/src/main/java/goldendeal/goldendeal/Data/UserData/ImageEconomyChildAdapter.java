@@ -41,19 +41,28 @@ public class ImageEconomyChildAdapter extends RecyclerView.Adapter<ImageEconomyC
             viewHolder.imageList.get(j).setVisibility(View.VISIBLE);
             switch(theme){
                 case "Mermaids":
-                    viewHolder.imageList.get(j).setImageResource(R.drawable.mermaids_price_black);
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.mermaids_prize_black);
                     break;
                 case "Western":
-                    viewHolder.imageList.get(j).setImageResource(R.drawable.western_price_black);
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.western_prize_black);
                     break;
                 case "Space":
-                    viewHolder.imageList.get(j).setImageResource(R.drawable.space_price_black);
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.space_prize_black);
                     break;
-                case "Season":
-                    viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price_black);
+                case "Spring":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.spring_prize_black);
+                    break;
+                case "Summer":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.summer_prize_black);
+                    break;
+                case "Fall":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.fall_prize_black);
+                    break;
+                case "Winter":
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.winter_prize_black);
                     break;
                 case "Standard":
-                    viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price_black);
+                    viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_prize_black);
                     break;
             }
         }
@@ -62,19 +71,28 @@ public class ImageEconomyChildAdapter extends RecyclerView.Adapter<ImageEconomyC
             for (int j = 0; j < viewHolder.CurrencyRow.getValue(); j++) {
                 switch(theme){
                     case "Mermaids":
-                        viewHolder.imageList.get(j).setImageResource(R.drawable.mermaids_price);
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.mermaids_prize);
                         break;
                     case "Western":
-                        viewHolder.imageList.get(j).setImageResource(R.drawable.western_price);
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.western_prize);
                         break;
                     case "Space":
-                        viewHolder.imageList.get(j).setImageResource(R.drawable.space_price);
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.space_prize);
                         break;
-                    case "Season":
-                        viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price);
+                    case "Spring":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.spring_prize);
+                        break;
+                    case "Summer":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.summer_prize);
+                        break;
+                    case "Fall":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.fall_prize);
+                        break;
+                    case "Winter":
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.winter_prize);
                         break;
                     case "Standard":
-                        viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_price);
+                        viewHolder.imageList.get(j).setImageResource(R.drawable.pirate_prize);
                         break;
                 }
             }

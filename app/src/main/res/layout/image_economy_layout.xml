@@ -9,12 +9,12 @@
         android:id="@+id/ImageEconomy10"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/ImageEconomy9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ImageEconomy9"
         app:layout_constraintTop_toTopOf="@id/ImageEconomy9"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy9"
@@ -24,7 +24,7 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy8"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy10"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy8"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy8"
@@ -34,7 +34,7 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy7"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy9"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy7"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy7"
@@ -44,7 +44,7 @@
         app:layout_constraintLeft_toRightOf="@id/ImageEconomy6"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy8"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy6"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy6"
@@ -54,7 +54,7 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy5"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy7"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy5"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy5"
@@ -64,7 +64,7 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy4"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy6"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy4"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy4"
@@ -74,7 +74,7 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy3"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy5"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy3"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy3"
@@ -84,7 +84,7 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy2"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy4"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy2"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy2"
@@ -94,16 +94,16 @@
         app:layout_constraintLeft_toRightOf="@+id/ImageEconomy1"
         app:layout_constraintRight_toLeftOf="@id/ImageEconomy3"
         app:layout_constraintTop_toTopOf="@+id/ImageEconomy1"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 
     <ImageView
         android:id="@+id/ImageEconomy1"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ImageEconomy2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pirate_price_black" />
+        app:srcCompat="@drawable/pirate_prize_black" />
 </android.support.constraint.ConstraintLayout>

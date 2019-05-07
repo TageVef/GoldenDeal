@@ -223,13 +223,37 @@ public class RulesActivity extends AppCompatActivity {
                 rulesButton.setImageResource(R.drawable.space_button_rules_english);
                 optionsButton.setImageResource(R.drawable.space_button_options);
                 break;
-            case "Season":
-                background.setBackgroundResource(R.drawable.season_background_winter_english);
-                taskButton.setImageResource(R.drawable.pirate_button_task_english);
-                bankButton.setImageResource(R.drawable.pirate_button_bank_english);
-                storeButton.setImageResource(R.drawable.pirate_button_store_english);
-                rulesButton.setImageResource(R.drawable.pirate_button_rules_english);
-                optionsButton.setImageResource(R.drawable.pirate_button_options);
+            case "Spring":
+                background.setBackgroundResource(R.drawable.spring_background_rules);
+                taskButton.setImageResource(R.drawable.spring_button_task);
+                bankButton.setImageResource(R.drawable.spring_button_bank);
+                storeButton.setImageResource(R.drawable.spring_button_store);
+                rulesButton.setImageResource(R.drawable.spring_button_rules);
+                optionsButton.setImageResource(R.drawable.spring_button_options);
+                break;
+            case "Summer":
+                background.setBackgroundResource(R.drawable.summer_background_rules);
+                taskButton.setImageResource(R.drawable.summer_button_task);
+                bankButton.setImageResource(R.drawable.summer_button_bank);
+                storeButton.setImageResource(R.drawable.summer_button_store);
+                rulesButton.setImageResource(R.drawable.summer_button_rules);
+                optionsButton.setImageResource(R.drawable.summer_button_options);
+                break;
+            case "Fall":
+                background.setBackgroundResource(R.drawable.fall_background_rules);
+                taskButton.setImageResource(R.drawable.fall_button_task);
+                bankButton.setImageResource(R.drawable.fall_button_bank);
+                storeButton.setImageResource(R.drawable.fall_button_store);
+                rulesButton.setImageResource(R.drawable.fall_button_rules);
+                optionsButton.setImageResource(R.drawable.fall_button_options);
+                break;
+            case "Winter":
+                background.setBackgroundResource(R.drawable.winter_background_rules);
+                taskButton.setImageResource(R.drawable.winter_button_task);
+                bankButton.setImageResource(R.drawable.winter_button_bank);
+                storeButton.setImageResource(R.drawable.winter_button_store);
+                rulesButton.setImageResource(R.drawable.winter_button_rules);
+                optionsButton.setImageResource(R.drawable.winter_button_options);
                 break;
             case "Standard":
                 background.setBackgroundResource(R.drawable.pirate_background_rules_english);

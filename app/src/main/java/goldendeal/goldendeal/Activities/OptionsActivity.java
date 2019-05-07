@@ -138,10 +138,10 @@ public class OptionsActivity extends AppCompatActivity {
                 menu.getMenu().add("Mermaids");
                 menu.getMenu().add("Western");
                 menu.getMenu().add("Space");
-                //menu.getMenu().add("Spring");
-                //menu.getMenu().add("Summer");
-                //menu.getMenu().add("Fall");
-                //menu.getMenu().add("Winter");
+                menu.getMenu().add("Spring");
+                menu.getMenu().add("Summer");
+                menu.getMenu().add("Fall");
+                menu.getMenu().add("Winter");
                 menu.getMenu().add("Standard");
                 menu.show();
             }
@@ -200,7 +200,17 @@ public class OptionsActivity extends AppCompatActivity {
             case "Space":
                 backButton.setImageResource(R.drawable.space_button_back);
                 break;
-            case "Season":
+            case "Spring":
+                backButton.setImageResource(R.drawable.spring_button_back);
+                break;
+            case "Summer":
+                backButton.setImageResource(R.drawable.summer_button_back);
+                break;
+            case "Fall":
+                backButton.setImageResource(R.drawable.fall_button_back);
+                break;
+            case "Winter":
+                backButton.setImageResource(R.drawable.winter_button_back);
                 break;
             case "Standard":
                 backButton.setImageResource(R.drawable.pirate_button_back_english);
