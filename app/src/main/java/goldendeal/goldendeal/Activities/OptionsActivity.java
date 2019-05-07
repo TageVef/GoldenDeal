@@ -138,7 +138,10 @@ public class OptionsActivity extends AppCompatActivity {
                 menu.getMenu().add("Mermaids");
                 menu.getMenu().add("Western");
                 menu.getMenu().add("Space");
-                //menu.getMenu().add("season");
+                //menu.getMenu().add("Spring");
+                //menu.getMenu().add("Summer");
+                //menu.getMenu().add("Fall");
+                //menu.getMenu().add("Winter");
                 menu.getMenu().add("Standard");
                 menu.show();
             }
