@@ -72,7 +72,6 @@ public class AdminAddTasksActivity extends AppCompatActivity {
                         currentTask.setId(Long.parseLong(dataSnapshot.getKey()));
                         taskList.add(currentTask);
 
-                        Log.d(TAG, "onDataChange: task count " + taskList.size());
                         selectNewTaskRecyclerAdapter = new SelectNewTaskRecyclerAdapter(AdminAddTasksActivity.this, taskList);
                         addTaskRecyclerView.setAdapter(selectNewTaskRecyclerAdapter);
                         selectNewTaskRecyclerAdapter.notifyDataSetChanged();

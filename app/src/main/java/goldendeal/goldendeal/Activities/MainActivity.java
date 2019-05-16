@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            Log.d(TAG, "onCancelled: couldn't retrieve data");
         }
     };
 

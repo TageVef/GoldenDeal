@@ -120,7 +120,6 @@ public class NewCurrencyActivity extends AppCompatActivity {
         imageEconomySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.d(TAG, "onCheckedChanged: started");
                 if(isChecked){
                     maxValue.setVisibility(View.VISIBLE);
                 }else{

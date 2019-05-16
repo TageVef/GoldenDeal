@@ -165,6 +165,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Exception e) {
                     mProgressDialog.dismiss();
 
+
                     Toast.makeText(CreateAccountActivity.this, "Couldn't create account: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

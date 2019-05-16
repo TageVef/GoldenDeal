@@ -111,7 +111,6 @@ public class BankActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d(TAG, "onChildChanged: start");
                 String currencyTitle = dataSnapshot.getKey();
                 for (int i = 0; i < counterList.size(); i++) {
                     if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
@@ -131,7 +130,6 @@ public class BankActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved: start");
                 String currencyTitle = dataSnapshot.getKey();
                 for (int i = 0; i < counterList.size(); i++) {
                     if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
