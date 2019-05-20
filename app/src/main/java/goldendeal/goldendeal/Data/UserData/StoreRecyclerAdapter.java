@@ -94,7 +94,7 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             VirtualCurrency currentCurrency = dataSnapshot.getValue(VirtualCurrency.class);
-                            if (currentCurrency.getValue() > currentItem.getCurrency().getValue()) {
+                            if (currentCurrency.getValue() >= currentItem.getCurrency().getValue()) {
                                 mDatabaseReference = mDatabaseReference.getParent().getParent().child("Store");
                                 mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override

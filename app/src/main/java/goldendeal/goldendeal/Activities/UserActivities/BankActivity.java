@@ -70,6 +70,87 @@ public class BankActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
                 SetupTheme();
+                SetupDatabase();
+                mDatabaseReference.keepSynced(true);
+
+                counterList = new ArrayList<VirtualCurrency>();
+                counterRecycler.setHasFixedSize(true);
+                counterRecycler.setLayoutManager(new LinearLayoutManager(BankActivity.this));
+
+                imageEconomyList = new ArrayList<VirtualCurrency>();
+                imageEconomyRecycler.setHasFixedSize(true);
+                imageEconomyRecycler.setLayoutManager(new LinearLayoutManager(BankActivity.this));
+
+                mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Bank");
+                mDatabaseReference.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        VirtualCurrency currentStoredCurrency = dataSnapshot.getValue(VirtualCurrency.class);
+                        if (currentStoredCurrency.isImageEconomy()) {
+                            imageEconomyList.add(currentStoredCurrency);
+
+                            imageEconomyRecyclerAdapter = new ImageEconomyRecyclerAdapter(BankActivity.this, imageEconomyList, currentUser.getTheme());
+                            imageEconomyRecycler.setAdapter(imageEconomyRecyclerAdapter);
+                            imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                        } else {
+                            counterList.add(currentStoredCurrency);
+
+                            counterRecyclerAdapter = new CounterRecyclerAdapter(BankActivity.this, counterList);
+                            counterRecycler.setAdapter(counterRecyclerAdapter);
+                            counterRecyclerAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        String currencyTitle = dataSnapshot.getKey();
+                        for (int i = 0; i < counterList.size(); i++) {
+                            if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
+                                counterRecyclerAdapter.counterList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
+                                counterRecyclerAdapter.notifyItemChanged(i);
+                                counterRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        for (int i = 0; i < imageEconomyList.size(); i++) {
+                            if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
+                                imageEconomyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
+                                imageEconomyRecyclerAdapter.notifyItemChanged(i);
+                                imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        String currencyTitle = dataSnapshot.getKey();
+                        for (int i = 0; i < counterList.size(); i++) {
+                            if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
+                                counterRecyclerAdapter.counterList.remove(i);
+                                counterRecyclerAdapter.notifyItemRemoved(i);
+                                counterRecyclerAdapter.notifyItemRangeChanged(i, counterRecyclerAdapter.counterList.size());
+                                counterRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        for (int i = 0; i < imageEconomyList.size(); i++) {
+                            if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
+                                imageEconomyRecyclerAdapter.currencyList.remove(i);
+                                imageEconomyRecyclerAdapter.notifyItemRemoved(i);
+                                imageEconomyRecyclerAdapter.notifyItemRangeChanged(i, imageEconomyRecyclerAdapter.currencyList.size());
+                                imageEconomyRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -78,87 +159,7 @@ public class BankActivity extends AppCompatActivity {
             }
         });
 
-        SetupDatabase();
-        mDatabaseReference.keepSynced(true);
 
-        counterList = new ArrayList<VirtualCurrency>();
-        counterRecycler.setHasFixedSize(true);
-        counterRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-        imageEconomyList = new ArrayList<VirtualCurrency>();
-        imageEconomyRecycler.setHasFixedSize(true);
-        imageEconomyRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-        mDatabaseReference = mDatabase.getReference().child("User").child(mAuth.getUid()).child("Bank");
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                VirtualCurrency currentStoredCurrency = dataSnapshot.getValue(VirtualCurrency.class);
-                if (currentStoredCurrency.isImageEconomy()) {
-                    imageEconomyList.add(currentStoredCurrency);
-
-                    imageEconomyRecyclerAdapter = new ImageEconomyRecyclerAdapter(BankActivity.this, imageEconomyList, currentUser.getTheme());
-                    imageEconomyRecycler.setAdapter(imageEconomyRecyclerAdapter);
-                    imageEconomyRecyclerAdapter.notifyDataSetChanged();
-                } else {
-                    counterList.add(currentStoredCurrency);
-
-                    counterRecyclerAdapter = new CounterRecyclerAdapter(BankActivity.this, counterList);
-                    counterRecycler.setAdapter(counterRecyclerAdapter);
-                    counterRecyclerAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String currencyTitle = dataSnapshot.getKey();
-                for (int i = 0; i < counterList.size(); i++) {
-                    if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
-                        counterRecyclerAdapter.counterList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
-                        counterRecyclerAdapter.notifyItemChanged(i);
-                        counterRecyclerAdapter.notifyDataSetChanged();
-                    }
-                }
-                for (int i = 0; i < imageEconomyList.size(); i++) {
-                    if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
-                        imageEconomyRecyclerAdapter.currencyList.set(i, dataSnapshot.getValue(VirtualCurrency.class));
-                        imageEconomyRecyclerAdapter.notifyItemChanged(i);
-                        imageEconomyRecyclerAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                String currencyTitle = dataSnapshot.getKey();
-                for (int i = 0; i < counterList.size(); i++) {
-                    if (TextUtils.equals(counterList.get(i).getTitle(), currencyTitle)) {
-                        counterRecyclerAdapter.counterList.remove(i);
-                        counterRecyclerAdapter.notifyItemRemoved(i);
-                        counterRecyclerAdapter.notifyItemRangeChanged(i, counterRecyclerAdapter.counterList.size());
-                        counterRecyclerAdapter.notifyDataSetChanged();
-                    }
-                }
-                for (int i = 0; i < imageEconomyList.size(); i++) {
-                    if (TextUtils.equals(imageEconomyList.get(i).getTitle(), currencyTitle)) {
-                        imageEconomyRecyclerAdapter.currencyList.remove(i);
-                        imageEconomyRecyclerAdapter.notifyItemRemoved(i);
-                        imageEconomyRecyclerAdapter.notifyItemRangeChanged(i, imageEconomyRecyclerAdapter.currencyList.size());
-                        imageEconomyRecyclerAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override

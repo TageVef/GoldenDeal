@@ -157,7 +157,7 @@ public class AdminStoreRecyclerAdapter extends RecyclerView.Adapter<AdminStoreRe
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     VirtualCurrency currentCurrency = dataSnapshot.getValue(VirtualCurrency.class);
-                                    if(currentCurrency.getValue() > currentItem.getCurrency().getValue()){
+                                    if(currentCurrency.getValue() >= currentItem.getCurrency().getValue()){
                                         currentCurrency.setValue(currentCurrency.getValue() - currentItem.getCurrency().getValue());
                                         mDatabaseReference.setValue(currentCurrency);
                                         mDatabaseReference = mDatabaseReference.getParent().getParent().child("Store");
